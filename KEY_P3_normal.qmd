@@ -8,6 +8,7 @@ format:
     theme: flatly
     dark: darkly
     code-fold: false
+    code-summary: "Code (bonus)"
     code-block-bg: true
     code-link: true
     embed-resources: true
@@ -36,11 +37,19 @@ Statistical inference is the process by which we infer from a sample statistic t
 In order to infer from samples to populations we need to understand how the statistics we generate from our samples are likely to ‘behave’. To do this we use theoretical distributions.
 
 ::: Q.
+
 Which two theoretical distributions have we already covered?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Binomial and Poisson
+
+:::
+
+:::
+
 :::
 
 The normal (a.k.a., Gaussian) distribution is a theoretical distribution that is central to inferential statistics. If your data (or, more accurately, statistics derived from you data) are reasonably approximated by the normal distribution then you will be able to use a wide range of techniques to deal with it.
@@ -63,27 +72,51 @@ set.seed(2025)
 The length of a catch of herring was measured. Five hundred individuals were studied. We will consider this group to be the entire population of interest. The population parameters are: $\mu = 37.6 cm$ and $\sigma = 1.20 cm$.
 
 ::: Q.
+
 What are the theoretical limits of the normal distribution?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 `-Inf` to `Inf`
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Do you think normality a fair assumption for these data?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Yes, because the impossible values (e.g. < 0) are so low probability that we can ignore them: >99% of the data fall within 3 sd of the mean in a normal distribution (here, 37.6 ± 3 ∗ 1.20 = 34.0, 41.2).
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Assume herring length is approximately normally distributed and write down the model which describes the fish length distribution: $y_i \sim Norm(\mu, \sigma)$.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 $y \sim Normal(\mu=37.6cm, \sigma=1.20cm)$
+
+:::
+
+:::
+
 :::
 
 If we know the population parameters, we can calculate Z scores for individuals (or groups of individuals) from that population and calculate how unusual they are. For the moment, we are interested in determining what proportion of fish from this population are expected to be \< 38 cm.
@@ -94,6 +127,8 @@ If we know the population parameters, we can calculate Z scores for individuals 
 #| message: false
 #| warning: false
 #| code-fold: true
+
+# NB: This code is not required! It is here for the curious.
 
 mu <- 37.6
 sigma <- 1.2
@@ -114,11 +149,19 @@ ggplot(y_lt38_df, aes(len, ymin=0, ymax=density, fill=shade)) +
 To solve this problem using R we use the cumulative probability. Observations at the extreme low end are extremely unlikely, but the probability of observing data increases and reaches a maximum at the mean, after which it declines again. The normal distribution is symmetrical.
 
 ::: Q.
+
 What shape is the cumulative probability curve of a normally distributed variable?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Loosely S-shaped, as shown in the lower left panel of @fig-dpq_examp. 
+
+:::
+
+:::
+
 :::
 
 The R functions for the normal distribution take the same form as those for the binomial and Poisson distributions. To calculate the probability is of observing a fish less than 38 cm, you need to specify the model and select the appropriate distribution function. Use `?dnorm` or `?pnorm` and look at your options (@fig-dpq_examp).
@@ -131,6 +174,7 @@ The R functions for the normal distribution take the same form as those for the 
 #| code-fold: true
 #| warning: false
 #| message: false
+
 
 library(cowplot)
 norm_df <- tibble(x=seq(-4, 4, length.out=1e3),
@@ -180,24 +224,39 @@ pnorm(q = 38, mean = 37.6, sd = 1.2)
 ```
 
 ::: Q.
+
 What is the probability of a randomly selected fish from this population being less than 35 cm?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 pnorm(35, 37.6, 1.2)
 ```
 
 :::
 
-::: Q.
-What proportion of individuals are greater than 39 cm?
 :::
 
+:::
+
+::: Q.
+
+What proportion of individuals are greater than 39 cm?
+
+::: {.content-visible when-profile="answers"}
+
 ::: callout-important
+
 ```{r}
 1 - pnorm(39, 37.6, 1.2)
 ```
+
+:::
+
+:::
+
 :::
 
 We can plot any normal distribution we like. Play with the values for `mu` and `sigma` below, adjusting the values for `from` and `to` as needed to see the distribution.
@@ -218,41 +277,72 @@ curve(dnorm(x, mean = mu, sd = sigma), from = 30, to = 45,
 In a population of long-eared wrasse, we calculate $\mu$ and $\sigma$ and find $y \sim Norm(15.2 cm, 25.1 cm)$.
 
 ::: Q.
+
 What is the mean length and standard deviation of long-eared wrasse?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 The mean is 15.2 cm and the standard deviation is 25.1 cm.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Calculate the proportion of fish that are expected to be less than zero cm in length.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 pnorm(0, 15.2, 25.1)
 ```
 
 :::
 
+:::
+
+:::
+
 ::: Q.
+
 What do your results indicate about the adequacy of the normal model to describe the length distribution of long-eared wrasse?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 It is not reasonable to assume that this population is normally distributed.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Would your conclusions change if $\sigma$ were smaller? For example: $y \sim Norm(15.2, 2.51)$.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Yes. 
 ```{r}
 pnorm(0, 15.2, 2.51)
 ```
+
+:::
+
+:::
+
 :::
 
 ------------------------------------------------------------------------
@@ -284,10 +374,13 @@ We quote our mean and interval like this:
 Remember to use to same degree of precision (significant figures) for confidence intervals as was used to gather the data (or as specified in the question, defaulting to three).
 
 ::: Q.
+
 Find the values that capture the middle 90% of the herring data, where $y \sim Norm(37.6, 1.2)$.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Middle 95%:
 ```{r}
 qnorm(c(0.025, 0.975), 37.6, 1.2)
@@ -296,33 +389,57 @@ Middle 90%:
 ```{r}
 qnorm(c(0.05, 0.95), 37.6, 1.2)
 ```
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What value would you expect to correspond to `p=0.5`?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 37.6, since for the symmetric normal distribution, the mean is equal to the median.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Check your answer above using `qnorm()`.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 qnorm(0.5, 37.6, 1.2)
 ```
+
+:::
+
+:::
+
 :::
 
 To visualize regions of the normal distribution, let's use *ggplot*.
+
+**Copy and paste** the code below:
 
 ```{r}
 #| label: fig-herring2
 #| fig-cap: "The normal distribution illustrating probability of a random herring from your population having a length between 36 and 40 cm."
 #| fig-width: 6
 #| fig-height: 4
+#| code-copy: true
 
 mu <- 37.6
 sigma <- 1.2
@@ -345,36 +462,62 @@ ggplot(norm_df, aes(x, densNorm)) +
 ```
 
 ::: Q.
+
 Change the parameters in code the above to check that the values you generated for the 95% interval correspond when plugged into `lb` and `ub` in the code.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Should change `lb <- qnorm(0.025, 37.6, 1.2) # ~35.25` and `ub <- qnorm(0.975, 37.6, 1.2) # ~39.95`. 
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What is the difference between $< x$ and $\leq x$ when applied to continuous data?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Nothing. Probability is always calculated as an integral (area under the curve) between two points.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 Does this also apply to discontinuous data?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 No, since the outcomes are discrete.
+
+:::
+
+:::
+
 :::
 
 How would you expect these intervals to change when the population standard deviation $\sigma$ changes?
 
 ::: Q.
+
 With everything else equal, try doubling, quadrupling, and halving the standard deviation on the herring data then re-running the same code.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 # Double
 qnorm(c(0.025, 0.975), 37.6, 1.44*2)
@@ -383,26 +526,47 @@ qnorm(c(0.025, 0.975), 37.6, 1.44*4)
 # Half
 qnorm(c(0.025, 0.975), 37.6, 1.44/2)
 ```
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Does the change in the 95% interval match your expectations?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Hopefully. A larger standard deviation represents a more dispersed population, so the intervals become wider.
+
+:::
+
+:::
+
 :::
 
 A z score gives the number of standard deviations away from the mean for any value. The z score is the value from the standard normal distribution ($\mu = 0, \sigma = 1$) that corresponds with the same quantile of the original distribution. The values for any normal distribution can be converted to Z scores by subtracting $\mu$ and dividing by $\sigma$, such that $z_i = \frac{y_i - \mu}{\sigma}$
 
 ::: Q.
+
 With $y \sim Norm(37.6, 1.2)$, what is the z score for an individual of length 34?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 (34 - 37.6)/1.2
 ```
+
+:::
+
+:::
+
 :::
 
 ------------------------------------------------------------------------
@@ -438,16 +602,24 @@ The axes are automatically scaled so that perfectly normally distributed data wo
 As sample size decreases, it becomes increasingly difficult to see if your data are reasonably approximated by a normal distribution. There are many formal statistical methods for assessing normality, but as we already know, it is impossible for a population to be distributed perfectly normally and this means such tests are largely redundant. You must assess the assumptions of your model, but you should be aware that all data fails the assumptions. The question is whether the assumptions are *reasonably* well met such that the model results can be useful. There is sadly no hard rule as to what constitutes ‘reasonable’!
 
 ::: Q.
+
 Make histograms of both `Shrimp1` and `Shrimp2`. Comment on their apparent distributions.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Both are small samples (n=`{r} nrow(MS$Shrimp1)`), but Shrimp1 is approximately symmetric and looks more normal than Shrimp2, which is heavily skewed right.
+
 ```{r}
 par(mfrow=c(1,2))
 hist(MS$Shrimp1, breaks=10)
 hist(MS$Shrimp2, breaks=10)
 ```
+
+:::
+
+:::
 
 :::
 
@@ -472,6 +644,12 @@ Common transformations include:
 Identifying the correct transformation can be led by an underlying comprehension of the nature of the data. However, this often doesn’t work so expect some trial and error.
 
 We can visualize the relationship between data on the original scale and the transformed values. For values bounded by 0:
+
+::: callout-warning
+
+For next year, probably more intuitive to plot distributions instead. Maybe. Strange to go from a normal distribution to a skewed distribution...
+
+:::
 
 ```{r}
 #| label: fig-trans_positiveData
@@ -516,15 +694,23 @@ ggplot(proportion_df, aes(orig, new_value)) +
 ```
 
 ::: Q.
+
 Using the Radon concentration worksheet, plot the data. Do they look normally distributed?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Definitely not. 
+
 ```{r}
 radon <- read_xlsx("data/H2DS_practicalData.xlsx", sheet="Radon (ppb)")
 hist(radon$RadonConc)
 ```
+
+:::
+
+:::
 
 :::
 
@@ -536,10 +722,13 @@ readxl::excel_sheets("data/H2DS_practicalData.xlsx")
 ```
 
 ::: Q.
+
 In your own time, use R to determine the log, square root, and reciprocals (and combinations of all of them: at least one converts the data to approximate normality).
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 par(mfrow=c(3,3))
 hist(log(radon$RadonConc))
@@ -552,6 +741,10 @@ hist(log(sqrt(radon$RadonConc)))
 hist(sqrt(log(radon$RadonConc)))
 hist(sqrt(1/radon$RadonConc))
 ```
+
+:::
+
+:::
 
 :::
 
@@ -574,13 +767,14 @@ The following code chunk:
 3.  Calculates and stores the sample mean for each `num_samples` repeat
 4.  Plots histograms and QQ-plots for the raw data and for the sample means
 
-Run the following code and then experiment with the `sample_size`.
+Copy the following code and then experiment with the `sample_size`.
 
 ```{r}
 #| label: fig-clt_examp
 #| fig-cap: "The central limit theorem in action."
 #| fig-width: 6
 #| fig-height: 6
+#| code-copy: true
 
 # Non-normal data: a mixture of several distributions
 obs_data <- c(rnorm(2000, 200, 20), 
@@ -624,19 +818,35 @@ qqline(sample_means)
 ```
 
 ::: Q.
+
 What do you notice about the location of the mean as a function of `sample_size` ($n$)?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 The mean of the sample means is located at the population mean regardless of sample size.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What do you notice about the spread around the mean of sample means as a function of `sample_size`? Why did the pattern you have observed occur?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Smaller sample sizes result in more variability in sample means. The standard deviation of the distribution of sample means is the standard error, and it is a function of sample size.
+
+:::
+
+:::
+
 :::
 
 The CLT states that `sample_means` will be normally distributed if (a) the underlying data are normally distributed, OR (b) the `sample_size` is large enough. With R, we can see this in action.
@@ -653,7 +863,11 @@ Usually we only have a single sample rather than 10,000 (=`num_samples`) as abov
 
 We can explore this similarly to the simulated sampling we did for the CLT.
 
+**Copy and paste** the code below:
+
 ```{r}
+#| code-copy: true
+
 # Simulate a normally distributed population with mean mu and sd sigma
 mu <- 10
 sigma <- 2
@@ -671,11 +885,14 @@ sample_mean_df <- tibble(N=rep(sample_size, each = num_samples),
   ungroup()
 ```
 
+**Copy and paste** the code below:
+
 ```{r}
 #| label: fig-SEM
 #| fig-cap: "Simulated sample means. Each curve shows the sampling distribution for means of samples with size n. The standard deviation of each curve is the standard error of the mean."
 #| fig-width: 6
 #| fig-height: 4
+#| code-copy: true
 
 sample_mean_df |>
   mutate(N=factor(N, levels=unique(N), labels=paste("n:", unique(N)))) |>
@@ -714,19 +931,35 @@ sample_mean_df |>
 :::
 
 ::: Q.
+
 Given what you know about the CLT, how does this change with non-normally distributed data? Try creating `sim_obs` using `rpois()`.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 The CLT should hold ($\bar{y} \sim Normal(\mu, SEM)$) for N > 30 or so. With N < 30, the means may no longer be approximately normally distributed.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Change `sigma` and `sample_size` and check that the standard error estimates are in line with their true values (i.e., as determined by using the standard error formula).
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 They should.
+
+:::
+
+:::
+
 :::
 
 ------------------------------------------------------------------------
@@ -746,11 +979,19 @@ All models are wrong, but some are useful! Normality is always approximate in pr
 Recall that the Poisson model takes only one parameter, $\lambda$ = mean = variance. So if we have a variable $y \sim Pois(10)$, the mean (e.g., density per quadrat) is 10 and so is the variance. We now have the two parameters that define the normal distribution.
 
 ::: Q.
+
 For $y \sim Pois(10)$ write the equivalent normal distribution: $y \sim Norm(...)$.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 In a Poisson distribution, the mean is equal to the variance, so $y \sim Normal(\mu=10, \sigma=\sqrt{10})$.
+
+:::
+
+:::
+
 :::
 
 A normal approximation may be reasonable if $\lambda \geq 30$. So $y \sim Pois(10)$ should not be approximated by the normal distribution while $y \sim Pois(30)$ could be. As $\lambda$ gets larger, the Poisson distribution becomes more and more computationally demanding compared to the normal distribution. Many standard statistical analyses also assume normal distributions.
@@ -758,100 +999,160 @@ A normal approximation may be reasonable if $\lambda \geq 30$. So $y \sim Pois(1
 However, when feasible, it is generally preferable to use the natural distribution for your data (e.g., a Poisson distribution for counts) through the appropriate GLM. The normal distribution is beneficial in some cases, but this is increasingly less so with modern methods.
 
 ::: Q.
-Calculate $P(y_i \leq 35)$ from $y \sim Pois(40)$ and compare it to the same probability under the normal approximation of this distribution.
-:::
+
+Calculate $P(y_i \leq 35)$ from $y \sim Pois(\lambda = 40)$ and compare it to the same probability under the normal approximation of this distribution.
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Reasonably close:
 ```{r}
 ppois(35, 40)
 pnorm(35, 40, sqrt(40))
 ```
+
+:::
+
+:::
+
 :::
 
 ::: Q.
-Evaluate $P(y_i<3\ |\ \lambda=5)$ using the Poisson model and its normal approximation.
-:::
+
+Evaluate $P(y_i<3\ |\ \lambda=2)$ using the Poisson model and its normal approximation.
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
-A bit further, but this could probably be updated to illustrate the difference better:
+
+Rather further
+
 ```{r}
-ppois(2, 5)
-pnorm(2, 5, sqrt(5))
+ppois(2, 2)
+pnorm(2, 2, sqrt(2))
 ```
+
+:::
+
+:::
+
 :::
 
 ### The Normal approximation of the binomial distribution
 
-When $n$ is large, the binomial distribution tends toward a normal distribution, particularly if $p$ is near 0.5. Roughly speaking, if $np > 5$ and $n(1-p) > 5$, then the normal distribution may be a reasonable approximation. The mean of the binomial distribution is $np$ and the variance is $npq$.
+When $n$ is large, the binomial distribution tends toward a normal distribution, particularly if $p$ is near 0.5. Recall that $q$ is the probability of the other outcome ($1-p$). Roughly speaking, if $np > 5$ and $nq > 5$, then the normal distribution may be a reasonable approximation. The mean of the binomial distribution is $np$ and the variance is $npq$.
 
-We might be interested in predicting the number of male and female offspring in turtle clutches. Assume the proportion that are male is 0.5 and clutch size is 40. We've observed several clutches of eggs on a particular island with only 10 males. We might wonder how unlikely this was by chance, assuming $P(male)=0.5$.
+We might be interested in predicting the number of male and female offspring in turtle clutches. Assume the proportion that are male is 0.4 and clutch size is 40.
 
 ::: Q.
-What is the probability of observing 10 or fewer males in this scenario?
-:::
+
+We've observed several clutches of eggs on a particular island with only 10 males. What is the probability of observing 10 or fewer males in this scenario?
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
-pbinom(10, 40, 0.5)
+pbinom(10, 40, 0.4)
 ```
 
 :::
 
-::: Q.
-Plot the probability (i.e. from 0 – 40 males) as a bar graph and comment on its shape.
 :::
 
+:::
+
+::: Q.
+
+Plot the probability from 0 to 40 males as a bar graph and comment on its shape.
+
+::: {.content-visible when-profile="answers"}
+
 ::: callout-important
+
 It is symmetric and looks similar in shape to a normal distribution
 ```{r}
-barplot(dbinom(0:40, size=40, p=0.5), names.arg=0:40)
+barplot(dbinom(0:40, size=40, p=0.4), names.arg=0:40)
 ```
 
 :::
 
-::: Q.
-Calculate the mean and variance of this population.
 :::
 
+:::
+
+::: Q.
+
+Calculate the mean and variance of this population.
+
+::: {.content-visible when-profile="answers"}
+
 ::: callout-important
+
 Mean = $np$ and variance = $npq$, so:
 ```{r}
-40 * 0.5 # mean
-40 * 0.5 * 0.5 # variance
+40 * 0.4 # mean
+40 * 0.4 * 0.6 # variance
 ```
 
 :::
 
-::: Q.
-Are $np$ and $n(1-p)$ both \> 5?
 :::
 
+:::
+
+::: Q.
+
+Are $np$ and $nq$ both \> 5?
+
+::: {.content-visible when-profile="answers"}
+
 ::: callout-important
+
 Yes.
 ```{r}
-40 * 0.5
-40 * (1 - 0.5)
+40 * 0.4
+40 * 0.6
 ```
 
 :::
 
+:::
+
+:::
+
 ::: Q.
+
 Specify the normal distribution that approximates this binomial distribution.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
-$y \sim Normal(\mu=20, \sigma=\sqrt{10})$
+
+$y \sim Normal(\mu=16, \sigma=\sqrt{9.6})$
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What is $P(y_i \leq 10)$ for the normal approximation?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
-pnorm(10, 20, sqrt(10))
+pnorm(10, 16, sqrt(9.6))
 ```
+
+:::
+
+:::
 
 :::
 

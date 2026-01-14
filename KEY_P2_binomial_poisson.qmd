@@ -8,6 +8,7 @@ format:
     theme: flatly
     dark: darkly
     code-fold: false
+    code-summary: "Code (bonus)"
     code-block-bg: true
     code-link: true
     embed-resources: true
@@ -72,10 +73,17 @@ By definition, each Bernoulli trial is independent of all previous trials.
 
 ::: Q.
 A fair coin has been heads in 99 consecutive flips. What is the probability of heads on the next flip?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 0.5
+
+:::
+
+:::
+
 :::
 
 This is different to asking whether (100 heads) or (99 heads + 1 tails) is more likely in a throw of 100 coins. This is different because each flip is independent.
@@ -103,63 +111,114 @@ Wongles always lay two eggs in a clutch but 50% of the eggs are infertile and do
 
 ::: Q.
 What is the event?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Each egg -- whether or not it is fertile.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What is $p$?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 0.5
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What is the number of trials?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 2
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 How many possible outcomes are there for a clutch? What are they?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Three:
 
 -   two fertile
 -   one fertile, one infertile
 -   two infertile
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Write down the model specification with parameters (i.e., $y \sim Binom(...)$).
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 $y \sim Binomial(n=k=2, p=0.5)$
+
 :::
+
+:::
+
+:::
+
 
 ::: Q.
+
 Calculate the expected proportions of clutches that contain (a) two fertile, (b) two infertile, and (c) one of each. Use a probability tree if needed.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 (a) 1/4
 (b) 1/4
 (c) 1/2
+
 :::
+
+:::
+
+:::
+
 
 ::: Q.
+
 Using the binomial probability mass function from @sec-appendix, calculate the expected proportions for two eggs.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 n <- 2
 x <- 0:n
@@ -167,79 +226,142 @@ p <- 0.5
 
 (factorial(n)/(factorial(x)*factorial(n-x))) * p^x * (1-p)^(n-x)
 ```
+
+:::
+
+:::
+
 :::
 
 Unlike Wongles, Oozles always have broods of eight offspring and all of them hatch. We are interested in modelling the probabilities of the number of male and female offspring in these broods of eight eggs.
 
 ::: Q.
+
 What is the Bernoulli event?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Each offspring: male or female?
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What are the theoretical limits to your outcomes (i.e, max numbers of each)?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 0 to 8
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What are the possible outcomes? What is the number of possible outcomes?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 0 to 8 = 9 outcomes
+
+:::
+
+:::
+
 :::
 
 We will assume that the probability $p$ of any offspring being female is 0.5 and being male $q$ is 0.5. For the extreme cases where all offspring are one sex, we can use simple probability theory: the probability of getting $n$ females in a brood of size $n$ is equal to $p^n$.
 
 ::: Q.
+
 Write down the model for Oozle egg sex: $y \sim Binom(n,p)$.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 $y \sim Binom(8, 0.5)$
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 Calculate the probability of obtaining eight male offspring.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Could use the binomial formula, but the coefficient reduces to 1 since there is only one pathway to 8 males:
 
 ```{r}
 0.5^8
 ```
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What is the mean number of females you would expect in Oozle broods?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 With p=0.5, expectation is 4
+
+:::
+
+:::
+
 :::
 
 It gets more complicated when you want to know the probability of getting, say, 1 male and 7 females from your clutch of eight eggs.
 
 ::: Q.
+
 Given that $p=q$, what shape would expect the distribution to be?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Symmetric
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Use the binomial expression to calculate the probability of obtaining 0, 1, 2, 3, 4, 5, 6, 7 and 8 male offspring (note that the distribution is symmetric).
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 n <- 8
 x <- 0:n
@@ -247,6 +369,11 @@ p <- 0.5
 
 (factorial(n)/(factorial(x)*factorial(n-x))) * p^x * (1-p)^(n-x)
 ```
+
+:::
+
+:::
+
 :::
 
 It is much easier, of course, to do this using R.
@@ -291,39 +418,71 @@ paste("The cumulative probability is",
 ```
 
 ::: Q.
+
 Why do we parameterise `pbinom()` with `num_female-1` rather than `num_female`?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 `pbinom(x, n, p)` gives the cumulative probability up to and including `x`, and in this case we want to know *less than 4* instead of *less than or equal to 4*.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Would this change if the question was $P( \leq 4)$?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Yes.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Take `max` out of the above line and run again. You should see 5 cumulative probabilities. Why is the first cumulative probability zero?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 The first value has a probability of zero. This should be confusing, because there is an intentional bug in the code: missing `()`.
+
+:::
+
+:::
+
 :::
 
 Note that R has vectorized the calculation, returning the probability for each value in vector from `0:num_female - 1`.
 
 ::: Q.
+
 Calculate P(\< 4 females \| 8 eggs) using `dbinom()` instead of `pbinom()`.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 sum(dbinom(0:3, 8, 0.5))
 ```
+
+:::
+
+:::
+
 :::
 
 The above code has a bug in it. You can check what R is doing by running parts of the code:
@@ -334,39 +493,70 @@ The above code has a bug in it. You can check what R is doing by running parts o
 ```
 
 ::: Q.
+
 Correct the code above. Why did this bug have no effect?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Using `max()` took the maximum value from the vector, which corresponded to `x=3`.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What is the probability of getting 3 females?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 dbinom(3, 8, 0.5)
 ```
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 What is the probability of getting 8 females?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 dbinom(8, 8, 0.5)
 ```
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What cumulative probabilities would you need to consider to answer the question *"What is the probability of getting fewer than three females?"*
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 From 0 to 2, which could be calculated with `pbinom(2, 8, 0.5)`
+
+:::
+
+:::
+
 :::
 
 ::: Q.
@@ -374,42 +564,73 @@ Review your model that describes this random process (number of females per eigh
 :::
 
 ::: Q.
+
 What is the probability of getting \< 4 females?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 pbinom(3, 8, 0.5)
 ```
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What is the probability of getting $\leq$ 4 females?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
 ```{r}
 pbinom(4, 8, 0.5)
 ```
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What is the probability of getting \> than 8 females?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 0
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What is the probability of getting $\geq$ than 2 females?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 1 - pbinom(1, 8, 0.5)
 sum(dbinom(2:8, 8, 0.5))
 ```
+
+:::
+
+:::
+
 :::
 
 Let's visualize these distributions in order to better understand them.
@@ -452,26 +673,45 @@ The interpretation of $P(y_i=8\ |\ n=8,\ p=0.5) = 0.00391$ is that the probabili
 In other words, if we have 500 broods, each with 8 eggs, we expect $500 * 0.00391 = 1.95 \approx 2$ broods to be all female. Is there something strange about our Oozle or is it just one of the 2/500 by chance?
 
 ::: Q.
+
 Why is a bar graph the appropriate plot here?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 The outcome is a discrete variable: integers.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What do you notice about the shape of the distribution when $p=q=0.5$
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 It is symmetric.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Re-run the analysis with the probability of female as 0.8 and plot the results. How has the shape of the distribution changed?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 The distribution is skewed left, with more probability mass toward larger numbers.
 
 ```{r}
@@ -491,6 +731,11 @@ prFemale_df$cumul_prob <- cumsum(prFemale_df$prob)
 barplot(prFemale_df$cumul_prob, names=prFemale_df$num_female, 
         xlab="Number of females", ylab="Cumulative probability")
 ```
+
+:::
+
+:::
+
 :::
 
 ------------------------------------------------------------------------
@@ -506,15 +751,23 @@ Find the formula for the Poisson distribution in @sec-appendix.
 Here, $\bar{y}$ is the mean, $x$ is the outcome of interest, $e$ is Euler's number, and $!$ is factorial. Note that here, we use $\bar{y}$ as our stand-in for the population parameter $\lambda = \mu = \sigma$ which defines the Poisson distribution.
 
 ::: Q.
+
 Translate the Poisson formula into an R function by completing the following code.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 calc_poisson_prob <- function(x, y_bar) {
   (y_bar^x * exp(-y_bar)) / factorial(x)
 }
 ```
+
+:::
+
+:::
+
 :::
 
 ```{r}
@@ -574,21 +827,37 @@ We are often interested in probabilities such as $P(y_i \leq a)$. That is, the p
 So, to calculate the probability of obtaining 1 or fewer worms per quadrat, you could start by writing $P(y_i = 0) + P(y_i=1) = \dots$.
 
 ::: Q.
+
 Use your `calc_poisson_prob()` function to calculate the expected frequency of 0, 1 & 2 worms per quadrat.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 calc_poisson_prob(x=0:2, y_bar=1.41)
 ```
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What calculation would you need to conduct to determine $P(y_i \geq 1)$? What is the theoretical upper limit of the Poisson distribution?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 The upper limit is positive infinite, so to fully calculate the probability, use $1 - P(y_i < 1)$
+
+:::
+
+:::
+
 :::
 
 R has built-in functions for calculating these, but it is important to know what you are asking them to calculate.
@@ -607,16 +876,24 @@ lambda_worms # the mean number of worms per quadrat
 Given this, we can find $P(y_i \leq 5)$: the probability of a random quadrat containing five or fewer worms. With a mean of 1.41 worms per quadrat, $P(y_i \leq 5) = 0.997$ (3 sf). This means that if your data are Poisson distributed with $\lambda = 1.41$, it is highly unlikely to find more than five worms in a quadrat.
 
 ::: Q.
+
 If the mean number of worms was 3 per quadrat, would you be more or less likely to get five worms in your quadrat?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 More likely, since the mean is larger. Proof:
 
 ```{r}
 dpois(5, 1.41)
 dpois(5, 3)
 ```
+
+:::
+
+:::
+
 :::
 
 To do these calculation in R, we can use `dpois()` and `ppois()`:
@@ -634,13 +911,21 @@ dpois(a, lambda) # probability of observing 'a' worms per quadrat: dpois()
 ```
 
 ::: Q.
+
 Why is `a-1` used in the `ppois()` function above? When would you use `a` instead?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 As with `pbinom()`, the specified value is included in the sum. So we would use `a` instead of `a-1` if we were interested in $P(y_i \leq a)$ instead of $P(y_i < a)$.
 
 For the converse (greater than, as in the example above), the same logic applies.
+
+:::
+
+:::
+
 :::
 
 ```{r}
@@ -655,15 +940,23 @@ barplot(dpois(0:a, lambda),
 ```
 
 ::: Q.
+
 Change the code to plot the cumulative probabilities. You will need to use `ppois()` instead of `dpois()` and adjust the y-axis limits (`ylim`).
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 barplot(ppois(0:a, lambda),
         ylab="Cumulative probability", xlab="Number of worms",
         space=0.2, ylim=c(0, 1), names.arg=0:a)
 ```
+
+:::
+
+:::
+
 :::
 
 ```{r}
@@ -683,49 +976,81 @@ knitr::kable(worm_df, digits=5)
 ```
 
 ::: Q.
+
 Format the probabilities in @tbl-worm_table to 3 decimal places.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 knitr::kable(worm_df, digits=3)
 ```
+
+:::
+
+:::
+
 :::
 
 If individual probability values (not cumulative probability) are multiplied by the total number of quadrats thrown (n=100), we generate the expected frequency distribution for comparison with the observed results above.
 
 ::: Q.
+
 Write the appropriate code to add a column (called `num_quadrats_expected`) to `worm_df` that is the expected number of quadrats (given 100 quadrats total).
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 worm_df$num_quadrats_expected <- 100 * worm_df$prob
 ```
+
+:::
+
+:::
+
 :::
 
 This is the number of quadrats that you would expect to contain 0, 1, ..., 5 worms, given that the mean density of worms is 1.41 per m$^2$. Note that the number of worms per quadrat is a discrete variable, but you can have non-integer ‘expectations’ (i.e. means).
 
 ::: Q.
+
 Add another column that is the difference in the observed number of quadrats and `num_quadrats_expected`.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 worm_df$diff <- worm_df$num_quadrats - worm_df$num_quadrats_expected
 ```
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Produce a bar graph of this difference.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 barplot(worm_df$diff, 
         xlab="Number of worms per quadrat", ylab="Observed minus expected", 
         names.arg=0:6)
 ```
+
+:::
+
+:::
+
 :::
 
 ------------------------------------------------------------------------
@@ -780,18 +1105,29 @@ ggplot(distr_df, aes(y, prob, fill=label)) +  # ggplot(data, aes(xVar, yVar))
 ```
 
 ::: Q.
+
 What is the modal value in each of these distributions?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 5 in all cases.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Generate some random numbers from the distributions in @fig-binom_pois_approx and calculate their mean and variance.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 y1 <- rbinom(1000, 10, 0.5)
 y2 <- rbinom(1000, 20, 0.25)
@@ -805,6 +1141,11 @@ paste0("Mean: ", signif(mean(y3), 3), ", variance: ", signif(var(y3), 3))
 paste0("Mean: ", signif(mean(y4), 3), ", variance: ", signif(var(y4), 3))
 paste0("Mean: ", signif(mean(y5), 3), ", variance: ", signif(var(y5), 3))
 ```
+
+:::
+
+:::
+
 :::
 
 Here is $y \sim Pois(\lambda=5)$:
@@ -815,19 +1156,35 @@ paste0("Mean: ", signif(mean(y), 3), ", variance: ", signif(var(y), 3))
 ```
 
 ::: Q.
+
 What do you notice about the mean and variance in the Poisson model?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 They are very similar, but not identical since this is a sample.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What do you notice about the mean and variance in the binomial models as $n$ increases and $p$ decreases? When is it more similar to the Poisson? Is this what you expected?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 They become increasingly similar. Yes, this is expected because this is what the text above says and we (briefly) discussed it in the lecture.
+
+:::
+
+:::
+
 :::
 
 ------------------------------------------------------------------------

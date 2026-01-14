@@ -587,7 +587,6 @@ Figure&nbsp;5.4: Tukey HSD plot from a one-way ANOVA.
 </div>
 </div>
 </div>
-<p>The mean yield under high light is significantly higher than under both low light (mean difference [95% CI]: 1.69 [0.204-3.17] <span class="math inline">\(\mu g ~ C ~ml^{-1}\)</span>; p=0.03) and medium light (1.78 [0.295-3.27] <span class="math inline">\(\mu g ~ C ~ml^{-1}\)</span>, p=0.02). There was no significant difference between low and medium light levels (p=0.99).</p>
 <div id="Q.-5.11" class="Q.">
 <p></p><details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 5.11</strong></summary><div>In the output from <code><a href="https://rdrr.io/r/stats/TukeyHSD.html">TukeyHSD()</a></code>, why is the first value in <code>diff</code> negative?
 </div></details><p></p>
@@ -606,6 +605,11 @@ Figure&nbsp;5.4: Tukey HSD plot from a one-way ANOVA.
 Confidence level used: 0.89 </code></pre>
 </div>
 </div>
+<p>We might now report in our results:</p>
+<blockquote class="blockquote">
+<p>The mean yield under high light (mean [95% CI]: 13.8 [13.1-14.5] <span class="math inline">\(\mu g ~ C ~ml^{-1}\)</span>) was significantly higher than under low light (mean difference [95% CI]: 1.69 [0.204-3.17] <span class="math inline">\(\mu g ~ C ~ml^{-1}\)</span>; p=0.03; low mean: 12.1 [11.4-12.8] <span class="math inline">\(\mu g ~ C ~ml^{-1}\)</span>) and medium light (1.78 [0.295-3.27] <span class="math inline">\(\mu g ~ C ~ml^{-1}\)</span>, p=0.02; medium mean: 12.0 [11.3-12.7] <span class="math inline">\(\mu g ~ C ~ml^{-1}\)</span>). There was no significant difference between low and medium light levels (p=0.99).</p>
+</blockquote>
+<p>It would also be reasonable to put the specific values in a table, figure, or supplement, and only highlight some in the main text.</p>
 </section><section id="one-way-anova-reprise" class="level3" data-number="5.1.3"><h3 data-number="5.1.3" class="anchored" data-anchor-id="one-way-anova-reprise">
 <span class="header-section-number">5.1.3</span> One-way ANOVA (reprise)</h3>
 <p>Import the ‘LimpetDist’ sheet from “H2DS_practicalData.xlsx”, which gives travel distance of limpets on three different surfaces. Perform a one-way ANOVA of distance predicted by surface type. Make sure you perform appropriate data quality checks and assumption checks. Report the ANOVA table and the pairwise effect sizes with confidence intervals.</p>
@@ -842,7 +846,16 @@ Figure&nbsp;5.8: Beetle weight loss as a function of relative humidity.
 </div>
 </div>
 </div>
-<p>An aside on plotting: you can provide <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> with either a vector for the x-axis and a vector for the y-axis (i.e., <code>plot(x_var, y_var)</code>) <em>or</em> you can use a formula, specifying the dataframe (i.e., <code>plot(y ~ x, data=data_df)</code>). Just be aware of which variable is on which axis.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Remember that you can provide <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> with either a vector for the x-axis and a vector for the y-axis (i.e., <code>plot(x_var, y_var)</code>) <em>or</em> you can use a formula, specifying the dataframe (i.e., <code>plot(y ~ x, data=data_df)</code>). Just be mindful of which variable is on which axis.</p>
+</div>
+</div>
+</div>
 <p>Now we have explored and plotted the data we can conduct the regression analysis.</p>
 <div class="cell">
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># weight loss is modelled as (~) a function of humidity</span></span>

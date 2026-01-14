@@ -1,8 +1,33 @@
 ---
-output: html_document
+title: "H2 Data Science Practicals"
+author: "Tim Szewczyk"
+date: today
+format:
+  html:
+    theme: flatly
+    dark: darkly
+    code-fold: false
+    code-summary: "Code (bonus)"
+    code-block-bg: true
+    code-link: true
+    embed-resources: true
+    callout-appearance: simple
+    link-external-newwindow: true
+    link-external-filter: ^(?:http:|https:)\/\/\.sz-tim\.quarto\.pub/custom
+callout-appearance: simple
+editor: source
+custom-numbered-blocks:
+  classes:
+    Q.: 
+      boxstyle: foldbox.simple
+      collapse: false
+      colors: [69B7CE, 3F6F76]
+filters:
+- custom-numbered-blocks
 editor_options: 
   chunk_output_type: console
 ---
+
 # ANOVA and regression {#sec-P5}
 
 General linear models are a key member of the generalized linear modelling (GLM) family and they are among the most widely used models in the marine science literature, particularly biology. This course focuses on two subsets of linear models: ANOVA and regression. ANOVA and regression are typically used for different data modelling scenarios: ANOVA when the predictor is categorical and regression when the predictor is continuous.
@@ -123,26 +148,95 @@ Check these data as usual.
 
 ::: Q.
 What is your objective in this type of experiment? What are you interested in estimating?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+We want to estimate the population means, differences between pairs of means, and our confidence in each of those estimates.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 What assumptions should be met prior to undertaking parametric ANOVA?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+The residual error should be approximately normally distributed, the variance within each group should be approximately equal, and observations within each group should be independent.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 Under which circumstances could you begin to relax the assumption that the data are normally distributed (think central limit theorem)?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+With large enough sample sizes (at least 30 or so) this assumption becomes less important since the sample means are likely to be normally distributed regardless of the data distribution.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 What is the sample size in this case? Can we assume sample means will be normally distributed?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+```{r}
+nrow(algae_wide_df)
+```
+No, under the CLT, with n = 5, we cannot assume sample means will be normally distributed unless the data are normally distributed.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 Are the data normally distributed? Be careful how you word your answer to this question.
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+No, it's a bit pedantic, but data are never 'truly' normally distributed.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 Is it reasonable to assume that these data are drawn from a population that is normally distributed?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+With this small of a sample size, it's very difficult to assess. So we'll go ahead and assume that it's reasonable.
+
+:::
+
+:::
+
 :::
 
 To work with our data, we need to rearrange the `data.frame` to a tidy format with each variable corresponding to one column, and each observation corresponding to one row. We'll use the *tidyverse* as before.
@@ -222,10 +316,32 @@ The residual plots allow you to investigate different aspects of the data and th
 
 ::: Q.
 What are the ‘fitted values’ for an ANOVA?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+The fitted values are the sample means. They are the best prediction for any new data we might collect.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 Are your effects fixed or random?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+Fixed. We are concerned with specific predictor levels and the labels are meaningful.
+
+:::
+
+:::
+
 :::
 
 Everything looks OK, so we can then look at the results of the ANOVA.
@@ -253,8 +369,21 @@ algae_grp_diffs
 plot(algae_grp_diffs)
 ```
 
+The mean yield under high light is significantly higher than under both low light (mean difference [95% CI]: 1.69 [0.204-3.17] $\mu g ~ C ~ml^{-1}$; p=0.03) and medium light (1.78 [0.295-3.27] $\mu g ~ C ~ml^{-1}$, p=0.02). There was no significant difference between low and medium light levels (p=0.99). 
+
 ::: Q.
 In the output from `TukeyHSD()`, why is the first value in `diff` negative?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+As stated in the first column, the values are for `medium-low`. So if the mean for `low` is larger than the mean for `medium`, this will be negative.
+
+:::
+
+:::
+
 :::
 
 We of course also want to report the group means with confidence intervals. While we could calculate these individually as in @sec-P4, the simplest way is to use the *emmeans* package. This has the added benefit of using our model's assumption of homoscedasticity in calculating the standard error.
@@ -266,11 +395,23 @@ algae_emm <- emmeans(algae_aov, specs="Treatment", level=0.89)
 algae_emm
 ```
 
-We might now report in our results:
+Finally, we should make a figure to communicate the results of our analysis. See the ANOVA lecture and accompanying R script for additional options.
 
-> The mean yield under high light (mean [95% CI]: 13.8 [13.1-14.5] $\mu g ~ C ~ml^{-1}$) was significantly higher than under low light (mean difference [95% CI]: 1.69 [0.204-3.17] $\mu g ~ C ~ml^{-1}$; p=0.03; low mean: 12.1 [11.4-12.8] $\mu g ~ C ~ml^{-1}$) and medium light (1.78 [0.295-3.27] $\mu g ~ C ~ml^{-1}$, p=0.02; medium mean: 12.0 [11.3-12.7] $\mu g ~ C ~ml^{-1}$). There was no significant difference between low and medium light levels (p=0.99). 
+```{r}
+#| label: fig-algae_aov_results
+#| fig-cap: "Algae yield under three light levels. Red points and bars give means and 89% CIs. Black points show observations."
+#| fig-width: 8
+#| fig-height: 5
 
-It would also be reasonable to put the specific values in a table, figure, or supplement, and only highlight some in the main text.
+ggplot(algae_df, aes(Treatment)) + 
+  geom_point(aes(Yield), shape=1) +
+  geom_errorbar(data=algae_emm, aes(ymin=lower.CL, ymax=upper.CL), colour="red") +
+  geom_point(data=algae_emm, aes(emmean), shape=1, size=2, colour="red")
+```
+
+
+
+
 
 
 ### One-way ANOVA (reprise)
@@ -389,16 +530,49 @@ As usual, null hypothesis significance testing is often applied to regression st
 
 ::: Q.
 What does the plot look like when there is no relationship between the predictor and the response?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+Just a scatter of points. Any line drawn would be flat.
+
 :::
 
-Let us now consider an example in which cause and effect does exist. The data in worksheet ‘Beetles’ in *practical_6.xlsx* shows the weight loss in *Tribolium confusum*, the confused flour beetle, at different relative humidities (data from Sokal and Rohlf, 1995). The relative humidity (RH) to which the beetles are exposed can be fixed and the weight loss (via evaporative losses) of the beetles then assessed. There is no way that the null hypothesis can be true in this case: humidity will obviously influence weight loss in beetles.
+:::
+
+:::
+
+Let us now consider an example in which cause and effect does exist. The data in worksheet ‘Beetles’ in *H2DS_practicalData.xlsx* shows the weight loss in *Tribolium confusum*, the confused flour beetle, at different relative humidities (data from Sokal and Rohlf, 1995). The relative humidity (RH) to which the beetles are exposed can be fixed and the weight loss (via evaporative losses) of the beetles then assessed. There is no way that the null hypothesis can be true in this case: humidity will obviously influence weight loss in beetles.
 
 ::: Q.
 In this case, what is your response variable (what are you measuring) and your predictor (i.e. what is it that you are manipulating to determine the extent of the response)?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+The response variable is "weight loss" and the predictor is "relative humidity".
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 Plot the data in R and check your prediction. In this case, the predictor must be displayed on the x-axis and the response must be on the y-axis.
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+See code below.
+
+:::
+
+:::
+
 :::
 
 We are interested in whether the whole data set can be usefully represented by a linear regression relationship. We wish to estimate the relationship, and put a confidence interval on our estimate. Common sense tells us that there *is* some sort of relationship (testing a null hypothesis is not very useful) but it might go in either direction (positive or negative) and we don’t know the strength (i.e. slope) of that relationship.
@@ -450,6 +624,17 @@ The small sample size here ($n=9$) makes a proper analysis of the residuals diff
 
 ::: Q.
 Which point has the largest Cook’s distance?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+Point 1 has the largest Cook's distance.
+
+:::
+
+:::
+
 :::
 
 We will now proceed to looking at the linear regression analysis results on the basis that the residuals do not raise any concerns.
@@ -466,14 +651,52 @@ Common-sense check: the coefficient is negative. As the humidity increases, the 
 
 ::: Q.
 What is the effect on weight loss of increasing the relative humidity by 10%?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+An increase of relative humidity of 10% would decrease the weight loss by 0.5322 mg.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 What is the weight loss, predicted by the model, when relative humidity is 0%?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+8.70 mg
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 What does the model suggest the weight loss will be when relative humidity is -50% and +150%? Are these values sensible? What does this tell you about extrapolating beyond the data range in using regression analysis in predictions?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+```{r}
+8.70 - 0.05322 * -50
+8.70 - 0.05322 * 150
+```
+
+It is the responsibility of the researcher to determine what is reasonable. The statistics and equations are completely ignorant about the data. Rubbish in, rubbish out.
+
+:::
+
+:::
+
 :::
 
 The residual error is the variance in y around the line. The $R^2$ is the proportion of this variance that is explained by the regression line. In the current case $R^2 = 0.97$. This is an extremely high value and indicates that the regression model is extraordinarily good at accounting for the variance in weight loss based on the relative humidity.
@@ -482,10 +705,32 @@ The P values allow us to assess if the slope and the intercept are likely differ
 
 ::: Q.
 Given the very high $R^2$ (and looking at your plot) would you expect the regression model to be significantly better than the null model in explaining the variance in weight loss?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+Yes.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 With $\alpha = 0.05$, do you reject or accept the null hypothesis? What would you wish to report in relation to the slope coefficient if you were reporting the results from this analysis?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+Reject the null hypothesis. We would report the values and their confidence intervals.
+
+:::
+
+:::
+
 :::
 
 ```{r}
@@ -520,18 +765,62 @@ Try generating 90% confidence intervals and add them to the plot.
 
 ::: Q.
 Which will have the wider interval, a 99.99% interval or a 50% interval and why?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+The 99.99% interval will be wider. For a 50% interval, only 50% of samples would capture the true line, so 50% would exclude it. The 99.99% intervals need to be wide enough that 99.99% of samples include the true line and only 0.01% exclude it.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 Do the confidence intervals in @fig-beetle_regline run parallel to the regression line?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+No, they are narrowest in the centre and wider at either end.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 If not, what does this suggest about the degree of confidence you have in values predicted at various points along the line?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+We are more confident about the values near the centre.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 At what value of relative humidity are your predictions of weight loss likely most accurate?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+The mean, which is about 50% humidity.
+
+:::
+
+:::
+
 :::
 
 We can make predictions based on our regression line, and put confidence intervals on those predictions. Say we had a relative humidity of 50% in the above example. You could ask for the model-predicted weight loss and you’d want confidence intervals on that prediction.
@@ -683,6 +972,19 @@ Most often, researchers report 95% CIs, but occasionally 80%, 90%, or 95%. It wo
 
 ::: Q.
 For a concentration of 0.75 units, what values would you expect (95 times in 100) to see from your experimental set-up?
+
+::: {.content-visible when-profile="answers"}
+
+::: callout-important
+
+```{r}
+predict(phos.mod, newdata=data.frame(Concentration = 0.75), interval = "predict")
+```
+
+:::
+
+:::
+
 :::
 
 You should get:

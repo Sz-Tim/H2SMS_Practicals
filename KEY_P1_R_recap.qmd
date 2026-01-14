@@ -8,6 +8,7 @@ format:
     theme: flatly
     dark: darkly
     code-fold: false
+    code-summary: "Code (bonus)"
     code-block-bg: true
     code-link: true
     embed-resources: true
@@ -62,7 +63,7 @@ set.seed(2025) # for fully reproducible code
 
 We will mostly work with dataframes. A `data.frame` is a 2D rectangular object with columns and rows. In a tidy dataset, each row represents an 'observation' and each column represents a 'variable'. R (and often packages) contains several built-in dataframes.
 
-The `data.frame` `cars` gives the max speed and stopping distance for cars built in the early 20th century. It is already available in your R session. We will use `cars` to demonstrate a few basic programming and statistical concepts.
+The dataframe `cars` gives the max speed and stopping distance for cars built in the early 20th century. It is already available in your R session. We will use `cars` to demonstrate a few basic programming and statistical concepts.
 
 ```{r}
 #| eval: false
@@ -438,11 +439,19 @@ hist(lynx2$Trappings, main="Lynx trapping", xlab="Trapped lynx per year")
 ```
 
 ::: Q.
+
 What conclusions do you draw from this plot? Which range of values was most common across years?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Low values (< 1000) are most common, with a second mode between 2000-3000.
+
+:::
+
+:::
+
 :::
 
 Be aware that histograms can be quite sensitive to the number of bins, and you should explore different options. You can set the number or values of break points with `breaks=...`.
@@ -587,19 +596,36 @@ We will cover *ggplot2* and other the *tidyverse* packages in more detail soon. 
 You will often need to summarise your data before you present it. Data summaries are usually contained in tables and they can sometimes replace graphics (e.g., where the data is relatively simple or where individual precise values are important). There are many types of summary statistics. Here we are concerned with central tendency and variability.
 
 ::: Q.
+
+
 What are the three main measures of central tendency?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Mean, median, and mode
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 What are three measures of variability?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Range, interquartile range (IQR), and variance / standard deviation
+
+:::
+
+:::
+
 :::
 
 The most appropriate metrics of central tendency or variability will depend on your data. Another summary statistic that you might include is sample size. R is very good at producing summary statistics, and there are myriad ways to produce them. We'll return to the `cars2` dataset.
@@ -685,38 +711,69 @@ names(scallop_df) <- "fat_pct"
 ```
 
 ::: Q.
+
 Check the data using the methods above. Does it look OK to you?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 There is an outlier with value 99.00
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Are these data likely to be continuous or discontinuous?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Continuous
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Create a plot to visualize the distribution of these data.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 hist(scallop_df$fat_pct)
 ```
 
 :::
 
-::: Q.
-Do you spot any issues?
 :::
 
+:::
+
+::: Q.
+
+Do you spot any issues?
+
+::: {.content-visible when-profile="answers"}
+
 ::: callout-important
+
 As noted above, there is a clear outlier.
+
+:::
+
+:::
+
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -754,23 +811,35 @@ which(scallop_df$fat_pct_corr > 90)
 Now summarise `scallop_df` using some of the methods above.
 
 ::: Q.
+
 Create a histogram for the corrected column. How does it differ from the original column with the error?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 The outlier is gone.
+
 ```{r}
 hist(scallop_df$fat_pct_corr)
 ```
 
 :::
 
-::: Q.
-Calculate mean, variance, median, interquartile range, minimum, maximum and range for both `fat_pct_orig` and `fat_pct_corr`.
 :::
 
+:::
+
+::: Q.
+
+Calculate mean, variance, median, interquartile range, minimum, maximum and range for both `fat_pct_orig` and `fat_pct_corr`.
+
+::: {.content-visible when-profile="answers"}
+
 ::: callout-important
+
 Could do this line by line, or modify the code above:
+
 ```{r}
 scallop_df |>
   summarise(mean=mean(fat_pct_orig),
@@ -793,11 +862,18 @@ scallop_df |>
 
 :::
 
-::: Q.
-Suppose the outlier was even bigger (i.e. your typo was even worse). Adjust your data, multiplying the erroneous data item by 10; copy the `fat_pct_orig` column and change row 36 to 999.
 :::
 
+:::
+
+::: Q.
+
+Suppose the outlier was even bigger (i.e. your typo was even worse). Adjust your data, multiplying the erroneous data item by 10; copy the `fat_pct_orig` column and change row 36 to 999.
+
+::: {.content-visible when-profile="answers"}
+
 ::: callout-important
+
 ```{r}
 scallop_df$fat_pct_badTypo <- scallop_df$fat_pct_orig
 scallop_df$fat_pct_badTypo[36] <- 999
@@ -805,11 +881,18 @@ scallop_df$fat_pct_badTypo[36] <- 999
 
 :::
 
-::: Q.
-Calculate the same summary statistics.
 :::
 
+:::
+
+::: Q.
+
+Calculate the same summary statistics.
+
+::: {.content-visible when-profile="answers"}
+
 ::: callout-important
+
 ```{r}
 scallop_df |>
   summarise(mean=mean(fat_pct_badTypo),
@@ -823,12 +906,24 @@ scallop_df |>
 
 :::
 
-::: Q.
-Which measures of central tendency and variability are most 'robust' against this outlier?
 :::
 
+:::
+
+::: Q.
+
+Which measures of central tendency and variability are most 'robust' against this outlier?
+
+::: {.content-visible when-profile="answers"}
+
 ::: callout-important
+
 Median and IQR, since they are based on ranks.
+
+:::
+
+:::
+
 :::
 
 Or look individually instead of calculating many metrics at once with `tidyverse` functions:
@@ -858,11 +953,19 @@ scallop_df |>
 ```
 
 ::: Q.
+
 How would the patterns seen in @tbl-scallop influence your choice if you were required to summarise data that you thought might contain values that could be erroneous? Consider how each metric is influenced by the data distribution and by outliers.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Median and IQR are most robust to entry-related errors.
+
+:::
+
+:::
+
 :::
 
 Let's load a dataset that gives the length of hake across three years of sampling.
@@ -873,18 +976,29 @@ str(hake_df) # once again, column names made for excel rather than R
 ```
 
 ::: Q.
+
 What type of variable is `length`?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Numeric, continuous
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Select an appropriate graphical method and display these data.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 par(mfrow=c(1,2))
 plot(hake_df$Year, hake_df$`Hake length (mm)`)
@@ -893,11 +1007,18 @@ boxplot(`Hake length (mm)` ~ Year, data=hake_df)
 
 :::
 
-::: Q.
-In your own time, summarise the hake data by year using the *tidyverse* functions you used above with the `InsectSprays` data.
 :::
 
+:::
+
+::: Q.
+
+In your own time, summarise the hake data by year using the *tidyverse* functions you used above with the `InsectSprays` data.
+
+::: {.content-visible when-profile="answers"}
+
 ::: callout-important
+
 ```{r}
 hake_df |>
   group_by(Year) |>
@@ -909,6 +1030,10 @@ hake_df |>
             max=max(`Hake length (mm)`),
             rng=diff(range(`Hake length (mm)`)))
 ```
+
+:::
+
+:::
 
 :::
 
@@ -936,38 +1061,65 @@ str(fishPoo_df)
 ```
 
 ::: Q.
+
 Produce a histogram of the settling velocity. Is it left or right skewed?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 It is right skewed.
+
 ```{r}
 hist(fishPoo_df$`Settling velocity (mm s-1)`)
 ```
 
 :::
 
+:::
+
+:::
+
 ::: Q.
+
 Which measures of central tendency and variability are most appropriate?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 Median and IQR, most likely.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Considering the distribution, is the mean or median larger?
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 The mean is larger.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
+
 Generate a new column of the log-transformed settling velocity data and plot these data.
-:::
+
+::: {.content-visible when-profile="answers"}
 
 ::: callout-important
+
 ```{r}
 fishPoo_df$lnVelocity <- log(fishPoo_df$`Settling velocity (mm s-1)`)
 hist(fishPoo_df$lnVelocity)
@@ -975,12 +1127,24 @@ hist(fishPoo_df$lnVelocity)
 
 :::
 
-::: Q.
-What measures of central tendency and variability could be applied to the log-transformed data? Selecting the preferable metrics for a dataset is not necessarily straightforward.
 :::
 
+:::
+
+::: Q.
+
+What measures of central tendency and variability could be applied to the log-transformed data? Selecting the preferable metrics for a dataset is not necessarily straightforward.
+
+::: {.content-visible when-profile="answers"}
+
 ::: callout-important
+
 Any, but mean and variance / standard deviation would be best.
+
+:::
+
+:::
+
 :::
 
 @tbl-metric gives some indication of what issues you might consider.
