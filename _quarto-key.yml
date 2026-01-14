@@ -1,10 +1,17 @@
 project:
   type: book
+  output-dir: _key
 
 book:
-  title: "H2 Data Science Practicals"
+  title: "H2 Data Science Practicals KEY"
   author: "Tim Szewczyk (v1: Tom Wilding)"
-  date: "2025-09-01"
+  date: today
+  chapters:
+    - index.qmd
+    - P0_R_setup.qmd
+    - P1_R_recap.qmd
+    - P7_appendix.qmd
+  site-url: https://sz-tim.quarto.pub/h2ds-practicals-key
   repo-actions: [issue]
   repo-url: https://github.com/Sz-Tim/H2DS_Practicals
   favicon: figs/one_distribution.png
@@ -12,6 +19,8 @@ book:
 
 format:
   html:
+    theme: pulse
+    dark: slate
     code-fold: false
     code-block-bg: true
     code-summary: "Code (bonus)"
@@ -19,7 +28,10 @@ format:
     callout-appearance: simple
     link-external-newwindow: true
     link-external-filter: ^(?:http:|https:)\/\/\.sz-tim\.quarto\.pub/custom
-
+    sidebar:
+      style: "docked"
+      search: true
+      collapse-level: 3
 
 callout-appearance: simple
 
@@ -37,7 +49,3 @@ filters:
 
 execute:
   freeze: auto
-
-profile:
-  group:
-    - [pub, key]

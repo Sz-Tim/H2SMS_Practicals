@@ -10,4 +10,4 @@ You will use datasets provided on Brightspace, datasets included in R, and datas
 
 Please read through the practical before the class. Each session is scheduled for 3.5h with a recommended break in the middle. You will work through a series of coding exercises and questions which are not assessed or marked, but may appear in the assessments. You should complete all the material in each practical.
 
-The practical booklet is provided [online](https://sz-tim.quarto.pub/h2ds-practicals/) and as a pdf on Brightspace. The web version has additional features that are not possible with pdfs and is the recommended interface. The underlying files (lightly edited) are available on Brightspace.
+The practicals are provided [online](https://sz-tim.quarto.pub/h2ds-practicals/) and as a pdf on Brightspace. The web version has additional features that are not possible with pdfs and is the recommended interface. The underlying files (lightly edited) are available on Brightspace.

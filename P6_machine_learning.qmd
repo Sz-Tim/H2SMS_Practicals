@@ -69,6 +69,17 @@ vegdist(worm_df_log, method = "altGower")
 
 ::: Q.
 Based on the dissimilarity matrices, which sites are more similar (smaller numbers) and which are more dissimilar (bigger numbers)? Does this align with an ‘eyeballing’ of the data? How has the data transformation changed the resultant dissimilarity matrix?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+CE1 and CE2 are similar, and Ref1 and Ref2 are similar. Yes, this aligns with looking at the data. The transformations change the influence of the highly abundant *Capitella* and *Malacoeros* at CE1 and CE2. 
+
+:::
+
+:::
+
 :::
 
 ### 3: Ordination
@@ -102,10 +113,37 @@ ord_4rt <- metaMDS(worm_df_4rt, distance = "bray", k = 2,
 
 ::: Q.
 Plot `ord_4rt`. How has the 4th root changed your data interpretation?\*
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+```{r}
+ordiplot(ord_4rt, choices = c(1, 2), display = "sites", 
+         type = "text", main = "NMDS: 4th-rt, Bray-Curtis")
+```
+
+Ref1 and Ref2 seem more similar under the 4th root transformation, and possibly CE1 and CE2.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 Interpret the ordinations, cross referencing to the raw and transformed data. Are the patterns that you see in the data apparent on the ordination?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+Yes, generally.
+
+:::
+
+:::
+
 :::
 
 You can include on your plot the species ‘locations’ (as determined by their correlation with the axes). This shows where the main associations are occurring.
@@ -123,6 +161,22 @@ ordiplot(ord_4rt, choices = c(1, 2), display = c("sites", "species"),
 
 ::: Q.
 Re-plot the untransformed data, but this time include the species. How has the transformation changed your interpretation of the data?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+```{r}
+ordiplot(ord_raw, choices = c(1, 2), display = c("sites", "species"), 
+         type = "text", main = "NMDS, raw, Bray-Curtis")
+```
+
+The influence of the highly abundant species is extremely clear.
+
+:::
+
+:::
+
 :::
 
 Let’s have a look at another simulated dataset.
@@ -151,6 +205,17 @@ ordiplot(ord_comm, choices = c(1, 2),
 
 ::: Q.
 Have a look at these raw data. What are the main trends? Which sites are more similar?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+Charl and Lismore are similar, driven by similarities in SpA, SpB, and SpD. Dunst is characterized by a high abundance of SpC, and Creran is characterized by a high abundance of SpF.
+
+:::
+
+:::
+
 :::
 
 These data are still much simpler than most ‘real’ data sets but it is still difficult to summarise the similarities and differences between stations. However, multivariate analyses help you in this process.
@@ -180,6 +245,17 @@ ordiplot(ord_comm_4rt, choices = c(1, 2),
 
 ::: Q.
 What has the transformation done to your interpretation of differences between the Sites and Site x Species associations?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+It is much less clear I think. The similarity between Charl and Lismore is no longer clear, and SpB seems more indicative of Creran. Generally everything looks more distinct.
+
+:::
+
+:::
+
 :::
 
 
@@ -193,6 +269,17 @@ We can use the `comm_df` dataset we invented to explore some diversity concepts.
 
 ::: Q.
 Looking at the `comm_df` data (by eye) and given the description above, which of the sites is associated with the lowest and highest diversity?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+They all have the same number of species, so differences in diversity will be driven by the relative abundance. Lismore and Charl have higher evenness so they will have higher diversity, while Creran and (especially) Dunst are more dominated by single species indicating lower diversity.
+
+:::
+
+:::
+
 :::
 
 ```{r}
@@ -208,18 +295,70 @@ Try plotting `richness`.
 
 ::: Q.
 Do the plots correspond to what you expected?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+Yes, but many of the H2 Data Science students do not have a background in ecology and are not familiar with community ecology metrics.
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 What does `specnumber()` do?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+Use `?specnumber`. It counts the number of species (a.k.a., the species richness).
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 How could you ‘counter’ any extremes (as in superabundant taxa) in the raw count data that you’ve generated? Try your idea.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+Use a 4th root or log transformation.
+
+```{r}
+shannon_H <- diversity(log(comm_df), "shannon", base = exp(1)) 
+barplot(shannon_H, main = NULL, ylab = "Shannon's H (log)")
+
+shannon_H <- diversity((comm_df)^0.25, "shannon", base = exp(1)) 
+barplot(shannon_H, main = NULL, ylab = "Shannon's H (4th root)")
+```
+
+:::
+
+:::
+
 :::
 
 ::: Q.
 Which description (diversity or richness) is ‘best’ for describing your multivariate data? How does this compare to NMDS?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+I'd say it depends on the research question. Richness fails to distinguish among the sites, but it might be relevant that the sites all have the same number of species. Diversity distinguishes them, but because it blends richness and relative abundance, it does not answer *why* sites are different. NMDS distinguishes among sites, but is more qualitative in interpretation.
+
+:::
+
+:::
+
 :::
 
 ## NMDS on real data
@@ -285,7 +424,7 @@ leach_df <- read_excel("data/H2DS_practicalData.xlsx", sheet = "Leaching") |>
                              labels = c("conc", "ctrl", "gran")),
          Treat_day = paste(Treat_abbr, Day, sep="_"), # treat + days in exprmnt
          Conc = signif(Conc)) |>
-  select(Treat_day, Element, Conc) # remove columns that aren't of use,
+  select(Treat, Treat_day, Element, Conc) # remove columns that aren't of use,
 #summary(leach_df)
 
 # not dominated by zeros; try other values (e.g. <10)
@@ -295,6 +434,23 @@ mean(leach_df$Conc == 0) # recall that R treats T/F as 1/0
 
 ::: Q.
 Do some exploratory analysis of this dataset. How are the concentrations distributed? Do similar treatments show qualitatively similar distributions? Elements?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+```{r}
+ggplot(leach_df, aes(Conc)) + geom_histogram()
+ggplot(leach_df, aes(Conc)) + geom_histogram() + facet_wrap(~Element, scales="free")
+ggplot(leach_df, aes(Conc)) + geom_histogram() + facet_wrap(~Treat, scales="free")
+```
+
+Heavily skewed overall, within each element, and within each treatment. The values are drastically different among elements (Fe and Sr in the thousands, others in the tens or hundreds), but broadly similar within treatments.
+
+:::
+
+:::
+
 :::
 
 Next, we need to re-organise the data into a wider format so that each element is a column and each row is a sample.
@@ -306,13 +462,13 @@ leach_df_wide <- leach_df |>
 
 The column `Treat_day` is coded as `trt_day`, where `trt` is the 4 letter code indicating treatment type and `day` is the number of days elapsed in the experiment (one of 1, 4, 7, 17, 32, 50 or 100). So `gran_32` means the granite treatment sampled at day 32.
 
-We can calculate the principal components using `prcomp()`, subsetting the dataframe to give only the columns with element concentrations (i.e., removing `Treat_day`, which is the first column). We'll also set the arguments for centering and scaling to `TRUE`.
+We can calculate the principal components using `prcomp()`, subsetting the dataframe to give only the columns with element concentrations (i.e., removing `Treat` and `Treat_day`, which are the first two columns). We'll also set the arguments for centering and scaling to `TRUE`.
 
 ```{r}
 #| label: fig-leach_scree
 #| fig-cap: "Scree plot showing the variance explained by each principal component."
 
-PCA_leach <- prcomp(leach_df_wide[, -1], center = TRUE, scale = TRUE) 
+PCA_leach <- prcomp(leach_df_wide[, -(1:2)], center = TRUE, scale = TRUE) 
 screeplot(PCA_leach, main = NULL, ylab = "Relative variation explained")
 ```
 
@@ -350,6 +506,7 @@ To plot more than 2 dimensions you could use a static 3D plot, but these are oft
 #| warning: false
 #| code-fold: true
 
+# Remove the if statement!
 if(knitr::pandoc_to() == "html") {
   
 arrow_df <- tibble(element=row.names(PCA_leach$rotation),
@@ -373,6 +530,17 @@ The ordination plots the relative positions (in terms of similarity) of the samp
 
 ::: Q.
 Which elements are positively associated with granite and concrete, particularly after longer periods of leaching?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+Mn and U are associated with granite. Mo, Rb, and Sr are associated with concrete.
+
+:::
+
+:::
+
 :::
 
 As is typical, overlapping points make interpretation more difficult. There are elegant solutions to this (in terms of labelling) but for now, we’ll split the data and analyse it separately.
@@ -389,12 +557,31 @@ We’ll need more data wrangling to split it efficiently and we’ll use `grepl(
 #cbind(leach_df_wide$Treat_day, grepl("conc|gran", leach_df_wide$Treat_day))
 leach_df_trts <- leach_df_wide |>
   filter(grepl("conc|gran", Treat_day))
-PCA_trts <- prcomp(leach_df_trts[, -1], scale = TRUE, center = TRUE)
+PCA_trts <- prcomp(leach_df_trts[, -(1:2)], scale = TRUE, center = TRUE)
 biplot(PCA_trts, xlabs = leach_df_trts$Treat_day)
 ```
 
 ::: Q.
 Repeat the analysis, but set `scale = FALSE`. Which element now seems to dominate the analysis? Explain what you see.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+```{r}
+leach_df_trts <- leach_df_wide |>
+  filter(grepl("conc|gran", Treat_day))
+PCA_trts <- prcomp(leach_df_trts[, -(1:2)], scale = FALSE, center = TRUE)
+biplot(PCA_trts, xlabs = leach_df_trts$Treat_day)
+
+```
+
+Fe dominates everything because the values are so large compared to the other elements.
+
+:::
+
+:::
+
 :::
 
 A PCA is normally reported with the proportion of the variation explained by each of the principal components (and/or the cumulative proportion). If the cumulative proportion for the 1st two components is high, then the 2D (PC1 and PC2) ordination is a good representation of the similarities between samples. In that sense a high cumulative proportion is analogous to a low stress for NMDS.
