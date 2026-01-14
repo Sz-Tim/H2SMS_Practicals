@@ -1,0 +1,353 @@
+---
+title: "P1 R Recap: Problem set"
+subtitle: "H2 Data Science 2026"
+author: "Tim Szewczyk"
+date: today
+format:
+  html:
+    theme: pulse
+    dark: slate
+    code-fold: true
+    code-block-bg: true
+    code-link: true
+    toc: true
+    number-sections: true
+    callout-appearance: simple
+    embed-resources: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+Please render this file to .html and submit via Brightspace.
+
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: false
+
+library(tidyverse)
+library(readxl)
+```
+
+# R Basics
+
+## Data types
+
+Create a vector called `site_num` with the values 1 through 10.
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-summary: "Three methods which create identical vectors"
+
+site_num <- 1:10
+site_num <- seq(1, 10, by=1)
+site_num <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+```
+:::
+
+# Data munging
+
+The *SmoltWeights* sheet from H2DS_practicalData.xlsx contains the weight in grams (column `weight_g`) from a sample of 34 wild salmon smolts (column `fish_id`) during their outmigration from a river to the ocean. Load the dataset and perform basic summaries (range, mean, median, number of missing values for each column). Identify (using code) which fish are missing values for `weight_g`.
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-summary: "Load and check data"
+
+smolt_df <- read_xlsx("data/H2DS_practicalData.xlsx", sheet="SmoltWeights")
+str(smolt_df)
+summary(smolt_df)
+```
+
+There are many ways to identify the row with missing data.
+
+```{r}
+#| code-summary: "Method 1: Identify the row number"
+
+which(is.na(smolt_df$weight_g))
+```
+
+```{r}
+#| code-summary: "Method 2: Extract the row from the data.frame"
+
+smolt_df[is.na(smolt_df$weight_g),] # gives the row from the data.frame
+```
+
+```{r}
+#| code-summary: "Method 3: Filter the data.frame"
+
+smolt_df |>
+  filter(is.na(weight_g))
+```
+:::
+
+Create a new column called `weight_lb` that gives the weights in pounds, where 1 kg = 2.205 lb.
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-summary: "Calculate new column"
+
+smolt_df$weight_lb <- smolt_df$weight_g / 1000 * 05
+```
+:::
+
+What proportion of fish weigh less than 0.2 lb? How many fish is this?
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-summary: "Proportion"
+
+mean(smolt_df$weight_lb < 0.2, na.rm=T)
+```
+
+```{r}
+#| code-summary: "Number"
+
+sum(smolt_df$weight_lb < 0.2, na.rm=T)
+```
+:::
+
+Create a new data.frame called `large_df` that contains only the fish as large or larger than the median weight *and* excludes rows with missing weights.
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| echo: false
+smolt_df |>
+  drop_na(weight_g) |>
+  filter(weight_g >= median(weight_g))
+```
+
+```{r}
+#| code-summary: "Using base R functions"
+
+smolt_median <- median(smolt_df$weight_g, na.rm=T)
+large_df <- smolt_df[smolt_df$weight_g >= smolt_median & !is.na(smolt_df$weight_g), ]
+```
+
+```{r}
+#| code-summary: "Using tidyverse functions"
+
+large_df <- smolt_df |>
+  drop_na(weight_g) |>
+  filter(weight_g >= median(weight_g))
+```
+:::
+
+Create a new data.frame called `extreme_df` that contains only fish more than 1.5 standard deviations greater than the mean *and* excludes rows with missing weights.
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| echo: false
+
+smolt_df |>
+  drop_na(weight_g) |>
+  filter(weight_g > mean(weight_g) + 1.5*sd(weight_g) |
+           weight_g < mean(weight_g) - 1.5*sd(weight_g))
+```
+
+```{r}
+#| code-summary: "Using base R functions"
+
+smolt_mean <- mean(smolt_df$weight_g, na.rm=T)
+smolt_sd <- sd(smolt_df$weight_g, na.rm=T)
+extreme_df <- smolt_df[!is.na(smolt_df$weight_g) &
+                         (smolt_df$weight_g > smolt_mean + 1.5*smolt_sd |
+                            smolt_df$weight_g < smolt_mean - 1.5*smolt_sd), ]
+```
+
+```{r}
+#| code-summary: "Using tidyverse functions"
+
+extreme_df <- smolt_df |>
+  drop_na(weight_g) |>
+  filter(weight_g > mean(weight_g) + 1.5*sd(weight_g) |
+           weight_g < mean(weight_g) - 1.5*sd(weight_g))
+```
+:::
+
+# Plotting
+
+Create a histogram of the smolt weights, labelling the axes and omitting a plot title. Add a figure legend using `#| fig-cap: "..."` in the quarto document code block. Add `#| label: fig-smoltHist`, and then in *text* below, reference the figure by typing `@fig-smoltHist`.
+
+::: callout-tip
+When rendered, `@fig-smoltHist` in the text is automatically replaced by "Figure 1", with figure numbers updated automatically. Adding a legend with `#| fig-cap: "..."` in your code block will automatically give that figure a number, making your life easier.
+
+The label must start with `fig-` for this to work.
+
+Note that you *cannot* re-use the same `label`.
+:::
+
+```{r}
+#| fig-cap: "..."
+
+
+```
+
+::: callout-important
+Here is some text referencing @fig-smoltHist by using the label I've used in the code chunk (`@fig-smoltHist`).
+
+```{r}
+#| code-summary: "Code"
+#| echo: fenced
+#| label: fig-smoltHist
+#| fig-cap: "Histogram of smolt weights."
+#| fig-width: 4
+#| fig-height: 4
+
+hist(smolt_df$weight_g, 
+     main=NULL, 
+     xlab="Smolt weight (g)",
+     ylab="Number of fish")
+```
+:::
+
+The dataset `ToothGrowth` is available in R, giving the length (`len`) of tooth-growth cells (odontoblasts) in 60 guinea pigs under different vitamin C regimes (`supp`: OJ=orange juice, VC=ascorbic acid; `dose`: 0.5, 1, 2 mg/day). Create a boxplot of the length by dose for only the guinea pigs receiving orange juice. Write a figure caption and add a label as above.
+
+```{r}
+#| fig-cap: "..."
+
+
+```
+
+::: callout-important
+```{r}
+#| code-summary: "Using base R"
+#| echo: fenced
+#| label: fig-OJ_lenByDose
+#| fig-cap: "Odontoblast length by dosage in guinea pigs receiving orange juice."
+#| fig-width: 5
+#| fig-height: 3.5
+
+boxplot(len ~ dose, data=ToothGrowth[ToothGrowth$supp=="OJ",],
+        xlab="Dose (mg/day)",
+        ylab="Odontoblast length (yards?)")
+```
+:::
+
+Use `ggplot()` to make the same boxplot, but with `supp` as the fill colour.
+
+::: callout-tip
+Remember to check the column types first!
+:::
+
+```{r}
+#| fig-cap: "..."
+
+
+```
+
+::: callout-important
+```{r}
+#| code-summary: "Check data.frame structure"
+
+str(ToothGrowth)
+```
+
+Since `dose` is numeric, there are two options to produce different boxes for each combination of `dose` and `supp`.
+
+```{r}
+#| code-summary: "Method 1: Coerce `dose` to a factor"
+#| echo: fenced
+#| label: fig-lenByDose_gg1
+#| fig-cap: "Odontoblast length by dosage and supplement type in guinea pigs."
+#| fig-width: 5
+#| fig-height: 3.5
+
+ggplot(ToothGrowth, aes(factor(dose), len, fill=supp)) + 
+  geom_boxplot() +
+  scale_fill_manual("Supplement", values=c("orange", "steelblue")) +
+  labs(x="Dose (mg/day)", 
+       y="Odontoblast length (nm)")
+```
+
+```{r}
+#| code-summary: "Method 2: Specify `group=`"
+#| echo: fenced
+#| label: fig-lenByDose_gg2
+#| fig-cap: "Odontoblast length by dosage and supplement type in guinea pigs."
+#| fig-width: 5
+#| fig-height: 3.5
+
+ggplot(ToothGrowth, aes(dose, len, fill=supp, group=paste(dose, supp))) + 
+  geom_boxplot() +
+  scale_fill_manual("Supplement", values=c("orange", "steelblue")) +
+  labs(x="Dose (mg/day)", 
+       y="Odontoblast length (nm)")
+```
+
+::: callout-note
+What are the benefits and downsides of each method? When might you choose one or the other?
+:::
+:::
+
+Using the same dataset, produce a scatter plot where `supp` is the point colour.
+
+```{r}
+#| fig-cap: "..."
+
+
+```
+
+::: callout-important
+Since `supp` is a factor, the *levels* can be coded into colours automatically in `plot()`.
+
+```{r}
+#| code-summary: "Using base R"
+#| echo: fenced
+#| label: fig-lenByDose_baseRScatter
+#| fig-cap: "Odontoblast length by dosage and supplement type in guinea pigs."
+#| fig-width: 4
+#| fig-height: 4
+
+plot(len ~ dose, data=ToothGrowth, col=supp,
+     xlab="Dose (mg/day)",
+     ylab="Odontoblast growth (AU)")
+legend("topleft", 
+       legend=levels(ToothGrowth$supp), 
+       col=1:2, 
+       pch=1, 
+       bty="n")
+```
+
+In my opinion, it is easier to use ggplot as your figures get more involved.
+
+```{r}
+#| code-summary: "Using ggplot"
+#| echo: fenced
+#| label: fig-lenByDose_ggScatter
+#| fig-cap: "Odontoblast length by dosage and supplement type in guinea pigs."
+#| fig-width: 4.5
+#| fig-height: 3
+
+ggplot(ToothGrowth, aes(dose, len, colour=supp)) + 
+  geom_point(shape=1, size=2, stroke=0.8) +
+  scale_colour_manual("Supplement", values=c("orange", "steelblue")) +
+  labs(x="Dose (mg/day)", 
+       y="Odontoblast length (nm)") +
+  theme_classic()
+```
+:::
