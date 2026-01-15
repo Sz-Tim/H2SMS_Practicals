@@ -1,4 +1,4 @@
-# . 2 Problem Set {#sec-P2_probSet .unnumbered}
+# . 6 Problem Set {#sec-P6_probSet .unnumbered}
 
 ::: callout-note
 Please render this file to .html and submit via Brightspace.
