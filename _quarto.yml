@@ -3,8 +3,7 @@ project:
 
 book:
   title: "H2 Data Science Practicals"
-  author: "Tim Szewczyk (v1: Tom Wilding)"
-  date: "2025-09-01"
+  date: "2026-09-07"
   repo-actions: [issue]
   repo-url: https://github.com/Sz-Tim/H2DS_Practicals
   favicon: figs/one_distribution.png

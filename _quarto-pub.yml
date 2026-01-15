@@ -1,11 +1,8 @@
 project:
-  type: book
   output-dir: _pub
 
 book:
   title: "H2 Data Science Practicals"
-  author: "Tim Szewczyk (v1: Tom Wilding)"
-  date: "2025-09-01"
   chapters:
     - index.qmd
     - P0_R_setup.qmd
