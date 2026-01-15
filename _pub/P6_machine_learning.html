@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>6&nbsp; Machine Learning – H2 Data Science Practicals</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./P7_appendix.html" rel="next">
+<link href="./P5_ANOVA_regression.html" rel="prev">
+<link href="./figs/one_distribution.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c27fdc8e5b00b532d2d5a75ada188648.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><link href="site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><script src="site_libs/plotly-binding-4.11.0/plotly.js"></script><script src="site_libs/typedarray-0.1/typedarray.min.js"></script><script src="site_libs/jquery-3.5.1/jquery.min.js"></script><link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script><link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script><style>
+.Q. {
+  --color1: #69B7CE;
+  --color2: #3F6F76;
+}
+</style>
+</head>
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./P6_machine_learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">H2 Data Science Practicals</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/Sz-Tim/H2DS_Practicals" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+<li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./H2-Data-Science-Practicals.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./H2-Data-Science-Practicals.epub">
+              <i class="bi bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+</div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P0_R_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R setup</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P1_R_recap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R recap</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P2_binomial_poisson.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binomial and Poisson Distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P3_normal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normal distribution</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P4_t_CIs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The t-distribution and confidence intervals</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P5_ANOVA_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">ANOVA and regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P6_machine_learning.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P7_appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Appendix</span></span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#multivariate-analysis" id="toc-multivariate-analysis" class="nav-link active" data-scroll-target="#multivariate-analysis"><span class="header-section-number">6.1</span> Multivariate analysis</a></li>
+  <li>
+<a href="#non-metric-multidimensional-scaling-nmds" id="toc-non-metric-multidimensional-scaling-nmds" class="nav-link" data-scroll-target="#non-metric-multidimensional-scaling-nmds"><span class="header-section-number">6.2</span> Non-Metric Multidimensional Scaling (NMDS)</a>
+  <ul class="collapse">
+<li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation"><span class="header-section-number">6.2.1</span> 1: Data transformation</a></li>
+  <li><a href="#dissimilarity-matrix" id="toc-dissimilarity-matrix" class="nav-link" data-scroll-target="#dissimilarity-matrix"><span class="header-section-number">6.2.2</span> 2: Dissimilarity matrix</a></li>
+  <li><a href="#ordination" id="toc-ordination" class="nav-link" data-scroll-target="#ordination"><span class="header-section-number">6.2.3</span> 3: Ordination</a></li>
+  </ul>
+</li>
+  <li><a href="#diversity-indices" id="toc-diversity-indices" class="nav-link" data-scroll-target="#diversity-indices"><span class="header-section-number">6.3</span> Diversity indices</a></li>
+  <li><a href="#nmds-on-real-data" id="toc-nmds-on-real-data" class="nav-link" data-scroll-target="#nmds-on-real-data"><span class="header-section-number">6.4</span> NMDS on real data</a></li>
+  <li><a href="#principal-components-analysis-pca" id="toc-principal-components-analysis-pca" class="nav-link" data-scroll-target="#principal-components-analysis-pca"><span class="header-section-number">6.5</span> Principal components analysis (PCA)</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions"><span class="header-section-number">6.6</span> Conclusions</a></li>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/Sz-Tim/H2DS_Practicals/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title"><span id="sec-P6" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="multivariate-analysis" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="multivariate-analysis">
+<span class="header-section-number">6.1</span> Multivariate analysis</h2>
+<p>So far, every model we’ve used has had a single response variable. <strong>Multivariate analyses</strong> are techniques that allow the analysis of multiple response variables, such as counts of each species within a community. Statistical routines for multivariate analysis are relatively new and have co-evolved with computational capacity. Multivariate data are typically stored as a matrix of samples (rows) v ‘features’ (columns). Features may include things like faunal counts, chemical concentrations, or environmental conditions.</p>
+<p>Multivariate analysis typically includes three stages:</p>
+<ol type="1">
+<li>Data transformation or standardisation</li>
+<li>Calculation of a dissimilarity matrix</li>
+<li>Ordination (display) of the dissimilarity matrix</li>
+</ol>
+<p>Each of these steps has numerous options, with advantages and disadvantages to each. Multivariate analysis are less inferential than most univariate approaches and implementation can feel subjective. Statisticians are still arguing about the best way to approach multivariate analyses.</p>
+<p>Multivariate data occur in a number of common situations, including species inventories, multiple data streams from the same station (e.g., a glider with CTD), and in bioinformatics (e.g., metabarcoding). Many are critical resources in understanding relative change through time.</p>
+<p>More detail on the the material we cover here is accessible in Clarke et al.&nbsp;(2014) on Brightspace, entitled <em>Change in marine communities: An approach to statistical analysis and interpretation.</em></p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://vegandevs.github.io/vegan/">vegan</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com">plotly</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="non-metric-multidimensional-scaling-nmds" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="non-metric-multidimensional-scaling-nmds">
+<span class="header-section-number">6.2</span> Non-Metric Multidimensional Scaling (NMDS)</h2>
+<p>For the NMDS workflow, we’ll work through the above steps (<code>data |&gt; transform() |&gt; dissimilarity() |&gt; ordination()</code>) first with two simulated datasets and then with a more complex (real) dataset included in the package <em>vegan</em>.</p>
+<p>Recall that the <code>^</code> operator raises each element in a vector to a power. For example, for the vector <code>obs_values &lt;- c(1, 10, 35)</code>, we can calculate a fourth-root transformation of the whole vector with <code>obs_values^(1/4)</code>. Remember from previous courses that this is identical to <code>sqrt(sqrt(obs_values))</code>.</p>
+<section id="data-transformation" class="level3" data-number="6.2.1"><h3 data-number="6.2.1" class="anchored" data-anchor-id="data-transformation">
+<span class="header-section-number">6.2.1</span> 1: Data transformation</h3>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># these toy data duplicate those in the multivariate lecture.</span></span>
+<span><span class="va">worm_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CE1"</span>, <span class="st">"CE2"</span>, <span class="st">"Ref1"</span>, <span class="st">"Ref2"</span><span class="op">)</span>,</span>
+<span>  Capitella <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">1500</span>, <span class="fl">10</span>, <span class="fl">50</span><span class="op">)</span>,</span>
+<span>  Malacoeros <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fl">2000</span>, <span class="fl">50</span>, <span class="fl">25</span><span class="op">)</span>,</span>
+<span>  Mysella <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">25</span>, <span class="fl">30</span><span class="op">)</span>,</span>
+<span>  Nucella <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">20</span>, <span class="fl">15</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">worm_df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Capitella Malacoeros Mysella Nucella
+CE1       1000        500       1       1
+CE2       1500       2000       0       0
+Ref1        10         50      25      20
+Ref2        50         25      30      15</code></pre>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># alt-log transformation: ifelse(x==0, 0, log(x))</span></span>
+<span><span class="va">worm_df_log</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://vegandevs.github.io/vegan/reference/decostand.html">decostand</a></span><span class="op">(</span><span class="va">worm_df</span>, method <span class="op">=</span> <span class="st">"log"</span>, logbase <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">worm_df_4rt</span> <span class="op">&lt;-</span> <span class="va">worm_df</span><span class="op">^</span><span class="fl">0.25</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Take a look at <code>worm_df</code>, <code>worm_df_log</code>, and <code>worm_df_4rt</code> to be sure they make sense.</p>
+</section><section id="dissimilarity-matrix" class="level3" data-number="6.2.2"><h3 data-number="6.2.2" class="anchored" data-anchor-id="dissimilarity-matrix">
+<span class="header-section-number">6.2.2</span> 2: Dissimilarity matrix</h3>
+<p>A dissimilarity matrix summarises the dissimilarity between each pair of samples. There are many methods of summarising the dissimilarity (or distance), particularly when that dissimilarity occurs across multiple dimensions (here, genera).</p>
+<p>The <code><a href="https://vegandevs.github.io/vegan/reference/vegdist.html">vegdist()</a></code> function can generate distance matrices using many different methods. See <code><a href="https://vegandevs.github.io/vegan/reference/vegdist.html">?vegdist</a></code> for more information. We’ll use Bray-Curtis for the raw and 4<sup>th</sup>-root transformed data, and alternative Gower for the alt-log transformed data. See the help page and Brightspace material for more information on these. Feel free to investigate other combinations of data transformation and dissimilarity matrices.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://vegandevs.github.io/vegan/reference/vegdist.html">vegdist</a></span><span class="op">(</span><span class="va">worm_df</span>, method <span class="op">=</span> <span class="st">"bray"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           CE1       CE2      Ref1
+CE2  0.4002399                    
+Ref1 0.9228376 0.9667129          
+Ref2 0.9050555 0.9585635 0.3333333</code></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://vegandevs.github.io/vegan/reference/vegdist.html">vegdist</a></span><span class="op">(</span><span class="va">worm_df_4rt</span>, method <span class="op">=</span> <span class="st">"bray"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            CE1        CE2       Ref1
+CE2  0.18044721                      
+Ref1 0.39098221 0.59100112           
+Ref2 0.36024122 0.55728021 0.08642723</code></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://vegandevs.github.io/vegan/reference/vegdist.html">vegdist</a></span><span class="op">(</span><span class="va">worm_df_log</span>, method <span class="op">=</span> <span class="st">"altGower"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           CE1       CE2      Ref1
+CE2  0.6945378                    
+Ref1 1.4247425 2.1192803          
+Ref2 1.3138181 2.0083559 0.3010300</code></pre>
+</div>
+</div>
+<div id="Q.-6.1" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.1</strong></summary><div>
+<p>Based on the dissimilarity matrices, which sites are more similar (smaller numbers) and which are more dissimilar (bigger numbers)? Does this align with an ‘eyeballing’ of the data? How has the data transformation changed the resultant dissimilarity matrix?</p>
+</div></details>
+</div>
+</section><section id="ordination" class="level3" data-number="6.2.3"><h3 data-number="6.2.3" class="anchored" data-anchor-id="ordination">
+<span class="header-section-number">6.2.3</span> 3: Ordination</h3>
+<p>Next we want to plot the dissimilarities to visualize which sites are more similar or dissimilar to one another. We will use functions from <em>vegan</em>. Remember that you can run <code><a href="https://rdrr.io/r/utils/packageName.html">?packageName</a></code> to learn more about any R package, typically with helpful examples and vignettes of the most useful applications of the package.</p>
+<p>We have numerous options in relation to displaying the dissimilarity matrices. We’ll explore non-metric multiple dimensional scaling, abbreviated to NMDS, nMDS, nmMDS, or just MDS.</p>
+<p>As you might suspect, there are R functions which combine the three steps, though often it is preferable to separate them. The <code><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html">metaMDS()</a></code> function calculates a dissimilarity matrix (as we did above) and produces an R object with all the information needed for plotting. It expects that samples are in rows and species (features) are in columns. We can also specify the distance metric, the number of axes to project to, whether to autotransform the data, and many other options. See <code><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html">?metaMDS</a></code> for the default values and other available arguments.</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ord_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html">metaMDS</a></span><span class="op">(</span><span class="va">worm_df</span>, distance <span class="op">=</span> <span class="st">"bray"</span>, k <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                   autotransform <span class="op">=</span> <span class="cn">FALSE</span>, trace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in metaMDS(worm_df, distance = "bray", k = 2, autotransform = FALSE, :
+stress is (nearly) zero: you may have insufficient data</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in postMDS(out$points, dis, plot = max(0, plot - 1), ...): skipping
+half-change scaling: too few points below threshold</code></pre>
+</div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://vegandevs.github.io/vegan/reference/ordiplot.html">ordiplot</a></span><span class="op">(</span><span class="va">ord_raw</span>, choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, display <span class="op">=</span> <span class="st">"sites"</span>, </span>
+<span>         type <span class="op">=</span> <span class="st">"text"</span>, main <span class="op">=</span> <span class="st">"NMDS: raw data, Bray-Curtis"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-worm_1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-worm_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P6_machine_learning_files/figure-html/fig-worm_1-1.png" class="img-fluid figure-img" width="384">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-worm_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: Simple pattern in example worm data.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>Note that <code><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html">metaMDS()</a></code> involves some randomization, and your plot will change each time you run the code. For fully reproducible code, use <code><a href="https://rdrr.io/r/base/Random.html">set.seed()</a></code>.</p>
+<p>Compare this with the 4<sup>th</sup>-root transformed data using the same distance metric.</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ord_4rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html">metaMDS</a></span><span class="op">(</span><span class="va">worm_df_4rt</span>, distance <span class="op">=</span> <span class="st">"bray"</span>, k <span class="op">=</span> <span class="fl">2</span>, </span>
+<span>                   autotransform <span class="op">=</span> <span class="cn">FALSE</span>, trace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in metaMDS(worm_df_4rt, distance = "bray", k = 2, autotransform =
+FALSE, : stress is (nearly) zero: you may have insufficient data</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in postMDS(out$points, dis, plot = max(0, plot - 1), ...): skipping
+half-change scaling: too few points below threshold</code></pre>
+</div>
+</div>
+<div id="Q.-6.2" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.2</strong></summary><div>
+<p>Plot <code>ord_4rt</code>. How has the 4th root changed your data interpretation?*</p>
+</div></details>
+</div>
+<div id="Q.-6.3" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.3</strong></summary><div>
+<p>Interpret the ordinations, cross referencing to the raw and transformed data. Are the patterns that you see in the data apparent on the ordination?</p>
+</div></details>
+</div>
+<p>You can include on your plot the species ‘locations’ (as determined by their correlation with the axes). This shows where the main associations are occurring.</p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># you can also plot the 'species' on the ordination</span></span>
+<span><span class="fu"><a href="https://vegandevs.github.io/vegan/reference/ordiplot.html">ordiplot</a></span><span class="op">(</span><span class="va">ord_4rt</span>, choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sites"</span>, <span class="st">"species"</span><span class="op">)</span>, </span>
+<span>         type <span class="op">=</span> <span class="st">"text"</span>, main <span class="op">=</span> <span class="st">"NMDS, 4th-rt trans., Bray-Curtis"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-worm_2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-worm_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P6_machine_learning_files/figure-html/fig-worm_2-1.png" class="img-fluid figure-img" width="384">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-worm_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: Species superimposed onto ordination, indicating species-site associations.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div id="Q.-6.4" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.4</strong></summary><div>
+<p>Re-plot the untransformed data, but this time include the species. How has the transformation changed your interpretation of the data?</p>
+</div></details>
+</div>
+<p>Let’s have a look at another simulated dataset.</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">comm_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Dunst"</span>, <span class="st">"Creran"</span>, <span class="st">"Lismore"</span>, <span class="st">"Charl"</span><span class="op">)</span>,</span>
+<span>  SpA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span>,</span>
+<span>  SpB <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">11</span>, <span class="fl">22</span>, <span class="fl">50</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  SpC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fl">40</span>, <span class="fl">30</span>, <span class="fl">20</span><span class="op">)</span>,</span>
+<span>  SpD <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">25</span>, <span class="fl">35</span>, <span class="fl">50</span><span class="op">)</span>,</span>
+<span>  SpE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  SpF <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">250</span>, <span class="fl">1</span>, <span class="fl">9</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">comm_df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        SpA SpB SpC SpD SpE SpF
+Dunst     1  11 500  10   4  40
+Creran   20  22  40  25   3 250
+Lismore  30  50  30  35   2   1
+Charl    40   1  20  50   1   9</code></pre>
+</div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ord_comm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html">metaMDS</a></span><span class="op">(</span><span class="va">comm_df</span>, distance <span class="op">=</span> <span class="st">"bray"</span>, k <span class="op">=</span> <span class="fl">2</span>, </span>
+<span>                    autotransform <span class="op">=</span> <span class="cn">FALSE</span>, trace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in metaMDS(comm_df, distance = "bray", k = 2, autotransform = FALSE, :
+stress is (nearly) zero: you may have insufficient data</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in postMDS(out$points, dis, plot = max(0, plot - 1), ...): skipping
+half-change scaling: too few points below threshold</code></pre>
+</div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://vegandevs.github.io/vegan/reference/ordiplot.html">ordiplot</a></span><span class="op">(</span><span class="va">ord_comm</span>, choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>         display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sites"</span>, <span class="st">"species"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-comm_ord" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-comm_ord-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P6_machine_learning_files/figure-html/fig-comm_ord-1.png" class="img-fluid figure-img" width="384">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comm_ord-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.3: Ordination for a simulated dataset showing sites and species.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div id="Q.-6.5" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.5</strong></summary><div>
+<p>Have a look at these raw data. What are the main trends? Which sites are more similar?</p>
+</div></details>
+</div>
+<p>These data are still much simpler than most ‘real’ data sets but it is still difficult to summarise the similarities and differences between stations. However, multivariate analyses help you in this process.</p>
+<div id="Q.-6.6" class="Q.">
+<p></p><details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.6</strong></summary><div>Now fourth-root transform these data, generate the new dissimilarity matrix and plot it.
+</div></details><p></p>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">comm_4rt_df</span> <span class="op">&lt;-</span> <span class="va">comm_df</span><span class="op">^</span><span class="fl">0.25</span></span>
+<span><span class="va">ord_comm_4rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html">metaMDS</a></span><span class="op">(</span><span class="va">comm_4rt_df</span>, distance <span class="op">=</span> <span class="st">"bray"</span>, k <span class="op">=</span> <span class="fl">2</span>, </span>
+<span>                        autotransform <span class="op">=</span> <span class="cn">FALSE</span>, trace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stderr">
+<pre><code>Warning in metaMDS(comm_4rt_df, distance = "bray", k = 2, autotransform =
+FALSE, : stress is (nearly) zero: you may have insufficient data</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in postMDS(out$points, dis, plot = max(0, plot - 1), ...): skipping
+half-change scaling: too few points below threshold</code></pre>
+</div>
+<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://vegandevs.github.io/vegan/reference/ordiplot.html">ordiplot</a></span><span class="op">(</span><span class="va">ord_comm_4rt</span>, choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>         display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sites"</span>, <span class="st">"species"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div id="fig-comm_ord_4rt" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-comm_ord_4rt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P6_machine_learning_files/figure-html/fig-comm_ord_4rt-1.png" class="img-fluid figure-img" width="528">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comm_ord_4rt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.4: Ordination for the 4th root transformed data.
+</figcaption></figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="Q.-6.7" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.7</strong></summary><div>
+<p>What has the transformation done to your interpretation of differences between the Sites and Site x Species associations?</p>
+</div></details>
+</div>
+<hr></section></section><section id="diversity-indices" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="diversity-indices">
+<span class="header-section-number">6.3</span> Diversity indices</h2>
+<p>Prior to the development of the multivariate techniques you’ll be using today, univariate indices were derived from multivariate data. A classic example of such a univariate measure in ecology is the Shannon-Wiener diversity index (a.k.a., Shannon’s H). This index balances the <em>number</em> of species in a sample and the <em>relative abundance</em> of each species (where ‘species’ can once again be any sort of feature). Univariate measures of ‘evenness’ can also be derived from multivariate data and, when reporting species data, you may also wish to include species richness, which is just the number of species present regardless of their abundances.</p>
+<p>We can use the <code>comm_df</code> dataset we invented to explore some diversity concepts.</p>
+<div id="Q.-6.8" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.8</strong></summary><div>
+<p>Looking at the <code>comm_df</code> data (by eye) and given the description above, which of the sites is associated with the lowest and highest diversity?</p>
+</div></details>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">shannon_H</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://vegandevs.github.io/vegan/reference/diversity.html">diversity</a></span><span class="op">(</span><span class="va">comm_df</span>, <span class="st">"shannon"</span>, base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="va">richness</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://vegandevs.github.io/vegan/reference/diversity.html">specnumber</a></span><span class="op">(</span><span class="va">comm_df</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="va">shannon_H</span>, main <span class="op">=</span> <span class="cn">NULL</span>, ylab <span class="op">=</span> <span class="st">"Shannon's H"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-H_examp" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-H_examp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P6_machine_learning_files/figure-html/fig-H_examp-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-H_examp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.5: Shannon diversity
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>Try plotting <code>richness</code>.</p>
+<div id="Q.-6.9" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.9</strong></summary><div>
+<p>Do the plots correspond to what you expected?</p>
+</div></details>
+</div>
+<div id="Q.-6.10" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.10</strong></summary><div>
+<p>What does <code><a href="https://vegandevs.github.io/vegan/reference/diversity.html">specnumber()</a></code> do?</p>
+</div></details>
+</div>
+<div id="Q.-6.11" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.11</strong></summary><div>
+<p>How could you ‘counter’ any extremes (as in superabundant taxa) in the raw count data that you’ve generated? Try your idea.</p>
+</div></details>
+</div>
+<div id="Q.-6.12" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.12</strong></summary><div>
+<p>Which description (diversity or richness) is ‘best’ for describing your multivariate data? How does this compare to NMDS?</p>
+</div></details>
+</div>
+</section><section id="nmds-on-real-data" class="level2" data-number="6.4"><h2 data-number="6.4" class="anchored" data-anchor-id="nmds-on-real-data">
+<span class="header-section-number">6.4</span> NMDS on real data</h2>
+<p>Using simulated (or at least simple) data to learn new statistical techniques is usually the best approach because it gives you the opportunity to get a better sense for how the algorithms work (and to be sure your code is free from bugs!). Now we will progress to real observations.</p>
+<p>Have a look at the <code>varespec</code> and <code>varechem</code> datasets included in the <em>vegan</em> package. I’ve reproduced the examples below:</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">varespec</span><span class="op">)</span> <span class="co"># ?varespec -- percent cover of 44 spp in lichen pastures </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">varechem</span><span class="op">)</span> <span class="co"># ?varechem -- associated soil characteristics</span></span>
+<span><span class="va">ord_vare</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html">metaMDS</a></span><span class="op">(</span><span class="va">varespec</span><span class="op">^</span><span class="fl">0.25</span>, distance <span class="op">=</span> <span class="st">"bray"</span>, </span>
+<span>                   trace <span class="op">=</span> <span class="cn">FALSE</span>, autotransform <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://vegandevs.github.io/vegan/reference/ordiplot.html">ordiplot</a></span><span class="op">(</span><span class="va">ord_vare</span>, choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, display <span class="op">=</span> <span class="st">"sites"</span>, type <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://vegandevs.github.io/vegan/reference/ordiplot.html">ordiplot</a></span><span class="op">(</span><span class="va">ord_vare</span>, choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, display <span class="op">=</span> <span class="st">"species"</span>, type <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://vegandevs.github.io/vegan/reference/ordiplot.html">ordiplot</a></span><span class="op">(</span><span class="va">ord_vare</span>, choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sites"</span>, <span class="st">"species"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span>
+<span><span class="co"># You can superimpose environmental variables onto NMDS-ordinations.</span></span>
+<span><span class="va">ef</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://vegandevs.github.io/vegan/reference/envfit.html">envfit</a></span><span class="op">(</span><span class="va">ord_vare</span>, <span class="va">varechem</span><span class="op">)</span> <span class="co">#</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ef</span>, p.max <span class="op">=</span> <span class="fl">0.1</span>, col <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span> <span class="co"># overlay environmental variables</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ef</span>, p.max <span class="op">=</span> <span class="fl">0.01</span>, col <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="co"># subset based on p</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-vare_ord" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-vare_ord-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P6_machine_learning_files/figure-html/fig-vare_ord-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vare_ord-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.6: vare- data from vegan showing sites only, species only, and both plus environmental overlays.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>See how the multivariate analysis has taken all those data, both species and environmental, and ‘communicated’ them in one single figure? You can see numerous relationships (both positive and negative) in this figure, and species-site-environment associations. It also illustrates a potential challenge with multivariate ordinations. It quickly gets cluttered and overloaded. There is no easy way around this, though there is further help in these packages.</p>
+<p>You are in charge of the analysis. You can change the emphasis and elements of the message depending on your data transformation, dissimilarity metric, and ordination technique. There is no absolutely ‘correct’ way to go about multivariate stats, so different statisticians will have their favoured approaches and methods.</p>
+<p>Note: Some functions (e.g.&nbsp;<code><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html">metaMDS()</a></code>) default to autotransform your data if the function thinks it is necessary. This can be useful but, in scientific reports, you must specify what transformations you used. Here you don’t know what the function applies as it depends on the data, but it could be any of several or a combination. My advice is only to use transformations that you specify.</p>
+<hr></section><section id="principal-components-analysis-pca" class="level2" data-number="6.5"><h2 data-number="6.5" class="anchored" data-anchor-id="principal-components-analysis-pca">
+<span class="header-section-number">6.5</span> Principal components analysis (PCA)</h2>
+<p>PCA is a long-established multivariate technique that is often applied to ‘environmental’ data rather than ‘count’ data. Environmental data is, usually, quite different from species count data in that most environmental parameters (e.g.&nbsp;metal concentrations) are present, at least to some degree. This contrasts to species data where many species are often absent (zeros). These zero counts would lead to problems if analysed using PCA, since PCA would consider sites with many shared absences to be more similar, which is often not desirable.</p>
+<p>In PCA, it is important that all variables are of a roughly similar magnitude. Environmental data might include all manner of different variables on different scales (e.g., radiant flux in lumens, temperature in C, nutrient/contaminant concentrations in mg/l, coordinates in easting/northing). If used in their raw form, the variables with larger values would have a greater influence on the outcome of the PCA.</p>
+<p>Instead, we want all of our variables to be treated ‘equally’. You can do all this by setting <code>pcomp(..., scale=TRUE)</code>. Scaling means that each measurement is expressed in units of standard deviation (a Z-score!!). Usually it is desirable to center the data as well by subtracting the mean. Centering and scaling means that each of the environmental variables is of ‘equal importance’ regardless of the magnitude of the raw values.</p>
+<p>A basic, and very friendly, introduction to PCA is given in Chapter 4 of Clarke et al.&nbsp;(2014).</p>
+<p>The data set we’ll use is from SAMS Professor Tom Wilding’s PhD thesis. He set up an experiment to examine the relative leaching of trace metals from concrete, granite, and a control (artificial seawater). Concrete contains cement which is enriched in vanadium and molybdenum, and these elements could leach out in dangerous amounts. Granite, the main constituent of this concrete, might also leach some trace elements. He suspended concrete and granite powder in artificial water, constantly agitated it, and measured the leachate concentrations over 100 days <a href="https://doi.org/10.1006/jmsc.2002.1267">Wilding and Sayer 2002</a>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">leach_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/H2DS_practicalData.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Leaching"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Treat_abbr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Treat</span>, <span class="co"># abbreviate for cleaner plotting</span></span>
+<span>                             levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"concrete"</span>, <span class="st">"control"</span>, <span class="st">"granite"</span><span class="op">)</span>,</span>
+<span>                             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"conc"</span>, <span class="st">"ctrl"</span>, <span class="st">"gran"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>         Treat_day <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">Treat_abbr</span>, <span class="va">Day</span>, sep<span class="op">=</span><span class="st">"_"</span><span class="op">)</span>, <span class="co"># treat + days in exprmnt</span></span>
+<span>         Conc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="va">Conc</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Treat</span>, <span class="va">Treat_day</span>, <span class="va">Element</span>, <span class="va">Conc</span><span class="op">)</span> <span class="co"># remove columns that aren't of use,</span></span>
+<span><span class="co">#summary(leach_df)</span></span>
+<span></span>
+<span><span class="co"># not dominated by zeros; try other values (e.g. &lt;10)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">leach_df</span><span class="op">$</span><span class="va">Conc</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+FALSE  TRUE 
+  143     4 </code></pre>
+</div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">leach_df</span><span class="op">$</span><span class="va">Conc</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># recall that R treats T/F as 1/0 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02721088</code></pre>
+</div>
+</div>
+<div id="Q.-6.13" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.13</strong></summary><div>
+<p>Do some exploratory analysis of this dataset. How are the concentrations distributed? Do similar treatments show qualitatively similar distributions? Elements?</p>
+</div></details>
+</div>
+<p>Next, we need to re-organise the data into a wider format so that each element is a column and each row is a sample.</p>
+<div class="cell">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">leach_df_wide</span> <span class="op">&lt;-</span> <span class="va">leach_df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from<span class="op">=</span><span class="st">"Element"</span>, values_from<span class="op">=</span><span class="st">"Conc"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The column <code>Treat_day</code> is coded as <code>trt_day</code>, where <code>trt</code> is the 4 letter code indicating treatment type and <code>day</code> is the number of days elapsed in the experiment (one of 1, 4, 7, 17, 32, 50 or 100). So <code>gran_32</code> means the granite treatment sampled at day 32.</p>
+<p>We can calculate the principal components using <code><a href="https://rdrr.io/r/stats/prcomp.html">prcomp()</a></code>, subsetting the dataframe to give only the columns with element concentrations (i.e., removing <code>Treat</code> and <code>Treat_day</code>, which are the first two columns). We’ll also set the arguments for centering and scaling to <code>TRUE</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">PCA_leach</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span><span class="va">leach_df_wide</span><span class="op">[</span>, <span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/screeplot.html">screeplot</a></span><span class="op">(</span><span class="va">PCA_leach</span>, main <span class="op">=</span> <span class="cn">NULL</span>, ylab <span class="op">=</span> <span class="st">"Relative variation explained"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-leach_scree" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-leach_scree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P6_machine_learning_files/figure-html/fig-leach_scree-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-leach_scree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.7: Scree plot showing the variance explained by each principal component.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># take a look at PCA_leach</span></span>
+<span><span class="va">PCA_leach</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">PCA_leach</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can see from the scree plot that the amount of variance explained declines with principal component as expected, and that there is very little variation left after 3 principal components. That is, nearly all of the variation in the dataset is captured by PC1, PC2, and PC3. In this case, PCA has essentially solved the ‘curse of dimensionality’ by successfully reducing 7D data to about 3D.</p>
+<p>Data transformations are critical to PCA analysis, as they are with NMDS. In most PCAs the data are standardized so that each column is on the same scale.</p>
+<p>We can plot our results using <code><a href="https://rdrr.io/r/stats/biplot.html">biplot()</a></code> which has some helpful defaults including labels for the samples (<code>Treat_day</code>) and the correlation strength of each element with PC1 and PC2:</p>
+<div class="cell">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/biplot.html">biplot</a></span><span class="op">(</span><span class="va">PCA_leach</span>, xlabs <span class="op">=</span> <span class="va">leach_df_wide</span><span class="op">$</span><span class="va">Treat_day</span>, cex <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-leach_biplot1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-leach_biplot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P6_machine_learning_files/figure-html/fig-leach_biplot1-1.png" class="img-fluid figure-img" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-leach_biplot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.8: PCA of the complete dataset, illustrating the common challenge of overplotting.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>To plot more than 2 dimensions you could use a static 3D plot, but these are often difficult to interpret since it is reduced <em>back</em> to 2D on a page. Another option is to use colour for the 3<sup>rd</sup> axis, or, for digital distribution, a package like <em>plotly</em> can produce an interactive 3D plot.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Remove the if statement!</span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/output_type.html">pandoc_to</a></span><span class="op">(</span><span class="op">)</span> <span class="op">==</span> <span class="st">"html"</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span><span class="va">arrow_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>element<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">PCA_leach</span><span class="op">$</span><span class="va">rotation</span><span class="op">)</span>,</span>
+<span>                   PC1<span class="op">=</span><span class="va">PCA_leach</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">*</span><span class="fl">6</span>,</span>
+<span>                   PC2<span class="op">=</span><span class="va">PCA_leach</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">*</span><span class="fl">6</span>,</span>
+<span>                   PC3<span class="op">=</span><span class="va">PCA_leach</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>,<span class="fl">3</span><span class="op">]</span><span class="op">*</span><span class="fl">6</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">PCA_leach</span><span class="op">$</span><span class="va">x</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Treat_day <span class="op">=</span> <span class="va">leach_df_wide</span><span class="op">$</span><span class="va">Treat_day</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate_wider_delim.html">separate_wider_delim</a></span><span class="op">(</span><span class="va">Treat_day</span>, delim<span class="op">=</span><span class="st">"_"</span>, names<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Treatment"</span>, <span class="st">"Days"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Days<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">Days</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/plot_ly.html">plot_ly</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"scatter3d"</span>, x<span class="op">=</span><span class="op">~</span><span class="va">PC1</span>, y<span class="op">=</span><span class="op">~</span><span class="va">PC2</span>, z<span class="op">=</span><span class="op">~</span><span class="va">PC3</span>, symbol<span class="op">=</span><span class="op">~</span><span class="va">Treatment</span>, color<span class="op">=</span><span class="op">~</span><span class="va">Days</span>, mode<span class="op">=</span><span class="st">"markers"</span>,</span>
+<span>            symbols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"circle-open"</span>, <span class="st">"diamond-open"</span>, <span class="st">"cross"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/add_trace.html">add_text</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">arrow_df</span>, x<span class="op">=</span><span class="op">~</span><span class="va">PC1</span>, y<span class="op">=</span><span class="op">~</span><span class="va">PC2</span>, z<span class="op">=</span><span class="op">~</span><span class="va">PC3</span>, text<span class="op">=</span><span class="op">~</span><span class="va">element</span>, color<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="st">"black"</span><span class="op">)</span>, symbol<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div id="fig-leach_biplot1_plotly" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-leach_biplot1_plotly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-45f1d170d4e0026be0d0" style="width:100%;height:568px;"></div>
+<script type="application/json" data-for="htmlwidget-45f1d170d4e0026be0d0">{"x":{"visdat":{"d643fb563d3":["function () ","plotlyVisDat"],"d64233b69e6":["function () ","data"]},"cur_data":"d64233b69e6","attrs":{"d643fb563d3":{"x":{},"y":{},"z":{},"mode":"markers","color":{},"symbol":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":["circle-open","diamond-open","cross"],"type":"scatter3d"},"d64233b69e6":{"x":{},"y":{},"z":{},"mode":"text","color":["black"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":["circle-open","diamond-open","cross"],"type":"scatter3d","text":{},"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"PC1"},"yaxis":{"title":"PC2"},"zaxis":{"title":"PC3"}},"hovermode":"closest","showlegend":true,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[-0.53176111112116564,-0.67670396039270531,-0.56277453749905693,-0.67303106134078261,-3.9926810045074257,-3.7723127635818021,-3.2169731758761917],"y":[-0.6210811429821298,-0.76767233349196484,-1.0437933782449524,-0.90672331747612467,-1.4317248899391781,-1.4627407052703301,-1.4693869897071561],"z":[1.6645229141960625,1.0584872301945247,0.68163947288244853,0.52602586764922754,-0.4918499369282921,-1.228341697615291,0.27294016502807933],"mode":"markers","type":"scatter3d","name":"conc","marker":{"colorbar":{"title":"Days","ticklen":2},"cmin":1,"cmax":100,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[1,4,8,17,32,50,100],"symbol":"circle-open","line":{"colorbar":{"title":"","ticklen":2},"cmin":1,"cmax":100,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[1,4,8,17,32,50,100]}},"frame":null},{"x":[2.2394653760498007,2.2690808992219726,2.1982618190015777,2.1664017651534015,1.6463278080657802,1.4478175334669396,1.6771894309548137],"y":[-0.51940017183344167,-0.52461701610441291,-0.53259603835938607,-0.37683020997217997,-0.57297670056435102,-0.59413468795826163,-0.58669928454241305],"z":[-0.17696307066066566,-0.18424807037537155,-0.26381704601444922,-0.32396594854164007,-1.0258690877315957,-1.3760800725944393,-0.6416366775247303],"mode":"markers","type":"scatter3d","name":"ctrl","marker":{"colorbar":{"title":"Days","ticklen":2},"cmin":1,"cmax":100,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[1,4,8,17,32,50,100],"symbol":"diamond-open","line":{"colorbar":{"title":"","ticklen":2},"cmin":1,"cmax":100,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[1,4,8,17,32,50,100]}},"frame":null},{"x":[0.83945512958864588,1.0958387200508031,1.0525723195185128,0.92978552605881126,-1.0954440962390781,-1.5892251997475095,-1.4512894168253414],"y":[0.36955446623588845,0.34264093278144853,0.51430972132745179,0.92112617243575956,2.4923363312885085,2.9576417687776608,3.8127674735995649],"z":[0.90202225110305789,0.66181718407346102,0.43410167290989349,0.3125986467400535,-0.053802011494121171,-0.71929298484292503,-0.028288800453286189],"mode":"markers","type":"scatter3d","name":"gran","marker":{"colorbar":{"title":"Days","ticklen":2},"cmin":1,"cmax":100,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[1,4,8,17,32,50,100],"symbol":"cross","line":{"colorbar":{"title":"","ticklen":2},"cmin":1,"cmax":100,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[1,4,8,17,32,50,100]}},"frame":null},{"x":[-2.2000116714877205,-2.2801285011639294,-0.8752049393057949,-2.579223673551958,-2.769706949342194,-2.9707873076658595,-1.4302903225844126],"y":[1.2537138461198643,-0.26423903006480332,3.9028792011236066,-2.0174440313536302,-1.4652116139497064,-0.47263671482048164,3.5616853189158553],"z":[3.9031081722361556,-4.4232171221477525,-0.57756664620584142,0.47718600970283498,0.19595404580232123,0.39799941964328012,-0.66543642926581292],"mode":"text","type":"scatter3d","text":["Ba","Fe","Mn","Mo","Rb","Sr","U"],"marker":{"color":"rgba(0,0,0,1)","line":{"color":"rgba(0,0,0,1)"}},"textfont":{"color":"rgba(0,0,0,1)"},"error_y":{"color":"rgba(0,0,0,1)"},"error_x":{"color":"rgba(0,0,0,1)"},"line":{"color":"rgba(0,0,0,1)"},"frame":null},{"x":[-3.9926810045074257,2.2690808992219726],"y":[-2.0174440313536302,3.9028792011236066],"type":"scatter3d","mode":"markers","opacity":0,"hoverinfo":"none","showlegend":false,"marker":{"colorbar":{"title":"Days","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"cmin":1,"cmax":100,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"color":[1,100],"line":{"color":"rgba(148,103,189,1)"}},"z":[-4.4232171221477525,3.9031081722361556],"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-leach_biplot1_plotly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.9: PCA of the complete dataset using plotly.
+</figcaption></figure>
+</div>
+</div>
+<p>The ordination plots the relative positions (in terms of similarity) of the samples. If there are numerous label overlaps, this makes the interpretation of the ordination difficult. If you were producing this for publication you would need to sort this out to present the reader with a figure that communicates the message effectively.</p>
+<div id="Q.-6.14" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.14</strong></summary><div>
+<p>Which elements are positively associated with granite and concrete, particularly after longer periods of leaching?</p>
+</div></details>
+</div>
+<p>As is typical, overlapping points make interpretation more difficult. There are elegant solutions to this (in terms of labelling) but for now, we’ll split the data and analyse it separately.</p>
+<p>We’ll need more data wrangling to split it efficiently and we’ll use <code><a href="https://rdrr.io/r/base/grep.html">grepl()</a></code>, which identifies a pattern within a character using a regular expression (a.k.a., regex), returning a <code>TRUE</code> or <code>FALSE</code> for each element in the character vector. Here, we’ll filter the dataframe to only include rows where <code>Treat_day</code> contains <code>conc</code> or <code>gran</code>. Remember the ‘or’ operator <code>|</code>?</p>
+<div class="cell">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#?grepl</span></span>
+<span><span class="co">#cbind(leach_df_wide$Treat_day, grepl("conc|gran", leach_df_wide$Treat_day))</span></span>
+<span><span class="va">leach_df_trts</span> <span class="op">&lt;-</span> <span class="va">leach_df_wide</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"conc|gran"</span>, <span class="va">Treat_day</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">PCA_trts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span><span class="va">leach_df_trts</span><span class="op">[</span>, <span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>, center <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/biplot.html">biplot</a></span><span class="op">(</span><span class="va">PCA_trts</span>, xlabs <span class="op">=</span> <span class="va">leach_df_trts</span><span class="op">$</span><span class="va">Treat_day</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-leach_biplot2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-leach_biplot2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P6_machine_learning_files/figure-html/fig-leach_biplot2-1.png" class="img-fluid figure-img" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-leach_biplot2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.10: PCA of the concrete and granite, illustrating temporal and treatment differences.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div id="Q.-6.15" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 6.15</strong></summary><div>
+<p>Repeat the analysis, but set <code>scale = FALSE</code>. Which element now seems to dominate the analysis? Explain what you see.</p>
+</div></details>
+</div>
+<p>A PCA is normally reported with the proportion of the variation explained by each of the principal components (and/or the cumulative proportion). If the cumulative proportion for the 1st two components is high, then the 2D (PC1 and PC2) ordination is a good representation of the similarities between samples. In that sense a high cumulative proportion is analogous to a low stress for NMDS.</p>
+<p>Let’s have a look at a summary of the principal components.</p>
+<div class="cell">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">PCA_leach_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">PCA_leach</span><span class="op">)</span> </span>
+<span><span class="co">#PCA_leach_summary</span></span>
+<span><span class="co">#str(PCA_leach_summary)</span></span>
+<span><span class="va">PCA_leach_summary</span><span class="op">$</span><span class="va">importance</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="co"># extract only PC1-4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            PC1      PC2       PC3       PC4
+Standard deviation     1.988091 1.450775 0.7782675 0.5599535
+Proportion of Variance 0.564640 0.300680 0.0865300 0.0447900
+Cumulative Proportion  0.564640 0.865320 0.9518500 0.9966400</code></pre>
+</div>
+</div>
+<p>As you can see, PC1, PC2, and PC3 capture more than 95% of the variance in our data. Adding PC4 brings that up above 99%.</p>
+<p>Finally, we can look at factor loadings. This is a measure of how each feature (metal concentration in this case) relates to the principal components. In PCA, the principal components are sequentially ‘less’ influential since they describe increasingly smaller amounts of variation. By centering and standardising the variables, you can assess the relative importance of each in driving the patterns in the ordination. The magnitude is what we’re interested in rather than the sign.</p>
+<p>In an object created by <code><a href="https://rdrr.io/r/stats/prcomp.html">prcomp()</a></code>, the loadings are stored as <code>.$rotation</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ?prcomp</span></span>
+<span><span class="co"># str(PCA_leach)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="va">PCA_leach</span><span class="op">$</span><span class="va">rotation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span> <span class="co"># factor loadings for PC1-5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      PC1     PC2     PC3    PC4      PC5
+Ba -0.367  0.2090  0.6510 -0.619 -0.00405
+Fe -0.380 -0.0440 -0.7370 -0.553  0.01420
+Mn -0.146  0.6500 -0.0963  0.211  0.67300
+Mo -0.430 -0.3360  0.0795  0.283 -0.09810
+Rb -0.462 -0.2440  0.0327  0.305  0.21600
+Sr -0.495 -0.0788  0.0663  0.168  0.01510
+U  -0.238  0.5940 -0.1110  0.254 -0.70000</code></pre>
+</div>
+</div>
+<p>Here you can see that Sr, Rb, Mo are relatively ‘important’ in driving the multivariate pattern you’ve observed (i.e., high absolute values on PC1) while Mn and U have high values for PC2 (you could say that PC2 accounts for Mn and U).</p>
+<hr></section><section id="conclusions" class="level2" data-number="6.6"><h2 data-number="6.6" class="anchored" data-anchor-id="conclusions">
+<span class="header-section-number">6.6</span> Conclusions</h2>
+<p>Multivariate analyses are extremely useful in a variety of contexts. The form of analysis is often more qualitative and less inferential compared to univariate analyses we’ve covered, but this is an active field of research and there are well-developed methods and R packages for more complex analyses (e.g., <a href="https://adeverse.github.io/ade4/"><code>ade4</code></a>.</p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("^(?:http:|https:)\/\/\.sz-tim\.quarto\.pub/custom");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./P5_ANOVA_regression.html" class="pagination-link" aria-label="ANOVA and regression">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">ANOVA and regression</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./P7_appendix.html" class="pagination-link" aria-label="Appendix">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Appendix</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Sz-Tim/H2DS_Practicals/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
