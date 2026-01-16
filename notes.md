@@ -1,8 +1,8 @@
 # Rendering
 
-The project is set up with two profiles: `pub` and `key`. 
+The project is set up with two profiles: `man` and `key`. 
 
-The file `_quarto.yml` controls global options, with the profile-specific options specified in `_quarto-pub.yml` and `_quarto-key.yml`.
+The file `_quarto.yml` controls global options, with the profile-specific options specified in `_quarto-man.yml` and `_quarto-key.yml`.
 
 To render the key, open the terminal and run:
 
@@ -10,7 +10,7 @@ To render the key, open the terminal and run:
 
 To render the version for the students, run:
 
-> quarto render --profile="pub"
+> quarto render --profile="man"
 
 # Publishing
 
@@ -23,7 +23,7 @@ To publish the key, run:
 
 To publish the version for students, run:
 
-> export QUARTO_PROFILE=pub
+> export QUARTO_PROFILE=man
 > quarto publish quarto-pub
 
 

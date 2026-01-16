@@ -39,4 +39,4 @@ execute:
 
 profile:
   group:
-    - [pub, key]
+    - [man, key]

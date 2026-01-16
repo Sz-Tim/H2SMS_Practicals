@@ -5,7 +5,6 @@ book:
   title: "H2 Data Science Practicals KEY"
   chapters:
     - index.qmd
-    - P0_R_setup.qmd
     - P1_R_recap.qmd
     - probSets_P1.qmd
     - P7_appendix.qmd
