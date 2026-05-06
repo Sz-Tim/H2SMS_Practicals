@@ -211,7 +211,7 @@ What is the Bernoulli event?
 
 ::: callout-important
 
-Each offspring: male or female?
+Each offspring: Is it male or female?
 
 :::
 
@@ -344,15 +344,11 @@ p <- 0.5
 
 :::
 
-It is much easier, of course, to do this using R.
+It is much easier, of course, to do this using functions in R.
 
 ### Binomial distributions in R
 
 R can calculate probabilities for specific outcomes from a massive array of theoretical probability distributions. The binomial is just one of them.
-
-::: callout-warning
-CHANGE THIS FOR NEXT YEAR! Very confusing and instead should just demonstrate the best method. Obviously.
-:::
 
 ```{r}
 num_female <- 4 # note that 4 is assigned to the variable called num_female
@@ -367,27 +363,26 @@ p_female <- 0.5
 dbinom(num_female, num_trials, p_female) # dbinom(4, 8, 0.5)
 ```
 
-```{r}
-# formatted output just because:
-paste0("P(", num_female, " female | ", num_trials, " eggs) = ",
-       dbinom(num_female, num_trials, p_female))
-```
-
 The function `dbinom()` gives the probability of a single outcome.
 
 Often we want to know cumulative probabilities instead. This allows us to answer questions like *"What is the probability of obtaining \< 4 females in a brood of 8 eggs?"* Here, \<4 equates to the cumulative probability P(0) + P(1) + P(2) + P(3).
 
-For these calculations, we can use `pbinom(...)` instead of `sum(dbinom(...))`.
+In this case, we can use either `pbinom(...)` or `sum(dbinom(...))` to give the cumulative probability.
 
 ```{r}
-# pbinom gives the cumulative probability
-paste("The cumulative probability is", 
-      max(pbinom(0:num_female - 1, num_trials, p_female)))
+#| results: hold
+
+dbinom(0:3, num_trials, p_female)
+sum(dbinom(0:3, num_trials, p_female))
+```
+
+```{r}
+pbinom(3, num_trials, p_female)
 ```
 
 ::: Q.
 
-Why do we parameterise `pbinom()` with `num_female-1` rather than `num_female`?
+Why do we parameterise `pbinom()` with `3` rather than `4`?
 
 ::: {.content-visible when-profile="key"}
 
@@ -403,13 +398,16 @@ Why do we parameterise `pbinom()` with `num_female-1` rather than `num_female`?
 
 ::: Q.
 
-Would this change if the question was $P( \leq 4)$?
+Update the code to calculate $P( \leq 4)$?
 
 ::: {.content-visible when-profile="key"}
 
 ::: callout-important
 
-Yes.
+```{r}
+pbinom(4, num_trials, p_female)
+```
+
 
 :::
 
@@ -419,13 +417,35 @@ Yes.
 
 ::: Q.
 
-Take `max` out of the above line and run again. You should see 5 cumulative probabilities. Why is the first cumulative probability zero?
+The following code aims to calculate the cumulative probability for each value up to `num_female-1` (i.e., P(<1), P(<2), P(<3), and P(<4)) using `pbinom()`. 
+
+```{r}
+pbinom(0:num_female-1, num_trials, p_female)
+```
+
+It has a bug.
+
+Identify the issue and correct it. Why was the first cumulative probability zero?
 
 ::: {.content-visible when-profile="key"}
 
 ::: callout-important
 
-The first value has a probability of zero. This should be confusing, because there is an intentional bug in the code: missing `()`.
+Because of R's order of operations, brackets are needed to first calculate `num_female-1`. 
+
+When debugging, it is often useful to highlight *parts* of the code and run them. For example, if you highlight the first argument and run it, the issue is clear:
+
+```{r}
+0:num_female-1
+```
+
+R is creating a vector `0:num_female` and then subtracting `1` from each element. It is not possible to have `-1` females, and so R (correctly) tells you that the probability is 0.
+
+The correct code is:
+
+```{r}
+pbinom(0:(num_female-1), num_trials, p_female)
+```
 
 :::
 
@@ -433,7 +453,6 @@ The first value has a probability of zero. This should be confusing, because the
 
 :::
 
-Note that R has vectorized the calculation, returning the probability for each value in vector from `0:num_female - 1`.
 
 ::: Q.
 
@@ -453,28 +472,6 @@ sum(dbinom(0:3, 8, 0.5))
 
 :::
 
-The above code has a bug in it. You can check what R is doing by running parts of the code:
-
-```{r}
-0:num_female - 1 # Oops! Is this what you expected?
-0:(num_female - 1) # this is actually what we want.
-```
-
-::: Q.
-
-Correct the code above. Why did this bug have no effect?
-
-::: {.content-visible when-profile="key"}
-
-::: callout-important
-
-Using `max()` took the maximum value from the vector, which corresponded to `x=3`.
-
-:::
-
-:::
-
-:::
 
 ::: Q.
 
@@ -495,6 +492,7 @@ dbinom(3, 8, 0.5)
 :::
 
 ::: Q.
+
 What is the probability of getting 8 females?
 
 ::: {.content-visible when-profile="key"}
@@ -634,7 +632,7 @@ barplot(prFemale_df$cumul_prob, names=prFemale_df$num_female,
 
 Try re-plotting so that the two panels appear side by side (hint: `par(mfrow=c(...))`).
 
-Note $P(y_i=x)$ is read as 'the probability that a random observation y sub i equals x'. Sometimes this includes conditions: $P(y_i=x|n,p)$, which is read as the probability that $y_i$ equals $x$ given $n$ and $p$. You may see $P()$, $Pr()$, $p()$, or $Prob()$, which all mean the same thing.
+Note $P(y_i=x)$ is read as 'the probability that y sub i equals x'. Sometimes this includes conditions: $P(y_i=x|n,p)$, which is read as the probability that $y_i$ equals $x$ given $n$ and $p$. You may see $P()$, $Pr()$, $p()$, or $Prob()$, which all mean the same thing.
 
 The interpretation of $P(y_i=8\ |\ n=8,\ p=0.5) = 0.00391$ is that the probability of 8 female offspring in a clutch of 8 eggs where each egg has 50% probability of being female is 0.00391.
 
@@ -749,6 +747,21 @@ calc_poisson_prob <- function(x, y_bar) {
 ```
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Hint 1"
+
+# In R, e^2 = exp(2)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Hint 2"
+
+# In R, 3! = factorial(3)
+```
+
+
+```{r}
 #| echo: false
 
 calc_poisson_prob <- function(x, y_bar) {
@@ -820,7 +833,7 @@ What calculation would you need to conduct to determine $P(y_i \geq 1)$? What is
 
 ::: callout-important
 
-The upper limit is positive infinite, so to fully calculate the probability, use $1 - P(y_i < 1)$
+The upper limit is positive infinity, so to fully calculate the probability, use $1 - P(y_i < 1)$
 
 :::
 

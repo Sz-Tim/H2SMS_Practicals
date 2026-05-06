@@ -13,11 +13,11 @@ library(tidyverse)
 library(readxl)
 ```
 
-## R Basics
+## Normal distribution
 
-### Data types
+### Scenario 1: Using `*norm()`
 
-Create a vector called `site_num` with the values 1 through 10.
+
 
 ```{r}
 
@@ -26,10 +26,20 @@ Create a vector called `site_num` with the values 1 through 10.
 ::: callout-important
 ```{r}
 #| code-fold: true
-#| code-summary: "Three methods which create identical vectors"
+#| code-summary: "Solution"
 
-site_num <- 1:10
-site_num <- seq(1, 10, by=1)
-site_num <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
 ```
 :::
+
+
+### Scenario 2: Transformations
+
+
+
+## Standard error of the mean
+
+Calculations with populations vs. samples.
+
+
+

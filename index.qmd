@@ -4,10 +4,12 @@
 
 ## Practical sessions
 
-In these practicals, you will apply concepts you learn throughout the H2 Data Science course. The questions throughout are useful for learning and revision, while producing appropriate graphics and correctly describing results are essential parts of the scientific process. Expertise in these core skills is essential to do well in future courses and scientific projects. H2 Data Science is truly one of the most important courses you'll take!
+In these practicals, you will apply concepts you learn throughout the H2 Statistics for Marine Science module. The questions throughout are useful for learning and revision, while producing appropriate graphics and correctly describing results are essential parts of the scientific process. Expertise in these core skills is essential to do well in future courses and scientific projects. H2 Statistics for Marine Science is truly one of the most important courses you'll take!
 
 You will use datasets provided on Brightspace, datasets included in R, and datasets you simulate yourself.
 
 Please read through the practical before the class. Each session is scheduled for 3.5h with a recommended break in the middle. You will work through a series of coding exercises and questions which are not assessed or marked, but may appear in the assessments. You should complete all the material in each practical.
 
-The practicals are provided [online](https://sz-tim.quarto.pub/h2ds-practicals/) and as a pdf on Brightspace. The web version has additional features that are not possible with pdfs and is the recommended interface. The underlying files (lightly edited) are available on Brightspace.
+Each week, you are asked to complete a short problem set available on Brightspace and submit a rendered .html. Solutions will be posted the following week.
+
+The practicals are provided [online](https://sz-tim.quarto.pub/h2sms-practicals/) and as a pdf on Brightspace. The web version has additional features that are not possible with pdfs and is the recommended interface. 

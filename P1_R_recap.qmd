@@ -672,7 +672,7 @@ The choice of central tendency metric depends on the nature of the data and obje
 
 ```{r}
 # this will load the 'Scallop %fat' data sheet from the xlsx spreadsheet.
-scallop_df <- read_excel("data/H2DS_practicalData.xlsx", sheet="Scallop %fat")
+scallop_df <- read_excel("data/H2SMS_practicalData.xlsx", sheet="Scallop %fat")
 str(scallop_df)
 # avoid spaces and symbols in column names. It's a pain.
 names(scallop_df) <- "fat_pct"
@@ -939,7 +939,7 @@ Median and IQR are most robust to entry-related errors.
 Let's load a dataset that gives the length of hake across three years of sampling.
 
 ```{r}
-hake_df <- read_excel("data/H2DS_practicalData.xlsx", sheet="Hake")
+hake_df <- read_excel("data/H2SMS_practicalData.xlsx", sheet="Hake")
 str(hake_df) # once again, column names made for excel rather than R
 ```
 
@@ -969,7 +969,8 @@ Select an appropriate graphical method and display these data.
 
 ```{r}
 par(mfrow=c(1,2))
-plot(hake_df$Year, hake_df$`Hake length (mm)`)
+# Bonus: use col=rgb() to make points partly transparent
+plot(hake_df$Year, hake_df$`Hake length (mm)`, col=rgb(0,0,0,0.25))
 boxplot(`Hake length (mm)` ~ Year, data=hake_df)
 ```
 
@@ -1024,7 +1025,7 @@ hake_df |>
 The following 'settling velocity' data relates to the settling velocity of salmon faecal material. Shona Magill generated these data.
 
 ```{r}
-fishPoo_df <- read_excel("data/H2DS_practicalData.xlsx", sheet="Settling velocity")
+fishPoo_df <- read_excel("data/H2SMS_practicalData.xlsx", sheet="Settling velocity")
 str(fishPoo_df)
 ```
 

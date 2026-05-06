@@ -23,15 +23,15 @@ We will create an R Project for the semester. During each practical, you should 
 1.  Sign into OneDrive, then open RStudio
 2.  Select *File \> New Project...*
 3.  Choose *New Directory \> New Project*
-4.  Set the *Directory name* as **H2_DataScience** and use the *Browse* button by *Create project as a subdirectory of:* to set a convenient location in your OneDrive folder. Click 'Create Project'.
+4.  Set the *Directory name* as **H2_SMS** and use the *Browse* button by *Create project as a subdirectory of:* to set a convenient location in your OneDrive folder. Click 'Create Project'.
 5.  In the *Files* panel in RStudio, click the *New Folder* button and create a folder called **data**.
-6.  On Brightspace, download H2DS_practicalData.xlsx in *Practicals* and move it into your newly created **data** folder.
+6.  On Brightspace, download H2SMS_practicalData.xlsx in *Practicals* and move it into your newly created **data** folder.
 7.  On Brightspace, download the files in *Practicals \> Weekly qmd* and move them into the **H2_DataScience** folder.
 8.  Close RStudio (to learn how to open appropriately)
 
 ![Setting up a new RStudio project.](figs/RStudio_newProject.png){#fig-RStudioNewProject}
 
-![H2_DataScience directory structure.](figs/RStudio_projectFiles.png){#fig-RStudioDirectoryStructure}
+![H2_SMS directory structure.](figs/RStudio_projectFiles.png){#fig-RStudioDirectoryStructure}
 
 The code in the practicals assumes this organization. If you choose to put your data files elsewhere, you will need to update the scripts accordingly. You're now prepared and organized for a semester in R!
 
@@ -40,13 +40,13 @@ The code in the practicals assumes this organization. If you choose to put your 
 When using a project, you should open R via the .proj file – *not* the script you plan to work on.
 
 ::: callout-caution
-I repeat: **Open H2_DataScience.Rproj** instead of the .R or .qmd file you plan to work on!
+I repeat: **Open H2_SMS.Rproj** instead of the .R or .qmd file you plan to work on!
 :::
 
 This is the start-up process you should use for the practicals:
 
-1.  Open Windows Explorer (or Finder on Mac) and find your **H2_DataScience** folder.
-2.  [Double click on **H2_DataScience.Rproj**]{.underline}. This opens your R project with the working directory set to that folder. The working directory is shown at the top of the Console pane, and you can check it with `getwd()`. This is where R is 'situated' when loading or saving files.
+1.  Open Windows Explorer (or Finder on Mac) and find your **H2_SMS** folder.
+2.  [Double click on **H2_SMS.Rproj**]{.underline}. This opens your R project with the working directory set to that folder. The working directory is shown at the top of the Console pane, and you can check it with `getwd()`. This is where R is 'situated' when loading or saving files.
 3.  In the *Files* panel, open the .qmd file for the week (or your .R file if you prefer).
 
 ## RStudio Settings

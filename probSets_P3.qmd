@@ -13,11 +13,13 @@ library(tidyverse)
 library(readxl)
 ```
 
-## R Basics
+## Normal distribution
 
-### Data types
+### Scenario 1: Using `*norm()`
 
-Create a vector called `site_num` with the values 1 through 10.
+For a particular population of brown seaweed, the winter carbon:nitrogen ratio is distributed normally among individuals as $y \sim Norm(\mu=27.6, \sigma=2.5)$. 
+
+What proportion of the population would you expect to have a C:N ratio greater than 30?
 
 ```{r}
 
@@ -26,10 +28,276 @@ Create a vector called `site_num` with the values 1 through 10.
 ::: callout-important
 ```{r}
 #| code-fold: true
-#| code-summary: "Three methods which create identical vectors"
+#| code-summary: "Proportion > 30"
 
-site_num <- 1:10
-site_num <- seq(1, 10, by=1)
-site_num <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+mu <- 27.6
+sigma <- 2.5
+
+1 - pnorm(30, mu, sigma)
 ```
 :::
+
+What is the probability of sampling an individual with a ratio between 23 and 24?
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Pr(23 < y < 24)"
+
+pnorm(24, mu, sigma) - pnorm(23, mu, sigma)
+```
+:::
+
+What ratio would delineate the lowest 30% of the population?
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Lowest 30%"
+
+qnorm(0.3, mu, sigma)
+```
+:::
+
+Generate a random sample of 12 individuals from this population. Calculate the sample mean and sample standard deviation. 
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Collect a random sample"
+
+obs <- rnorm(12, mu, sigma)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Sample mean and sd"
+#| results: "hold"
+
+# Mean:
+mean(obs)
+
+# sd:
+sd(obs)
+```
+
+:::
+
+What is the difference between your sample mean and the true population mean called? Why does it occur and what are two aspects of your sampling design that affect it?
+
+> 
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Definition"
+#| eval: false 
+
+# This is sampling error: the difference between the true population parameter
+# and the statistic calculated from a sample. It is inevitable that a statistic
+# from a sample (e.g., a sample mean) will be different from the parameter for
+# the entire population (e.g., the population mean) because a sample is only
+# a subset of the whole population.
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Sampling impact 1"
+#| eval: false 
+
+# Sampling error is strongly affected by:
+# 1) Sample size: A larger sample will, on average, have smaller sampling error
+#     since differences among individuals 'average out'
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Sampling impact 2"
+#| eval: false 
+
+# Sampling error is strongly affected by:
+# 2) Randomization: A non-random sample introduces bias, making some individuals
+#     more likely to be included. This bias will tend to make sampling error 
+#     biased as well.
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Sampling impact 3"
+#| eval: false 
+
+# Sampling error is strongly affected by:
+# 3) Population variability: A more variable population (larger sigma) means the
+#     observations in a sample are more variable, and so sampling error will
+#     tend to be larger. Standardizing conditions as much as possible can reduce
+#     this source of noise.
+```
+:::
+
+
+Repeat your random sampling 1000 times, calculate a sample mean for each of the 1000 samples, and make a histogram of them. Calculate the mean of these sample means. 
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Hint"
+#| eval: false
+
+# y_bar <- rep(0, 1000)
+# for(i in 1:1000) {
+#   y_bar[i] <- ...
+# }
+```
+
+:::
+
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Repeated sampling"
+
+y_bar <- rep(0, 1000)
+for(i in 1:1000) {
+  y_bar[i] <- mean(rnorm(12, mu, sigma))
+}
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Histogram"
+hist(y_bar, breaks=15); abline(v=mu, col="blue")
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Mean of sample means"
+#| results: "hold"
+signif(mean(y_bar), 3)
+```
+
+How does this mean (and the histogram) compare to the population mean? 
+
+>
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "Comparison sample means vs. mu"
+#| eval: false
+
+# The mean of sample means is very close to mu, and the histogram of sample means
+# is centred on mu. 
+#
+# Note also that the distribution is approximately normal, illustrating the 
+# Central Limit Theorem (since the population is ~Norm).
+# 
+# This relies on a *random* sample. If the sampling is biased (non-random), this
+# pattern can not be relied upon!
+```
+
+:::
+
+
+
+
+### Scenario 2: Transformations
+
+The `swiss` dataset in R gives standardised fertility and socioeconomic indicators for each of the 47 French-speaking provinces of Switzerland in ca. 1888:
+
+```{r}
+str(swiss)
+```
+
+The values are given as percentages ranging from 0-100. Make a histogram for the `Education` column, setting the x-axis limits to the theoretical range of the variable.
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Histogram"
+
+hist(swiss$Education, 
+     xlim=c(0, 100), 
+     main="Education beyond primary school",
+     xlab="Percent of draftees, 1888")
+```
+
+:::
+
+What transformation would be most appropriate for these kinds of data? 
+
+>
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Solution"
+#| eval: false
+
+# Logistic: Data are percentages (easily converted to proportions) and tend to be smaller values near the lower boundary (0%) with a long tail of larger values (right skew).
+
+# A log transformation may also be suitable.
+```
+
+:::
+
+Apply this transformation and make a histogram of the transformed values.
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Transformation and histogram"
+
+hist(boot::logit(swiss$Education/100), 
+     main="Education beyond primary school",
+     xlab="logit(Proportion of draftees), 1888")
+```
+
+:::
+
+What do you notice about the shape of the original and transformed distributions?
+
+>
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Solution"
+#| eval: false
+
+# The transformed distribution looks much more like a normal distribution. 
+```
+
+:::
+
+
+## Standard error of the mean
+
+Calculations with populations vs. samples.
+
+
+

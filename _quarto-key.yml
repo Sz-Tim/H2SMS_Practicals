@@ -2,13 +2,13 @@ project:
   output-dir: _key
 
 book:
-  title: "H2 Data Science Practicals KEY"
+  title: "H2SMS Practicals KEY"
   chapters:
     - index.qmd
     - P1_R_recap.qmd
     - probSets_P1.qmd
     - P7_appendix.qmd
-  site-url: https://sz-tim.quarto.pub/h2ds-practicals-key
+  site-url: https://sz-tim.quarto.pub/h2sms-practicals-key
 
 format:
   html:

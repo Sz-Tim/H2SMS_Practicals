@@ -13,11 +13,13 @@ library(tidyverse)
 library(readxl)
 ```
 
-## R Basics
+## T-tests, ANOVA, and regression
 
-### Data types
+For each scenario, select an appropriate analysis given the dataset. Follow the workflow illustrated in the practical and in the lectures, checking assumptions and applying transformations as needed.
 
-Create a vector called `site_num` with the values 1 through 10.
+### Scenario 1
+
+(ANOVA)
 
 ```{r}
 
@@ -26,10 +28,21 @@ Create a vector called `site_num` with the values 1 through 10.
 ::: callout-important
 ```{r}
 #| code-fold: true
-#| code-summary: "Three methods which create identical vectors"
+#| code-summary: "Solution"
 
-site_num <- 1:10
-site_num <- seq(1, 10, by=1)
-site_num <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
 ```
 :::
+
+
+### Scenario 2
+
+(t-test)
+
+### Scenario 3
+
+(ANOVA with log transformation)
+
+### Scenario 4
+
+(Regression)

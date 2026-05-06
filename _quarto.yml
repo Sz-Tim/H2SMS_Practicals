@@ -2,15 +2,16 @@ project:
   type: book
 
 book:
-  title: "H2 Data Science Practicals"
+  title: "H2SMS Practicals"
   date: "2026-09-07"
   repo-actions: [issue]
-  repo-url: https://github.com/Sz-Tim/H2DS_Practicals
+  repo-url: https://github.com/Sz-Tim/H2SMS_Practicals
   favicon: figs/one_distribution.png
   search: true
 
 format:
   html:
+    fontsize: 11pt
     code-fold: false
     code-block-bg: true
     code-summary: "Code (bonus)"

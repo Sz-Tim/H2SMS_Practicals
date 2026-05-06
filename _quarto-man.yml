@@ -2,7 +2,7 @@ project:
   output-dir: _man
 
 book:
-  title: "H2 Data Science Practicals"
+  title: "H2SMS Practicals"
   chapters:
     - index.qmd
     - P0_R_setup.qmd
@@ -13,7 +13,7 @@ book:
     - P5_ANOVA_regression.qmd
     - P6_machine_learning.qmd
     - P7_appendix.qmd
-  site-url: https://sz-tim.quarto.pub/h2ds-practicals
+  site-url: https://sz-tim.quarto.pub/h2sms-practicals
   downloads: [pdf]
 
 format:

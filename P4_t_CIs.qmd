@@ -111,7 +111,7 @@ One tailed.
 We collect a sample of 20 fish (found in the worksheet ‘Cod lengths’). The sample size is $<$ 30 so we can't assume that the means will be normally distributed under the CLT. We can check the normality assumption by plotting the data using a ‘normality’ plot or ‘QQ-plot’ (@fig-cod_qq).
 
 ```{r}
-cod_df <- read_excel("data/H2DS_practicalData.xlsx", sheet = "Cod lengths")
+cod_df <- read_excel("data/H2SMS_practicalData.xlsx", sheet = "Cod lengths")
 str(cod_df)
 ```
 

@@ -400,7 +400,7 @@ legend("topleft",
        bty="n")
 ```
 
-In my opinion, it is easier to use ggplot as your figures get more involved.
+In my opinion, it is easier to use ggplot as your figures get more complex.
 
 ```{r}
 #| code-fold: true

@@ -13,11 +13,13 @@ library(tidyverse)
 library(readxl)
 ```
 
-## R Basics
+## Binomial distribution
 
-### Data types
+### Scenario 1
 
-Create a vector called `site_num` with the values 1 through 10.
+Alex is interested in how likely their tulip bulbs are to flower in their garden. They buy three identical packages of five bulbs from Tesco and plant them in November. In April, they see that 12 have successfully produced flowers.
+
+What is $k=n$? 
 
 ```{r}
 
@@ -26,10 +28,347 @@ Create a vector called `site_num` with the values 1 through 10.
 ::: callout-important
 ```{r}
 #| code-fold: true
-#| code-summary: "Three methods which create identical vectors"
+#| code-summary: "k=n"
 
-site_num <- 1:10
-site_num <- seq(1, 10, by=1)
-site_num <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+k <- 15
+k
 ```
 :::
+
+What is their best estimate for the probability that a given tulip bulb will flower ($\hat{p}$)?
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "p-hat"
+
+p_hat <- 12/k
+p_hat
+```
+:::
+
+What is the standard error on this sample proportion?
+
+```{r}
+
+```
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Standard error"
+
+sqrt( (p_hat*(1-p_hat))/(k-1) )
+```
+:::
+
+
+### Scenario 2
+
+Mary is interested in the effect of winter storms on the detachment rates of the kelp *Laminaria hyperborea*. She is studying a small population near the beach at Wee Ganavan with $n=22$ individuals forming the canopy. She reads that in similar locations, storms cause an average of 39.4% of canopy plants to dislodge over the winter. 
+
+Using these values, what is the mean expected number of dislodged plants in her population?
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "Mean expected dislodgement"
+
+p <- 0.394
+k <- 22
+p*k
+```
+
+::: 
+
+Make a barplot showing the probability of each possible number dislodged individuals.
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "Bar plot"
+
+barplot(dbinom(0:k, k, p), 
+        names.arg=0:k, 
+        xlab="Number of dislodged individuals",
+        ylab="Probability", 
+        cex.names=0.7) # Changes the size of the 'names' (default = 1)
+```
+
+:::
+
+What is the probability that 9 individuals are dislodged?
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "P(y = 9 | p, k)"
+
+dbinom(9, k, p)
+```
+
+:::
+
+What is the probability that 5 or fewer dislodge ($\le 5$)?
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "P(y <= 5 | p, k)"
+
+sum(dbinom(0:5, k, p)) # pbinom(5, k, p)
+```
+
+:::
+
+How many out of every 10 years would you expect more than half of this population to dislodge (i.e., $> 11$), assuming dislodgement occurs independently among years?
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "P(y > 11 | p, k) * 10 years"
+
+10 * sum(dbinom(12:k, k, p))  # 1 - pbinom(11, k, p)
+```
+
+:::
+
+
+## Poisson distribution
+
+### Scenario 1
+
+The *Dogwhelks* sheet from H2DS_practicalData.xlsx contains the number of dog whelks (*Nucella lapillus*) in 40 quadrats on a beach on Skye. Load the dataset and calculate the mean and variance of the number of dog whelks per quadrat.
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "Load and check data"
+
+dw_df <- read_xlsx("data/H2DS_practicalData.xlsx", sheet="Dogwhelks")
+str(dw_df)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Calculate mean and variance"
+#| results: hold
+
+mean(dw_df$num_whelks)
+var(dw_df$num_whelks)
+```
+
+:::
+
+What is the proportion of quadrats with 0, 1, and 2 dogwhelks?
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "Proportions: Method 1"
+#| results: hold
+
+mean(dw_df$num_whelks == 0)
+mean(dw_df$num_whelks == 1)
+mean(dw_df$num_whelks == 2)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Proportions: Method 2"
+
+dw_df |>
+  count(num_whelks) |> # count occurrences of each value, put in new column `n`
+  mutate(proportion=n/sum(n))
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Proportions: Method 3"
+
+table(dw_df$num_whelks)/nrow(dw_df) # table() counts occurrences of each value
+```
+
+:::
+
+Using the sample mean as $\lambda$, what is the probability of observing more than 2 dogwhelks in the next quadrat?
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "P(y > 2 | lambda)"
+
+lambda <- mean(dw_df$num_whelks)
+1 - ppois(2, lambda)
+```
+
+:::
+
+If you were to repeat the sampling ($n=40$ quadrats), in how many would you expect 1 dogwhelk?
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "P(y = 1 | lambda) * 40 quadrats"
+
+dpois(1, lambda) * 40
+```
+
+:::
+
+
+### Scenario 2
+
+In July from 2018-2022, there were an average of 14.2 days where an orca sighting was reported in Shetland ([shetland.org](https://www.shetland.org/blog/when-is-the-best-time-to-see-orcas-in-shetland)). 
+
+For the following questions, use the Poisson distribution to approximate the distribution of the number of days with reported sightings. Assume that the days with reported sightings occur independently and that there is no change in methodology or ecology.
+
+What is the probability that there are 7 or fewer days with reported sightings next July?
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "P(y <=7 | lambda)"
+
+lambda <- 14.2
+ppois(7, lambda)
+```
+
+:::
+
+What is the probability of having 14 days with sightings?
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "P(y = 14 | lambda)"
+
+dpois(14, lambda)
+```
+
+:::
+
+What is the probability of having 14 or more days with sightings?
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "P(y >= 14 | lambda)"
+
+1 - ppois(13, lambda)
+```
+
+:::
+
+What is the maximum possible number of days with sightings? 
+
+```{r}
+
+```
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "Maximum possible"
+
+# 31 days
+```
+
+:::
+
+According to the Poisson distribution, what is more likely: a July with 0 days with reported sightings or a July with more than 31 days of reported sightings?
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "P(y = 0 | lambda)"
+
+dpois(0, lambda)
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "P(y > max | lambda)"
+
+1 - ppois(31, lambda)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Interpretation"
+
+# There is a 0.00007% chance of 0 days with sightings and a
+# 0.003% chance of >31 days with sightings.
+
+# This is just to remind you to always consider the limits of your model!
+```
+
+:::
+

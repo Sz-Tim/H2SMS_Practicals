@@ -546,7 +546,7 @@ Many statistical tests assume that data are reasonably approximated by a normal 
 The data you collect will be part of a population. The normality check assesses the viability of the assumption that the data you collected were drawn from a population that was normally distributed. Note that populations are, in practice, *never* actually normally distributed. Your test is to assess how *reasonable* the assumption of normality is.
 
 ```{r}
-MS <- read_xlsx("data/H2DS_practicalData.xlsx", sheet = "Mood shrimp")
+MS <- read_xlsx("data/H2SMS_practicalData.xlsx", sheet = "Mood shrimp")
 # check the data using head(), str() etc.
 ```
 
@@ -636,7 +636,7 @@ positive_df <- tibble(orig=seq(0.01, 10, length.out=1e3)) |>
 ggplot(positive_df, aes(orig, new_value)) + 
   geom_line() + 
   facet_wrap(~transformation, scales="free", nrow=1) + 
-  labs(main="Positive values", x="Original value", y="Transformed value")
+  labs(title="Positive values", x="Original value", y="Transformed value")
 ```
 
 And for proportions:
@@ -658,7 +658,7 @@ proportion_df <- tibble(orig=seq(0.01, 0.99, length.out=1e3)) |>
 ggplot(proportion_df, aes(orig, new_value)) + 
   geom_line() + 
   facet_wrap(~transformation, scales="free", nrow=1) + 
-  labs(main="Proportions", x="Original value", y="Transformed value")
+  labs(title="Proportions", x="Original value", y="Transformed value")
 ```
 
 ::: Q.
@@ -672,7 +672,7 @@ Using the Radon concentration worksheet, plot the data. Do they look normally di
 Definitely not. 
 
 ```{r}
-radon <- read_xlsx("data/H2DS_practicalData.xlsx", sheet="Radon (ppb)")
+radon <- read_xlsx("data/H2SMS_practicalData.xlsx", sheet="Radon (ppb)")
 hist(radon$RadonConc)
 ```
 
@@ -686,7 +686,7 @@ hist(radon$RadonConc)
 #| eval: false
 
 # get the Radon data into R; the units are parts per billion
-readxl::excel_sheets("data/H2DS_practicalData.xlsx")
+readxl::excel_sheets("data/H2SMS_practicalData.xlsx")
 ```
 
 ::: Q.

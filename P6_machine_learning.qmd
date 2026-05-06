@@ -1,5 +1,16 @@
 # Machine Learning {#sec-P6}
 
+
+::: .callout-warning
+
+Cut out some of NMDS and add in a couple problems where they need to choose an analysis?
+
+> It is well known that students particularly struggle with applying learned statistical skills and concepts to novel situations (Allen et al. 2016). It follows that the curriculum should specifically aim to develop selection skills in students, enabling them to choose appropriate statistical procedures for a given experimental design, their hypotheses and dataset (Lovett and Greenhouse 2000; Allen et al. 2016). To achieve this, learning activities can be designed that encourage students to focus on the structural features of research scenarios; for example, identifying the independent and dependent variables and defining the relationships between them (Quilici and Mayer 2002; Yan and Lavigne 2014). This enables students to develop structural awareness, allowing them to see past the surface features of research scenarios (for example, the species or population identity of individuals in a study) and recognise that the same kinds of analyses can be applied (Quilici and Mayer 2002). This approach leads to measurable improvements in student performance (Quilici and Mayer 2002; Yan and Lavigne 2014).
+
+Bromage et al. 2022
+
+:::
+
 ## Multivariate analysis
 
 So far, every model we've used has had a single response variable. **Multivariate analyses** are techniques that allow the analysis of multiple response variables, such as counts of each species within a community. Statistical routines for multivariate analysis are relatively new and have co-evolved with computational capacity. Multivariate data are typically stored as a matrix of samples (rows) v ‘features’ (columns). Features may include things like faunal counts, chemical concentrations, or environmental conditions.
@@ -418,7 +429,7 @@ The data set we’ll use is from SAMS Professor Tom Wilding's PhD thesis. He set
 #| message: false
 #| warning: false
 
-leach_df <- read_excel("data/H2DS_practicalData.xlsx", sheet = "Leaching") |>
+leach_df <- read_excel("data/H2SMS_practicalData.xlsx", sheet = "Leaching") |>
   mutate(Treat_abbr = factor(Treat, # abbreviate for cleaner plotting
                              levels = c("concrete", "control", "granite"),
                              labels = c("conc", "ctrl", "gran")),
