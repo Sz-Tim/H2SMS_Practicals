@@ -1,4 +1,4 @@
-# . 1 Problem Set {#sec-P1_probSet .unnumbered}
+# Problem Set 1 {#sec-P1_probSet .unnumbered}
 
 ::: callout-note
 Please render this file to .html and submit via Brightspace.
@@ -11,6 +11,7 @@ Please render this file to .html and submit via Brightspace.
 
 library(tidyverse)
 library(readxl)
+set.seed(1)
 ```
 
 ## R Basics
@@ -23,6 +24,8 @@ Create a vector called `site_num` with the values 1 through 10.
 
 ```
 
+::: {.content-visible when-profile="key"}
+
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -34,20 +37,24 @@ site_num <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 ```
 :::
 
+:::
+
 ## Data munging
 
-The *SmoltWeights* sheet from H2DS_practicalData.xlsx contains the weight in grams (column `weight_g`) from a sample of 34 wild salmon smolts (column `fish_id`) during their out-migration from a river to the ocean. Load the dataset and perform basic summaries (range, mean, median, number of missing values for each column). Identify (using code) which fish are missing values for `weight_g`.
+The *SmoltWeights* sheet from H2SMS_practicalData.xlsx contains the weight in grams (column `weight_g`) from a sample of 34 wild salmon smolts (column `fish_id`) during their out-migration from a river to the ocean. Load the dataset and perform basic summaries (range, mean, median, number of missing values for each column). Identify (using code) which fish are missing values for `weight_g`.
 
 ```{r}
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
 #| code-fold: true
 #| code-summary: "Load and check data"
 
-smolt_df <- read_xlsx("data/H2DS_practicalData.xlsx", sheet="SmoltWeights")
+smolt_df <- read_xlsx("data/H2SMS_practicalData.xlsx", sheet="SmoltWeights")
 str(smolt_df)
 summary(smolt_df)
 ```
@@ -77,11 +84,15 @@ smolt_df |>
 ```
 :::
 
+:::
+
 Create a new column called `weight_lb` that gives the weights in pounds, where 1 kg = 2.205 lb.
 
 ```{r}
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -92,11 +103,15 @@ smolt_df$weight_lb <- smolt_df$weight_g / 1000 * 05
 ```
 :::
 
+:::
+
 What proportion of fish weigh less than 0.2 lb? How many fish is this?
 
 ```{r}
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -114,11 +129,15 @@ sum(smolt_df$weight_lb < 0.2, na.rm=T)
 ```
 :::
 
+:::
+
 Create a new data.frame called `large_df` that contains only the fish as large or larger than the median weight *and* excludes rows with missing weights.
 
 ```{r}
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -146,11 +165,15 @@ large_df <- smolt_df |>
 ```
 :::
 
+:::
+
 Create a new data.frame called `extreme_df` that contains only fish more than 1.5 standard deviations greater than the mean *and* excludes rows with missing weights.
 
 ```{r}
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -184,6 +207,8 @@ extreme_df <- smolt_df |>
 ```
 :::
 
+:::
+
 ## Plotting
 
 ### Histograms
@@ -204,6 +229,8 @@ Note that you *cannot* re-use the same `label`.
 
 ```
 
+::: {.content-visible when-profile="key"}
+
 ::: callout-important
 Here is some text referencing @fig-smoltHist by using the label I've used in the code chunk (`@fig-smoltHist`).
 
@@ -223,6 +250,7 @@ hist(smolt_df$weight_g,
 ```
 :::
 
+:::
 
 ### Line plots
 
@@ -251,6 +279,8 @@ plot(obs_id ~ Temp,
      xLab="Observation (time)",
      ylab="Body temperature (C)")
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 
@@ -281,6 +311,7 @@ abline(v=beaver_df$obs_id[beaver_df$activ==1], lty=2)
 ```
 :::
 
+:::
 
 
 ### Boxplots
@@ -292,6 +323,8 @@ The dataset `ToothGrowth` is available in R, giving the length (`len`) of tooth-
 
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -309,6 +342,8 @@ boxplot(len ~ dose, data=ToothGrowth[ToothGrowth$supp=="OJ",],
 ```
 :::
 
+:::
+
 Use `ggplot()` to make the same boxplot, but with `supp` as the fill colour.
 
 ::: callout-tip
@@ -320,6 +355,8 @@ Remember to check the column types first!
 
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -366,6 +403,9 @@ ggplot(ToothGrowth, aes(dose, len, fill=supp, group=paste(dose, supp))) +
 ::: callout-note
 What are the benefits and downsides of each method? When might you choose one or the other?
 :::
+
+:::
+
 :::
 
 ### Scatter plots
@@ -377,6 +417,8 @@ Using the same `ToothGrowth` dataset, produce a scatter plot of odontoblast leng
 
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 Since `supp` is a factor, the *levels* can be coded into colours automatically in `plot()`.
@@ -420,3 +462,4 @@ ggplot(ToothGrowth, aes(dose, len, colour=supp)) +
 ```
 :::
 
+:::
