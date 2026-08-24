@@ -12,4 +12,4 @@ Please read through the practical before the class. Each session is scheduled fo
 
 Each week, you are asked to complete a short problem set available on Brightspace and submit a rendered .html. Solutions will be posted the following week.
 
-The practicals are provided [online](https://sz-tim.quarto.pub/h2sms-practicals/) and as a pdf on Brightspace. The web version has additional features that are not possible with pdfs and is the recommended interface. 
+The practicals are provided [online](https://sz-tim-h2sms-practicals.share.connect.posit.cloud) and as a pdf on Brightspace. The web version has additional features that are not possible with pdfs and is the recommended interface. 

@@ -1,17 +1,4 @@
-# Machine Learning {#sec-P6}
-
-
-::: .callout-warning
-
-Cut out some of NMDS and add in a couple problems where they need to choose an analysis?
-
-> It is well known that students particularly struggle with applying learned statistical skills and concepts to novel situations (Allen et al. 2016). It follows that the curriculum should specifically aim to develop selection skills in students, enabling them to choose appropriate statistical procedures for a given experimental design, their hypotheses and dataset (Lovett and Greenhouse 2000; Allen et al. 2016). To achieve this, learning activities can be designed that encourage students to focus on the structural features of research scenarios; for example, identifying the independent and dependent variables and defining the relationships between them (Quilici and Mayer 2002; Yan and Lavigne 2014). This enables students to develop structural awareness, allowing them to see past the surface features of research scenarios (for example, the species or population identity of individuals in a study) and recognise that the same kinds of analyses can be applied (Quilici and Mayer 2002). This approach leads to measurable improvements in student performance (Quilici and Mayer 2002; Yan and Lavigne 2014).
-
-Bromage et al. 2022
-
-:::
-
-## Multivariate analysis
+# Multivariate analysis {#sec-P6}
 
 So far, every model we've used has had a single response variable. **Multivariate analyses** are techniques that allow the analysis of multiple response variables, such as counts of each species within a community. Statistical routines for multivariate analysis are relatively new and have co-evolved with computational capacity. Multivariate data are typically stored as a matrix of samples (rows) v ‘features’ (columns). Features may include things like faunal counts, chemical concentrations, or environmental conditions.
 
@@ -31,11 +18,11 @@ More detail on the the material we cover here is accessible in Clarke et al. (20
 #| message: false
 #| warning: false
 
-library(tidyverse)
+library(tidyverse); theme_set(theme_classic())
 library(readxl)
 library(vegan)
 library(plotly)
-set.seed(2025)
+set.seed(2026)
 ```
 
 ## Non-Metric Multidimensional Scaling (NMDS)
@@ -46,18 +33,14 @@ Recall that the `^` operator raises each element in a vector to a power. For exa
 
 ### 1: Data transformation
 
+Read in the data from the "WormComm" sheet in "H2SMS_practicalData.xlsx". Some of the functions use row names, so we'll make the `Site` column into row names instead.
+
 ```{r}
 #| message: false
 #| warning: false
 
-# these toy data duplicate those in the multivariate lecture.
-worm_df <- data.frame(
-  row.names = c("CE1", "CE2", "Ref1", "Ref2"),
-  Capitella = c(1000, 1500, 10, 50),
-  Malacoeros = c(500, 2000, 50, 25),
-  Mysella = c(1, 0, 25, 30),
-  Nucella = c(1, 0, 20, 15)
-)
+worm_df <- read_xlsx("data/H2SMS_practicalData.xlsx", "WormComm") |>
+  column_to_rownames("Site")
 worm_df
 # alt-log transformation: ifelse(x==0, 0, log(x))
 worm_df_log <- decostand(worm_df, method = "log", logbase = 10)
@@ -85,7 +68,7 @@ Based on the dissimilarity matrices, which sites are more similar (smaller numbe
 
 ::: callout-important
 
-CE1 and CE2 are similar, and Ref1 and Ref2 are similar. Yes, this aligns with looking at the data. The transformations change the influence of the highly abundant *Capitella* and *Malacoeros* at CE1 and CE2. 
+CE1, CE2, and CE3 are similar, and Ref1 and Ref2 are similar. Yes, this aligns with looking at the data. The transformations change the influence of the highly abundant *Capitella* and *Malacoeros* at CE1-3. 
 
 :::
 
@@ -134,7 +117,7 @@ ordiplot(ord_4rt, choices = c(1, 2), display = "sites",
          type = "text", main = "NMDS: 4th-rt, Bray-Curtis")
 ```
 
-Ref1 and Ref2 seem more similar under the 4th root transformation, and possibly CE1 and CE2.
+Ref1 and Ref2 seem more similar under the 4th root transformation and CE1 is shifted slightly toward Ref1-2.
 
 :::
 
@@ -190,7 +173,7 @@ The influence of the highly abundant species is extremely clear.
 
 :::
 
-Let’s have a look at another simulated dataset.
+Let’s have a look at another simulated dataset. Load the "CrustComm" sheet from "H2SMS_practicalData.xlsx". Again, we'll shift the `Site` column to row names.
 
 ```{r}
 #| label: fig-comm_ord
@@ -198,15 +181,8 @@ Let’s have a look at another simulated dataset.
 #| fig-width: 4
 #| fig-height: 4
 
-comm_df <- data.frame(
-  row.names = c("Dunst", "Creran", "Lismore", "Charl"),
-  SpA = c(1, 20, 30, 40),
-  SpB = c(11, 22, 50, 1),
-  SpC = c(500, 40, 30, 20),
-  SpD = c(10, 25, 35, 50),
-  SpE = c(4, 3, 2, 1),
-  SpF = c(40, 250, 1, 9)
-)
+comm_df <- read_xlsx("data/H2SMS_practicalData.xlsx", "CrustComm") |>
+  column_to_rownames("Site")
 comm_df
 ord_comm <- metaMDS(comm_df, distance = "bray", k = 2, 
                     autotransform = FALSE, trace = FALSE)
@@ -270,6 +246,7 @@ It is much less clear I think. The similarity between Charl and Lismore is no lo
 :::
 
 
+
 ------------------------------------------------------------------------
 
 ## Diversity indices
@@ -311,7 +288,7 @@ Do the plots correspond to what you expected?
 
 ::: callout-important
 
-Yes, but many of the H2 Data Science students do not have a background in ecology and are not familiar with community ecology metrics.
+Yes, but many of the H2 Statistics for Marine Science students do not have a background in ecology and are not familiar with community ecology metrics.
 
 :::
 
@@ -372,9 +349,8 @@ I'd say it depends on the research question. Richness fails to distinguish among
 
 :::
 
-## NMDS on real data
+## Lichen pastures
 
-Using simulated (or at least simple) data to learn new statistical techniques is usually the best approach because it gives you the opportunity to get a better sense for how the algorithms work (and to be sure your code is free from bugs!). Now we will progress to real observations.
 
 Have a look at the `varespec` and `varechem` datasets included in the *vegan* package. I’ve reproduced the examples below:
 
@@ -407,9 +383,64 @@ plot(ef, p.max = 0.01, col = "blue") # subset based on p
 
 See how the multivariate analysis has taken all those data, both species and environmental, and ‘communicated’ them in one single figure? You can see numerous relationships (both positive and negative) in this figure, and species-site-environment associations. It also illustrates a potential challenge with multivariate ordinations. It quickly gets cluttered and overloaded. There is no easy way around this, though there is further help in these packages.
 
+## Sherkin Island phytoplankton
+
+Let’s have a look at another real dataset contained in the sheet "Sherkin" within "H2SMS_practicalData.xlsx". These are observations of [phytoplankton from the Sherkin Island Marine Station in Ireland](https://www.gbif.org/dataset/df85c357-d4ec-415e-b108-890f7e699e78) in the top 5m, summed by month and station across 2000-2014. 
+
+Here, we can try `autotransform=T` in the `metaMDS()` function. This will make reasonable choices for transformations based on the scale of your data. See the help documentation for detail.
+
+In this case, we'll also use `ggplot` to make the comparison of months and regions (sites within the bay or on the shelf) easier. Rather than using rownames, we can simply remove the site-related columns for the `metaMDS()` function so we pass in a dataframe with only the phytoplankton abundance columns.
+
+```{r}
+sherkin_df <- read_xlsx("data/H2SMS_practicalData.xlsx", "Sherkin")
+
+ord_sherkin <- sherkin_df |>
+  select(-month, -region, -locality) |>
+  metaMDS(autotransform=T, trace = FALSE)
+ord_sherkin
+```
+
+
+To plot what we'd like to, we need to combine the output from the ordination with the site-related columns. We can access the MDS coordinates with `.$points`, and bind those to the site information.
+
+```{r}
+#| label: fig-sherkin_ord
+#| fig-cap: "Ordination for Sherkin Island phytoplankton month-level totals."
+#| fig-width: 6
+#| fig-height: 4
+
+sherkin_df |>
+    select(month, locality, region) |>
+    bind_cols(ord_sherkin$points) |>
+    ggplot(aes(MDS1, MDS2, shape=region, fill=month)) +
+    geom_point(size=3) +
+    scale_shape_manual("Region", values=c(21, 22)) +
+    scale_fill_brewer("Month", palette="RdYlBu") +
+    guides(fill=guide_legend(override.aes=list(shape=21)))
+```
+
+
+::: Q.
+What patterns can you observe in the community data? Remember to consider the stress.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+The stress is ~0.18, so broad patterns are ok to interpret. 
+
+With that in mind, there is a clear gradient across months (colours), and likely a tendency for clustering of Bay and Shelf sites (shapes), becoming stronger through the summer, though the latter interpretation is more tenuous. 
+
+:::
+
+:::
+
+:::
+
+
 You are in charge of the analysis. You can change the emphasis and elements of the message depending on your data transformation, dissimilarity metric, and ordination technique. There is no absolutely ‘correct’ way to go about multivariate stats, so different statisticians will have their favoured approaches and methods.
 
-Note: Some functions (e.g. `metaMDS()`) default to autotransform your data if the function thinks it is necessary. This can be useful but, in scientific reports, you must specify what transformations you used. Here you don’t know what the function applies as it depends on the data, but it could be any of several or a combination. My advice is only to use transformations that you specify.
+Note: Some functions (e.g. `metaMDS()`) default to autotransform your data if the function thinks it is necessary. This can be useful but, in scientific reports, you must specify what transformations you used. This can be recovered from the output, but it is often worth taking a more manual approach.
 
 ------------------------------------------------------------------------
 
@@ -425,6 +456,8 @@ A basic, and very friendly, introduction to PCA is given in Chapter 4 of Clarke 
 
 The data set we’ll use is from SAMS Professor Tom Wilding's PhD thesis. He set up an experiment to examine the relative leaching of trace metals from concrete, granite, and a control (artificial seawater). Concrete contains cement which is enriched in vanadium and molybdenum, and these elements could leach out in dangerous amounts. Granite, the main constituent of this concrete, might also leach some trace elements. He suspended concrete and granite powder in artificial water, constantly agitated it, and measured the leachate concentrations over 100 days [Wilding and Sayer 2002](https://doi.org/10.1006/jmsc.2002.1267).
 
+Read in the "Leaching" sheet from "H2SMS_practicalData.xlsx". We'll also do a bit of munging for plotting.
+
 ```{r}
 #| message: false
 #| warning: false
@@ -434,13 +467,13 @@ leach_df <- read_excel("data/H2SMS_practicalData.xlsx", sheet = "Leaching") |>
                              levels = c("concrete", "control", "granite"),
                              labels = c("conc", "ctrl", "gran")),
          Treat_day = paste(Treat_abbr, Day, sep="_"), # treat + days in exprmnt
-         Conc = signif(Conc)) |>
-  select(Treat, Treat_day, Element, Conc) # remove columns that aren't of use,
-#summary(leach_df)
+         Concentration = signif(Concentration)) |>
+  select(Treat, Treat_day, Element, Concentration) # remove columns that aren't of use,
+
 
 # not dominated by zeros; try other values (e.g. <10)
-table(leach_df$Conc == 0) 
-mean(leach_df$Conc == 0) # recall that R treats T/F as 1/0 
+table(leach_df$Concentration == 0) 
+mean(leach_df$Concentration == 0) # recall that R treats T/F as 1/0 
 ```
 
 ::: Q.
@@ -451,9 +484,9 @@ Do some exploratory analysis of this dataset. How are the concentrations distrib
 ::: callout-important
 
 ```{r}
-ggplot(leach_df, aes(Conc)) + geom_histogram()
-ggplot(leach_df, aes(Conc)) + geom_histogram() + facet_wrap(~Element, scales="free")
-ggplot(leach_df, aes(Conc)) + geom_histogram() + facet_wrap(~Treat, scales="free")
+ggplot(leach_df, aes(Concentration)) + geom_histogram()
+ggplot(leach_df, aes(Concentration)) + geom_histogram() + facet_wrap(~Element, scales="free")
+ggplot(leach_df, aes(Concentration)) + geom_histogram() + facet_wrap(~Treat, scales="free")
 ```
 
 Heavily skewed overall, within each element, and within each treatment. The values are drastically different among elements (Fe and Sr in the thousands, others in the tens or hundreds), but broadly similar within treatments.
@@ -468,7 +501,7 @@ Next, we need to re-organise the data into a wider format so that each element i
 
 ```{r}
 leach_df_wide <- leach_df |>
-  pivot_wider(names_from="Element", values_from="Conc")
+  pivot_wider(names_from="Element", values_from="Concentration")
 ```
 
 The column `Treat_day` is coded as `trt_day`, where `trt` is the 4 letter code indicating treatment type and `day` is the number of days elapsed in the experiment (one of 1, 4, 7, 17, 32, 50 or 100). So `gran_32` means the granite treatment sampled at day 32.
@@ -489,6 +522,7 @@ screeplot(PCA_leach, main = NULL, ylab = "Relative variation explained")
 # take a look at PCA_leach
 PCA_leach
 str(PCA_leach)
+summary(PCA_leach)
 ```
 
 You can see from the scree plot that the amount of variance explained declines with principal component as expected, and that there is very little variation left after 3 principal components. That is, nearly all of the variation in the dataset is captured by PC1, PC2, and PC3. In this case, PCA has essentially solved the ‘curse of dimensionality’ by successfully reducing 7D data to about 3D.
@@ -624,4 +658,4 @@ Here you can see that Sr, Rb, Mo are relatively ‘important’ in driving the m
 
 ## Conclusions
 
-Multivariate analyses are extremely useful in a variety of contexts. The form of analysis is often more qualitative and less inferential compared to univariate analyses we've covered, but this is an active field of research and there are well-developed methods and R packages for more complex analyses (e.g., [`ade4`](https://adeverse.github.io/ade4/).  
+Multivariate analyses are extremely useful in a variety of contexts. The form of analysis is often more qualitative and less inferential compared to univariate analyses we've covered, but this is an active field of research and there are well-developed methods and R packages for more complex analyses (e.g., [`ade4`](https://adeverse.github.io/ade4/)).  

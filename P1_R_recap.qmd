@@ -1,18 +1,32 @@
-# R recap {#sec-P1}
+# Visualization {#sec-P1}
 
 Statistics can be divided into two broad categories: **descriptive statistics**, which describe or summarise data, and **inferential statistics**, which allow us to infer something about a population from a sample.
 
-This session focuses on how to appropriately display and summarise data (i.e., descriptive stats). You should already be aware of several techniques for displaying data (e.g., bar charts, histograms, scatter plots). When and how to use these techniques is one focus of today.
+This session focuses on descriptive statistics: how to appropriately display and summarise. You already know several techniques for displaying data (e.g., bar charts, histograms, scatter plots). When and how to use these techniques is one focus of today.
 
-There are two purposes for visualizing data.
+There are two critical purposes of data visualization:
 
-First, the best way to get a 'gut' feel for your dataset is to look at it graphically. Examining data graphically enables you to identify any outliers (suspicious observations which could be errors). It will also help you to select the most appropriate inferential statistical model (more on this through the course).
-
-Second, visualizations are used to impart information as clearly as possible to 'the reader', drawing attention to the most interesting aspects of your data. Graphics that are confusing, either through a lack of detail (e.g. no labels) or that contain too much information will fail in this central objective.
+1.  Getting a 'gut' feel for your data. Examining data graphically enables you to identify any outliers (suspicious observations which could be errors). It will also help you to select the most appropriate inferential statistical model (more on this later).
+2.  Communicating your results. Focus on clarity, drawing attention to the most interesting aspects of your data. Graphics that are confusing, either through a lack of detail (e.g. no labels) or that contain too much information will fail in this central objective.
 
 As you create graphics, keep in mind that they may be viewed on different machines, in grey scale, or by colour-blind or visually impaired readers. Colour scales such as those available from [ColorBrewer](https://colorbrewer2.org) or [viridis](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) are designed with this in mind.
 
-It's best practice to load necessary packages at the top of your document. Today we'll use the *tidyverse* package, which is actually a collection of packages. First, you'll need to install it with `install.packages("tidyverse")`. Installation needs to be done once per machine, but loading is needed each time you re-open R.
+## R Review
+
+We *very briefly* review key basics of R here. See **R Basics** for a more comprehensive review.
+
+It's best practice to load necessary packages at the top of your document. Remember, packages need to be *installed once per machine*, but *loaded in each R session*.
+
+To install a package, either click the link in the yellow banner at the top of your script (RStudio usually does this when needed), or run:
+
+```{r}
+#| eval: false
+
+install.packages("tidyverse")
+install.packages("cowplot")
+```
+
+**You will likely not need to do that again this semester!** However, you will need to use `library(packageName)` each time you open R.
 
 ```{r}
 #| message: false
@@ -20,7 +34,9 @@ It's best practice to load necessary packages at the top of your document. Today
 
 library(tidyverse)
 library(readxl) # installed with tidyverse, but not loaded in library(tidyverse)
-set.seed(2025) # for fully reproducible code
+library(cowplot)
+set.seed(2026) # for fully reproducible code
+theme_set(theme_classic()) # plotting theme
 ```
 
 ------------------------------------------------------------------------
@@ -29,83 +45,84 @@ set.seed(2025) # for fully reproducible code
 
 ### Object structure
 
-We will mostly work with dataframes. A `data.frame` is a 2D rectangular object with columns and rows. In a tidy dataset, each row represents an 'observation' and each column represents a 'variable'. R (and often packages) contains several built-in dataframes.
-
-The dataframe `cars` gives the max speed and stopping distance for cars built in the early 20th century. It is already available in your R session. We will use `cars` to demonstrate a few basic programming and statistical concepts.
+We will mostly work with dataframes. A `data.frame` is a 2D rectangular object with columns and rows. In a tidy dataset, each row represents an 'observation' and each column represents a 'variable'. R (and often packages) contains several built-in dataframes, bundled into the `datasets` package which is automatically loaded.
 
 ```{r}
 #| eval: false
 
 # functions for basic details of objects
-str(cars) # structure overview
-class(cars) # object class
-names(cars) # column names
-head(cars) # first few rows
+str(penguins) # structure overview
+glimpse(penguins) # slightly different overview
+names(penguins) # column names
+head(penguins) # first few rows
 ```
 
+Functions have *arguments*, which let you control their settings. They typically have defaults, which you can see in the help page. For example, `head()` shows the first 6 rows by default (`?head`: note `n = 6L`). Specify the argument to adjust the behaviour:
+
 ```{r}
-head(cars, 2)
-tail(cars, 2)
+head(penguins, n=2) 
+tail(penguins, n=2)
 # what are the last 10 rows?
 ```
+
+::: callout-tip
+Function arguments do not need to be named if they are listed in the order given in the help documentation. For example, `head(penguins, 2)` will do exactly the same thing as `head(x=penguins, n=2)`.
+:::
+
 
 ### Subsetting, renaming, and rearranging
 
 There are several ways to access subsets of a `data.frame`:
 
--   Use `data_df$columnName` or `data_df[["columnName"]]` to extract a single column
+-   Use `data_df$columnName` to extract a single column
 -   Use `data_df[rows,columns]` to extract a block
 
 ```{r}
 #| eval: false
 
-cars$speed # whole column
-cars[["speed"]] # whole column
+penguins$bill_len # whole column
 ```
 
 ```{r}
-cars[1, 1] # row 1, column 1
-cars[1:5, 1] # rows 1-5, column 1
-cars[1:3, ] # leaving the 'columns' space blank returns all columns
+penguins[1, 3] # row 1, column 3
+penguins[1:5, 3] # rows 1-5, column 3
+penguins[2:4, ] # leaving the 'columns' blank will return all columns
 ```
 
 We can also change column names. For illustration, let's make a copy of the `data.frame` to do that.
 
 ```{r}
-cars2 <- cars 
-names(cars2)
-names(cars2)[1] <- "speed_mph" # change first column name
-names(cars2)
-names(cars2) <- c("speed_mph", "dist_ft") # change both column names
+penguins_alt <- penguins 
+names(penguins_alt)
+names(penguins_alt)[1] <- "species_name" # change first column name
+names(penguins_alt)
 ```
 
-Rearranging and duplicating columns is also easy.
-
+Create a new column by specifying the name with `df$colName` and *assigning* a vector.
 ```{r}
-head(cars2, 2)  
-head(cars2[, 2:1], 2) # rearrange columns 
-
-cars3 <- cars2[, c(2, 1, 1)] # duplicate a column
-head(cars3, 2)
-cars3 <- cars3[, 1:2] # remove the duplicated column
-head(cars3, 2)
-cars3$dist_x_speed <- cars3$dist_ft * cars3$speed_mph # create a new column
-head(cars3, 2)
-rm(cars3) # remove the dataframe 'cars3' from your R environment
+penguins_alt$bill_area <- penguins_alt$bill_dep * penguins_alt$bill_len
+head(penguins_alt, 2)
 ```
 
 ::: callout-note
-Recall that you must *assign* the results of an operation (`<-`) to save it. For example, running `cars2[, 2:1]` will display the results, but `cars2 <- cars2[, 2:1]` will *overwrite* `cars2` in your R environment.
+Recall that you must *assign* the results of an operation (`<-`) to save it. For example, running `penguins_alt[, 2:1]` will display the results, but `penguins_alt <- penguins_alt[, 2:1]` will *overwrite* `penguins_alt` in your R environment.
 :::
 
-You can also subset based on criteria. Say we only want rows where the speed is $>$ 20 mph:
+You can also subset based on criteria. Say we only want rows with observations from 2009:
 
 ```{r}
-cars_fast <- cars2[cars2$speed_mph > 20, ]
-class(cars_fast) 
-ncol(cars_fast)  # and how many *rows* are there?
-head(cars_fast, 2)
+penguins_2009 <- penguins_alt[penguins_alt$year == 2009, ]
 ```
+
+It is always good to check that you've done what you think you've done:
+
+```{r}
+nrow(penguins_2009) 
+head(penguins_2009, 2)
+count(penguins_alt, year)
+count(penguins_2009, year)
+```
+
 
 ### NAs and summary
 
@@ -117,30 +134,28 @@ We can check each element of a vector using `is.na()`, which will return `TRUE` 
 #| eval: FALSE
 #| echo: TRUE
 
-is.na(cars2$speed_mph)
+is.na(penguins_alt$sex)
 ```
 
-R converts logical values (i.e., `TRUE`/`FALSE`) to numeric (i.e., `1`/`0`) automatically. This is handy, but can be dangerous if you don't realize it.
+R converts logical values (i.e., `TRUE`/`FALSE`) to numeric (i.e., `1`/`0`) automatically, allowing convenient summaries:
 
 ```{r}
-sum(is.na(cars2$speed_mph)) # how many are NA?
-carsNA <- cars2
-carsNA[c(2, 4, 5, 10), 1] <- NA
-sum(is.na(carsNA$dist_ft))
+sum(is.na(penguins_alt$sex)) # how many are NA?
+mean(is.na(penguins_alt$sex)) # what proportion are NA?
 ```
 
 Another very useful check is `summary()`:
 
 ```{r}
-summary(cars)
+summary(penguins_alt)
 ```
 
 ```{r}
 #| eval: FALSE
-summary(carsNA)
+summary(penguins_alt)
 ```
 
-Once you are confident that your `data.frame` looks sensible, that it contains the data you expect, and that you know what the data-types are, you can start to explore and summarise your data.
+Once you are confident that your `data.frame` looks sensible, that it contains the data you expect, and that the data types are correct, you can start to explore and summarise your data.
 
 There are many graphical methods for data exploration. The appropriate method depends on the nature of the data and what you wish to communicate to the reader.
 
@@ -148,21 +163,54 @@ There are many graphical methods for data exploration. The appropriate method de
 
 ## Graphical methods for displaying data
 
-Always keep in mind that the primary reason for data visualization is to impart information concisely and accurately to your reader.
+Always keep in mind that **the primary reason for data visualization is to communicate concisely and accurately to your reader**. Graphics should be clear, concise and easy to understand. 
 
-Graphics must be clear, concise and easy to understand. Brightspace contains some examples of bad graphics ('Learning resources\>Lecture support material\>Introduction (Lectures 1-3)\>Graphics').
+Real data is usually complex, and creating effective figures takes careful thought and often many revisions.
 
-![An example of a terrible graphic, as published in a Scottish government report.](figs/bad_fig_1.png){#fig-bad1}
 
-In addition to poor design choices for effective communication (@fig-bad1), graphics can also be deliberately misleading (@fig-bad2).
+::: callout-note
+We will primarily use the `ggplot2` package because it is more straightforward in many ways. It loads when you run `library(tidyverse)`. However, we will also note equivalent base R functions from time to time.
+:::
 
-![A misleading graphic. What type of plot is this and how is it misleading?](figs/bad_fig_2.png){#fig-bad2}
 
 ### Scatter plots
 
-The scatter plot is used to plot two continuous variables against each other. It is commonly used for analyses like correlation or linear regression. The `plot()` function in R will create a scatter plot if given two numeric variables. There are two options for specifying the variables.
+Scatter plots display two continuous variables against each other. They are commonly used for analyses like correlation or linear regression. 
 
-Using `data_df`, the same plot can be created with either syntax:
+With `ggplot2`:
+
+```{r}
+#| fig-width: 4.5
+#| fig-height: 4.5
+
+ggplot(penguins_alt, aes(x=body_mass, y=bill_len)) + 
+  geom_point() + 
+  labs(x="Body mass (g)", 
+       y="Bill length (mm)",
+       title="Bill length increases with body mass")
+```
+
+The `ggplot()` function takes the dataframe as the first argument. The plot *aesthetics* are specified with `aes()`, such that variables (=columns) are *mapped* to plot aesthetics. Then, layers are added using `geom_*()`. Additional functions can be 'added' to further modify the plot. See a comprehensive list [in the ggplot2 manual](https://ggplot2.tidyverse.org/reference/index.html).
+
+Once you understand the basic structure, it becomes easy to create more interesting figures:
+
+```{r}
+#| fig-width: 6
+#| fig-height: 4.5
+
+ggplot(penguins_alt, aes(x=body_mass, y=bill_len, colour=species_name)) + 
+  geom_point() + 
+  geom_line(stat="smooth", method="lm") +
+  scale_colour_brewer("Species", palette="Dark2") +
+  labs(x="Body mass (g)", 
+       y="Bill length (mm)",
+       title="Bill length increases with body mass")
+```
+
+
+With base R, the `plot()` function will create a scatter plot if given two numeric variables. There are two options for specifying the variables.
+
+Using `data_df` with columns `x` and `y`, the same plot can be created with either syntax:
 
 ```{r}
 #| eval: false
@@ -172,120 +220,123 @@ plot(data_df$x, data_df$y) # two vectors: x, y
 plot(y ~ x, data=data_df) # columns in dataframe: formula y ~ x
 ```
 
-There are many options for modifying the output of `plot()`.
-
-```{r}
-#| label: fig-pch
-#| fig-cap: "Symbol options."
-#| fig-width: 6
-#| fig-height: 2.5
-
-par(mfrow=c(1,3)) # set the plot window to show 1 row, 3 columns
-
-# plot(response ~ predictor, data=dataframe)
-plot(dist_ft ~ speed_mph,
-  data=cars2, xlab="Speed (mph)", ylab="Distance (ft)",
-  main="Default symbol")
-plot(dist_ft ~ speed_mph,
-  data=cars2, xlab="Speed (mph)", ylab="Distance (ft)",
-  pch=2, main="Setting 'pch=2'")
-# you can check out more symbols and their respective numbers using this plot:
-plot(1:20, pch=1:20, main="'pch' symbols 1 to 20")
-```
-
-```{r}
-par(mfrow=c(1,1)) # reset to a single panel
-```
-
+There are many options for modifying the output of `plot()`, but it is clunkier compared to `ggplot2`.
 
 ::: Q.
-With the `cars` dataset, plot stopping distance by speed for only those cars with a speed less than or equal to 15 mph.
-:::
-
-::: Q.
-Use the `plot` help page to add an appropriate title to your plot.
-:::
-
-::: Q.
-`?points` opens the help page for points. Search it for 'pch' and change the symbol in your plot.
+With the `penguins` dataset, plot bill length by body mass for only Chinstrap penguins. Make sure the plot is fully labelled.
 :::
 
 ::: {.callout-tip collapse="true"}
 ## View solution
+
 ```{r}
 #| eval: false
 
-plot(dist ~ speed, data=cars[cars$speed <= 15, ], pch=2,
-     xlab="Speed (mph)", ylab="Distance (ft)", 
-     main="Cars with max speed <= 15 mph")
+ggplot(penguins[penguins$species=="Chinstrap",], aes(body_mass, bill_len)) +
+  geom_point() + 
+  labs(x="Body mass (g)", 
+       y="Bill length (mm)",
+       title="Chinstrap penguins")
 ```
 :::
 
 ```{r}
-#| label: fig-speed_dist
-#| fig-cap: "Stopping distance by speed."
-#| fig-width: 3.5
-#| fig-height: 4
+#| label: fig-chinstraps
+#| fig-cap: "Chinstrap penguin allometrics."
+#| fig-width: 6
+#| fig-height: 4.5
 #| echo: false
 
-plot(dist ~ speed, data=cars[cars$speed <= 15, ], pch=2,
-     xlab="Speed (mph)", ylab="Distance (ft)", 
-     main="Cars with max speed <= 15 mph")
+ggplot(penguins[penguins$species=="Chinstrap",], aes(body_mass, bill_len)) +
+  geom_point() + 
+  labs(x="Body mass (g)", 
+       y="Bill length (mm)",
+       title="Chinstrap penguins")
 ```
+
+
+::: Q.
+Using `ggplot()`, create a figure where each species is a different shape. See the **Aesthetics** section in `?geom_point` for help.
+:::
+
+```{r}
+#| label: fig-penguinShapes
+#| fig-cap: "Penguin allometrics."
+#| fig-width: 6
+#| fig-height: 4.5
+#| echo: false
+
+ggplot(penguins, aes(body_mass, bill_len, shape=species)) +
+  geom_point() + 
+  scale_shape_manual("Species", values=c(1, 2, 3)) +
+  labs(x="Body mass (g)", 
+       y="Bill length (mm)",
+       title="Chinstrap penguins")
+```
+
 
 ### Boxplots
 
-Box plots are used to summarise a continuous variable by levels of a factor. We will use the `mtcars` dataset to illustrate this. You can learn about these data with `?mtcars`.
+Box plots are used to summarise a continuous variable by levels of a factor. 
 
 Explore the `data.frame` using the strategies covered above. Which variables are categorical? Which are continuous?
 
 ```{r}
-head(mtcars, 2)
+#| echo: false
+
+str(penguins, 2)
 ```
 
 ```{r}
-#| label: fig-mpl_cyl
-#| fig-cap: "Boxplot showing miles per litre vs. number of carburetors"
+#| label: fig-billArea_spp
+#| fig-cap: "Boxplot showing bill area by species"
 #| fig-width: 4
 #| fig-height: 4
 #| echo: FALSE
 
-mtcars2 <- mtcars
-mtcars2$mpl <- mtcars2$mpg / 4.5
-boxplot(mpl ~ cyl, data=mtcars2, xlab="Cylinders", ylab="Miles per litre")
+ggplot(penguins_alt, aes(species_name, bill_area/body_mass, fill=species_name)) + 
+  geom_boxplot() +
+  labs(x="Species", 
+       y="Bill area (mm^2) scaled by body mass (g)")
 ```
 
 ```{r}
 #| eval: FALSE
 
-?boxplot
+?geom_boxplot
 # See examples at bottom of the help page
 ```
 
 ::: Q.
-Reproduce the plot shown in @fig-mpl_cyl (assume 1 gallon = 4.5 L). You will need to generate a new variable (miles per litre) and label your box plot appropriately. You can limit the extent of the y-axis by adding the argument `ylim=c(a, b)` where `a` and `b` are the limits you want (e.g., `ylim=c(0, 100)`).
+Reproduce the plot shown in @fig-billArea_spp.
 :::
 
 ::: {.callout-tip collapse="true"}
 ## View solution
+
 ```{r}
 #| eval: false
-mtcars2 <- mtcars
-mtcars2$mpl <- mtcars2$mpg / 4.5
 
-boxplot(mpl ~ cyl, data=mtcars2, xlab="Cylinders", ylab="Miles per litre")
+ggplot(penguins_alt, aes(species_name, bill_area/body_mass, fill=species_name)) + 
+  geom_boxplot() +
+  labs(x="Species", 
+       y="Bill area (mm^2) scaled by body mass (g)")
 ```
 :::
 
 ::: Q.
-Use `?boxplot` to investigate what the box and whiskers actually represent.
+Use `?boxplot.stats` to investigate what the box and whiskers actually represent.
 :::
 
-Note that box plots are not the most visually intuitive. Packages like `ggplot2` (and extensions) make alternatives like those in @fig-mpl_cyl_ggplot simple to produce. We will cover some of these later.
+::: callout-note
+In base R, use `boxplot(y ~ x, data=dataframe)` to create a boxplot.
+:::
+
+Note that box plots are not the most visually intuitive, since *smaller* box areas correspond with *more* observations. Packages like `ggplot2` (and extensions) make alternatives like those in @fig-billArea_spp_ggplot simple to produce. We will cover some of these later.
 
 ```{r}
-#| label: fig-mpl_cyl_ggplot
-#| fig-cap: "Alternatives to boxplots"
+#| label: fig-billArea_spp_ggplot
+#| fig-cap: "Alternatives to boxplots. (A) Strip plot which shows all data along with means and 2 standard errors. (B) Rain cloud plot showing data distributions along with medians with middle 50% and 95%."
 #| fig-width: 10
 #| fig-height: 4
 #| echo: FALSE
@@ -294,23 +345,19 @@ Note that box plots are not the most visually intuitive. Packages like `ggplot2`
 
 library(ggdist); library(cowplot)
 theme_set(theme_classic())
-mtcars2$cyl <- factor(mtcars2$cyl)
-mtcars_mns <- mtcars2 |>
-  group_by(cyl) |>
-  summarise(mpl_mn=mean(mpl),
-            mpl_se=sd(mpl)/sqrt(n()))
-p_a <- ggplot(mtcars2, aes(cyl)) + 
-  geom_jitter(aes(y=mpl), alpha=0.5, width=0.05, size=1.5, shape=1) + 
-  geom_errorbar(data=mtcars_mns, aes(ymin=mpl_mn-2*mpl_se, ymax=mpl_mn+2*mpl_se), width=0.1) +
-  geom_point(data=mtcars_mns, aes(y=mpl_mn), size=2) +
-  labs(subtitle="Strip plot with means and 2 standard errors",
-       x="Cylinders", y="Miles per litre")
-p_b <- ggplot(mtcars2, aes(mpl, cyl)) + 
+
+p_a <- ggplot(penguins_alt, aes(species_name)) + 
+  geom_jitter(aes(y=bill_area), alpha=0.25, width=0.05, size=1.5, shape=1) + 
+  stat_summary(aes(y=bill_area), fun.data=~mean_se(.x, mult=2),
+               geom="errorbar", width=0.2) +
+  stat_summary(aes(y=bill_area), fun.data=~mean_se(.x, mult=2),
+               geom="point", size=3) +
+  labs(x="Species", y="Bill area (mm^2)")
+p_b <- ggplot(penguins_alt, aes(bill_area, species_name)) + 
   geom_dots(side="bottom", scale=0.5) +
   stat_halfeye(scale=0.5, .width=c(0.5, 0.95)) + 
-  labs(subtitle="Rain cloud plot showing median with middle 50% and 95%",
-       y="Cylinders", x="Miles per litre")
-plot_grid(p_a, p_b, align="hv", axis="tblr", nrow=1)
+  labs(y="Species", x="Bill area (mm^2)")
+plot_grid(p_a, p_b, align="hv", axis="tblr", nrow=1, labels="AUTO")
 ```
 
 ### Line plots
@@ -329,12 +376,12 @@ str(lynx)
 #| results: "hide"
 
 str(lynx)
-lynx2 <- as.data.frame(lynx) 
-str(lynx2) 
-lynx2$Year <- seq(from=1821, to=1934, by=1)
-lynx2$Trappings <- as.numeric(lynx2$x) # Time-Series is complicated.
-str(lynx2)
-head(lynx2, 2) 
+lynx_df <- as.data.frame(lynx) 
+str(lynx_df) 
+lynx_df$Year <- seq(from=1821, to=1934, by=1)
+lynx_df$Trappings <- as.numeric(lynx_df$x) # Time-Series is complicated.
+str(lynx_df)
+head(lynx_df, 2) 
 ```
 
 In R, we use *functions* to perform actions on *objects*. Functions have arguments, taking the form `functionName(arg1=..., arg2=...)`. If you do not name the arguments, the function will assume that you are listing the arguments in order. See the help file for a function with `?` to see the argument order (e.g., `?seq`).
@@ -345,6 +392,7 @@ Using `seq()`, write a piece of code which generates odd numbers between 1 and 2
 
 ::: {.callout-tip collapse="true"}
 ## View solution
+
 ```{r}
 #| eval: false
 seq(from=1, to=20, by=2)
@@ -352,10 +400,9 @@ seq(1, 20, 2)
 ```
 :::
 
-Use `?plot` to investigate options for plotting. Find the `type=` argument for plotting both the points and a connecting line. Why might this be the best option here?
 
 ::: Q.
-Using `plot()`, produce a line plot similar to @fig-lynx_1.
+Using `ggplot()`, produce a line plot similar to @fig-lynx_1.
 :::
 
 ```{r}
@@ -364,34 +411,57 @@ Using `plot()`, produce a line plot similar to @fig-lynx_1.
 #| echo: false
 #| fig-align: 'center'
 
-plot(Trappings ~ Year, data=lynx2, pch=19,
-     main="Lynx trapping in Canada (1820-1934)", type="b")
+ggplot(lynx_df, aes(Year, Trappings)) +
+  geom_point() +
+  geom_line() + 
+  labs(title="Lynx trapping in Canada (1820-1934)")
 ```
 
 ::: {.callout-tip collapse="true"}
 ## View solution
+
 ```{r}
 #| eval: false
-plot(Trappings ~ Year, data=lynx2, pch=19,
-     main="Lynx trapping in Canada (1820-1934)", type="b")
+ggplot(lynx_df, aes(Year, Trappings)) +
+  geom_point() +
+  geom_line() + 
+  labs(title="Lynx trapping in Canada (1820-1934)")
 ```
+:::
+
+
+::: callout-note
+In base R, use `plot(y ~ x, data=dataframe, type='b')` to make plots with **b**oth points and lines, or `type='l'` for just **l**ines.
 :::
 
 ::: Q.
-Create a plot that shows the log number of trappings from 1850 to 1900.
+Create a plot that shows the **log-transformed** number of trappings from **only** 1850 to 1900.
 :::
 
 ::: {.callout-tip collapse="true"}
 ## View solution
+
 ```{r}
 #| eval: false
-plot(log(Trappings) ~ Year, 
-     data=lynx2[lynx2$Year >= 1850 & lynx2$Year <= 1900, ], 
-     pch=19,
-     main="Lynx trapping in Canada (1850-1900)", type="b")
+ggplot(lynx_df[lynx_df$Year >= 1850 & lynx_df$Year <= 1900, ], 
+       aes(Year, log(Trappings))) +
+  geom_point() +
+  geom_line() + 
+  labs(title="Lynx trapping in Canada (1850-1900)")
+```
+
+Alternatively (and better, in this case) is to modify the *axis* rather than the variable. 
+
+```{r}
+ggplot(lynx_df[lynx_df$Year >= 1850 & lynx_df$Year <= 1900, ], 
+       aes(Year, Trappings)) +
+  geom_point() +
+  geom_line() + 
+  scale_y_log10() +
+  guides(y="axis_logticks") +
+  labs(title="Lynx trapping in Canada (1850-1900)")
 ```
 :::
-
 
 ### Histograms
 
@@ -403,26 +473,27 @@ Histograms illustrate the distribution of **continuous** data. In histograms the
 #| fig-width: 4
 #| fig-height: 3
 
-hist(lynx2$Trappings, main="Lynx trapping", xlab="Trapped lynx per year")
+ggplot(lynx_df, aes(Trappings)) + # specify x-axis, bun not y-axis
+  geom_histogram(colour="grey30", fill="grey90") + 
+  labs(x="Trapped lynx per year", 
+       title="Lynx trapping")
 ```
 
-::: Q.
-
+::::: Q.
 What conclusions do you draw from this plot? Which range of values was most common across years?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
-Low values (< 1000) are most common, with a second mode between 2000-3000.
-
+Low values (\< 1000) are most common, with a second mode between 2000-3000.
 :::
+::::
+:::::
 
+Be aware that histograms can be quite sensitive to the number of bins, and you should explore different options. You can set the number of bins with `bins=...` or specific values of break points with `breaks=...`.
+
+::: callout-note
+To make a multi-panel figure with ggplot, use the `plot_grid()` function in the `cowplot` package.
 :::
-
-:::
-
-Be aware that histograms can be quite sensitive to the number of bins, and you should explore different options. You can set the number or values of break points with `breaks=...`.
 
 ```{r}
 #| label: fig-lynx_hist_b1
@@ -430,41 +501,56 @@ Be aware that histograms can be quite sensitive to the number of bins, and you s
 #| fig-width: 6
 #| fig-height: 3
 
-par(mfrow=c(1,2)) # panels for the plotting window
-# R takes the number of breaks as a suggestion
-hist(lynx2$Trappings, xlab="Trapped lynx per year",
-     breaks=5)
-# this forces R to plot according to the defined breaks
-hist(lynx2$Trappings, xlab="Trapped lynx per year",
-     breaks=c(0, 500, 1000, 2000, 5000, 10000))
+library(cowplot)
+pA <- ggplot(lynx_df, aes(Trappings)) +
+  geom_histogram(colour="grey30", fill="grey90", 
+                 bins=5) + 
+  labs(x="Trapped lynx per year", 
+       title="Lynx trapping")
+pB <- ggplot(lynx_df, aes(Trappings)) +
+  geom_histogram(colour="grey30", fill="grey90", 
+                 breaks=c(0, 500, 1000, 2000, 5000, 10000)) + 
+  labs(x="Trapped lynx per year", 
+       title="Lynx trapping")
+plot_grid(pA, pB, nrow=1, labels="AUTO")
 ```
 
 ```{r}
 #| label: fig-lynx_hist_panels
-#| fig-cap: "Histograms of lynx pelts per year with different breaks"
+#| fig-cap: "Histograms of lynx pelts per year with breaks every (A) 100, (B) 500, (C) 1,000, or (D) 2,000."
 #| fig-width: 6
 #| fig-height: 4
 #| code-fold: true
 
-par(mfrow=c(2, 2)) # plot panels (2 rows x 2 columns)
-par(mar=rep(2, 4)) # change the plot margins
-hist(lynx2$Trappings, main="bin width: 100", xlab="Trapped lynx per year", 
-     breaks=seq(0, 10000, by=100))
-hist(lynx2$Trappings, main="bin width: 500", xlab="Trapped lynx per year", 
-     breaks=seq(0, 10000, by=500))
-hist(lynx2$Trappings, main="bin width: 1000", xlab="Trapped lynx per year", 
-     breaks=seq(0, 10000, by=1000))
-hist(lynx2$Trappings, main="bin width: 2000", xlab="Trapped lynx per year", 
-     breaks=seq(0, 10000, by=2000))
+pA <- ggplot(lynx_df, aes(Trappings)) +
+  geom_histogram(colour="grey30", fill="grey90", 
+                 breaks=seq(0, 10000, by=100)) + 
+  labs(x="Trapped lynx per year")
+pB <- ggplot(lynx_df, aes(Trappings)) +
+  geom_histogram(colour="grey30", fill="grey90", 
+                 breaks=seq(0, 10000, by=500)) + 
+  labs(x="Trapped lynx per year")
+pC <- ggplot(lynx_df, aes(Trappings)) +
+  geom_histogram(colour="grey30", fill="grey90", 
+                 breaks=seq(0, 10000, by=1000)) + 
+  labs(x="Trapped lynx per year")
+pD <- ggplot(lynx_df, aes(Trappings)) +
+  geom_histogram(colour="grey30", fill="grey90", 
+                 breaks=seq(0, 10000, by=2000)) + 
+  labs(x="Trapped lynx per year")
+plot_grid(pA, pB, pC, pD, nrow=2, ncol=2,
+          align="hv", axis="tblr", labels="AUTO")
 ```
 
-```{r}
-par(mfrow=c(1, 1)) # reset the par setting.
-```
 
 Which of these plots is the most useful? There is no definitive answer, but the first is very busy and the last fails to show relevant detail near 0. Bin widths of 500-1000 communicate the patterns most clearly.
 
 Generally, 5-15 breaks usually work well.
+
+
+::: callout-note
+In base R, use `hist(dataframe$column)`.
+:::
 
 ### Bar graphs
 
@@ -479,8 +565,7 @@ Working with data involves a lot of time spent tidying the datasets: cleaning, c
 ```{r}
 #| results: "hide"
 
-str(islands) 
-class(islands) # this is a named numeric vector
+str(islands) # this is a named numeric vector
 head(islands)
 
 # convert to a dataframe
@@ -498,13 +583,9 @@ head(islands_df, 2)
 row.names(islands_df) <- 1:nrow(islands_df) 
 names(islands_df)[1] <- "Area" 
 head(islands_df, 2) 
-
-# reorder by area
-islands_df <- islands_df[order(islands_df$Area, decreasing=TRUE), ]
-head(islands_df, 3)
 ```
 
-We can use the function `barplot()` to plot the vector of island areas.
+An initial attempt at a barplot makes a terrible figure.
 
 ```{r}
 #| label: fig-island_1
@@ -512,11 +593,18 @@ We can use the function `barplot()` to plot the vector of island areas.
 #| fig-width: 6
 #| fig-height: 2.5
 
-par(mar=c(4, 0, 0, 0)) # change the margin sizes
-barplot(islands_df$Area)
+ggplot(islands_df, aes(LandMass, Area)) + 
+  geom_bar(stat="identity") # 'identity' means it won't calculate any summaries
 ```
 
-The whole dataset includes a lot of very small areas, so let's cut it down to just the 10 largest. Since the dataset is already sorted, we can take rows `1:10`.
+The whole dataset includes a lot of very small areas, so let's cut it down to just the 10 largest. We also want to order the land masses by area in our plot. 
+
+We will use the `arrange()` function to order our dataframe, and then use `scale_x_discrete()` to specify the breaks in the desired order.
+
+```{r}
+islands_df <- arrange(islands_df, desc(Area)) # desc() makes it largest to smallest
+```
+
 
 ```{r}
 #| label: fig-island_2
@@ -524,38 +612,29 @@ The whole dataset includes a lot of very small areas, so let's cut it down to ju
 #| fig-width: 4
 #| fig-height: 4
 
-barplot(islands_df$Area[1:10])
+ggplot(islands_df[1:10,], aes(LandMass, Area)) + 
+  geom_bar(stat="identity") +
+  scale_x_discrete(limits=unique(islands_df$LandMass)[1:10])
 ```
 
-And the next step is to add some names to the x-axis...
+It would be more effective sideways:
 
 ```{r}
 #| label: fig-island_3
-#| fig-cap: "Top 10 island areas with names"
-#| fig-width: 4
-#| fig-height: 4
-
-barplot(islands_df$Area[1:10], names=islands_df$LandMass[1:10])
-```
-
-Which of course are unreadable. There are many options here (e.g., see `las` in `?par`) but we will rotate the plot. To do this, we need to re-adjust the margins, set `horiz=TRUE` and `las=1`, and use `[10:1]` so the largest is on top.
-
-```{r}
-#| label: fig-island_4
 #| fig-cap: "Finally! Did you know Antarctica is bigger than Europe?"
 #| fig-width: 4
 #| fig-height: 4
 
-par(mar=c(4, 10, 0, 0))
-barplot(islands_df$Area[10:1], names=islands_df$LandMass[10:1], 
-        horiz=TRUE, las=1, xlab="Area (km2)")
+
+ggplot(islands_df[1:10,], aes(Area, LandMass)) + 
+  geom_bar(stat="identity") +
+  scale_y_discrete(limits=unique(islands_df$LandMass)[10:1]) +
+  labs(x="Land mass", 
+       y="Area (km^2)")
 ```
 
-Data visualization is an iterative process with lots of trial and error to find a plot that communicates the message within the data well. There are several packages (e.g., *ggplot2*) that make these sort of adjustments and explorations less opaque than all of the options in `par()`.
+Data visualization is an iterative process with lots of trial and error to find a plot that communicates the message within the data well. 
 
-::: callout-note
-We will cover *ggplot2* and other the *tidyverse* packages in more detail soon. You are welcome to use whichever system you prefer.
-:::
 
 ------------------------------------------------------------------------
 
@@ -563,74 +642,34 @@ We will cover *ggplot2* and other the *tidyverse* packages in more detail soon. 
 
 You will often need to summarise your data before you present it. Data summaries are usually contained in tables and they can sometimes replace graphics (e.g., where the data is relatively simple or where individual precise values are important). There are many types of summary statistics. Here we are concerned with central tendency and variability.
 
-::: Q.
-
-
+::::: Q.
 What are the three main measures of central tendency?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 Mean, median, and mode
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 What are three measures of variability?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 Range, interquartile range (IQR), and variance / standard deviation
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-The most appropriate metrics of central tendency or variability will depend on your data. Another summary statistic that you might include is sample size. R is very good at producing summary statistics, and there are myriad ways to produce them. We'll return to the `cars2` dataset.
-
-```{r}
-summary(cars2) 
-```
-
-```{r}
-#| eval: FALSE
-
-summary(cars2[cars2$speed_mph > 20, ]) 
-```
-
-```{r}
-#| eval: FALSE
-
-# Recall the options to access a column in a dataframe
-summary(cars2$speed_mph) 
-summary(cars2[, 1])
-summary(cars2[, "speed_mph"])
-```
+The most appropriate metrics of central tendency or variability will depend on your data. Another summary statistic that you might include is sample size. R is very good at producing summary statistics, and there are myriad ways to produce them. 
 
 Often you'll wish to summarise your data across levels of a certain factor, such as levels of a certain treatment. More complex summaries can be made using the *dplyr* package. We'll go into more detail later on some of the very powerful ways this package (and others in the *tidyverse*) can be used.
 
-We'll use the built-in dataset `InsectSprays`. Viewing your raw data can be an important check as well. You can open a spreadsheet-style viewer in R using `View(YourDataFrame)`.
+We'll use the built-in dataset `InsectSprays`. Viewing your raw data can be an important check as well. You can open a spreadsheet-style viewer in R using `View(YourDataFrame)` or by clicking on the icon in the *Environment* pane.
 
 ```{r}
 str(InsectSprays)
-glimpse(InsectSprays) # glimpse() is loaded with tidyverse
-```
-
-```{r}
-#| eval: FALSE
-
-# spray is the categorical predictor; count is the response
-View(InsectSprays)
 ```
 
 To do more complex summaries, we will string together a series of functions. This can be done in a nested format (e.g., `fun3(fun2(fun1(dataset)))`), but this gets unwieldy very quickly.
@@ -678,81 +717,60 @@ str(scallop_df)
 names(scallop_df) <- "fat_pct"
 ```
 
-::: Q.
-
+::::: Q.
 Check the data using the methods above. Does it look OK to you?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 There is an outlier with value 99.00
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 Are these data likely to be continuous or discontinuous?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 Continuous
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 Create a plot to visualize the distribution of these data.
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 ```{r}
-hist(scallop_df$fat_pct)
+ggplot(scallop_df, aes(fat_pct)) +
+  geom_histogram(bins=15)
 ```
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 Do you spot any issues?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 As noted above, there is a clear outlier.
-
 :::
-
-:::
-
-:::
+::::
+:::::
 
 ::: {.callout-tip collapse="true"}
 ## View solution
+
 ```{r}
 #| label: fig-scallop_hist
 #| fig-cap: "Histogram of fat percentage."
 #| fig-width: 4
 #| fig-height: 4
 
-hist(scallop_df$fat_pct, main=NULL) # (what does 'main=NULL' do?)
+ggplot(scallop_df, aes(fat_pct)) +
+  geom_histogram(bins=15)
 ```
 :::
 
@@ -778,34 +796,26 @@ which(scallop_df$fat_pct_corr > 90)
 
 Now summarise `scallop_df` using some of the methods above.
 
-::: Q.
-
+::::: Q.
 Create a histogram for the corrected column. How does it differ from the original column with the error?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 The outlier is gone.
 
 ```{r}
-hist(scallop_df$fat_pct_corr)
+ggplot(scallop_df, aes(fat_pct_corr)) +
+  geom_histogram(bins=15)
 ```
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 Calculate mean, variance, median, interquartile range, minimum, maximum and range for both `fat_pct_orig` and `fat_pct_corr`.
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 Could do this line by line, or modify the code above:
 
 ```{r}
@@ -827,40 +837,28 @@ scallop_df |>
             max=max(fat_pct_corr),
             rng=diff(range(fat_pct_corr)))
 ```
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 Suppose the outlier was even bigger (i.e. your typo was even worse). Adjust your data, multiplying the erroneous data item by 10; copy the `fat_pct_orig` column and change row 36 to 999.
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 ```{r}
 scallop_df$fat_pct_badTypo <- scallop_df$fat_pct_orig
 scallop_df$fat_pct_badTypo[36] <- 999
 ```
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 Calculate the same summary statistics.
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 ```{r}
 scallop_df |>
   summarise(mean=mean(fat_pct_badTypo),
@@ -871,28 +869,19 @@ scallop_df |>
             max=max(fat_pct_badTypo),
             rng=diff(range(fat_pct_badTypo)))
 ```
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 Which measures of central tendency and variability are most 'robust' against this outlier?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 Median and IQR, since they are based on ranks.
-
 :::
-
-:::
-
-:::
+::::
+:::::
 
 Or look individually instead of calculating many metrics at once with `tidyverse` functions:
 
@@ -920,21 +909,15 @@ scallop_df |>
   knitr::kable(booktabs=TRUE, digits=3)
 ```
 
-::: Q.
-
+::::: Q.
 How would the patterns seen in @tbl-scallop influence your choice if you were required to summarise data that you thought might contain values that could be erroneous? Consider how each metric is influenced by the data distribution and by outliers.
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 Median and IQR are most robust to entry-related errors.
-
 :::
-
-:::
-
-:::
+::::
+:::::
 
 Let's load a dataset that gives the length of hake across three years of sampling.
 
@@ -943,51 +926,44 @@ hake_df <- read_excel("data/H2SMS_practicalData.xlsx", sheet="Hake")
 str(hake_df) # once again, column names made for excel rather than R
 ```
 
-::: Q.
-
+::::: Q.
 What type of variable is `length`?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 Numeric, continuous
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 Select an appropriate graphical method and display these data.
 
-::: {.content-visible when-profile="key"}
+::: callout-tip
+Hint: `ggplot(..., aes(..., group=Year)) + geom_boxplot()`
+:::
 
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 ```{r}
-par(mfrow=c(1,2))
-# Bonus: use col=rgb() to make points partly transparent
-plot(hake_df$Year, hake_df$`Hake length (mm)`, col=rgb(0,0,0,0.25))
-boxplot(`Hake length (mm)` ~ Year, data=hake_df)
+#| fig-width: 9
+#| fig-height: 4
+
+pA <- ggplot(hake_df, aes(Year, `Hake length (mm)`)) + 
+  geom_point(alpha=0.25, shape=1) # alpha sets the opacity
+pB <- ggplot(hake_df, aes(Year, `Hake length (mm)`, group=Year)) + 
+  geom_boxplot()
+plot_grid(pA, pB, nrow=1)
 ```
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 In your own time, summarise the hake data by year using the *tidyverse* functions you used above with the `InsectSprays` data.
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 ```{r}
 hake_df |>
   group_by(Year) |>
@@ -999,12 +975,9 @@ hake_df |>
             max=max(`Hake length (mm)`),
             rng=diff(range(`Hake length (mm)`)))
 ```
-
 :::
-
-:::
-
-:::
+::::
+:::::
 
 ```{r}
 hake_df$Year <- as.factor(hake_df$Year) # Treat as categorical, not numeric
@@ -1029,92 +1002,64 @@ fishPoo_df <- read_excel("data/H2SMS_practicalData.xlsx", sheet="Settling veloci
 str(fishPoo_df)
 ```
 
-::: Q.
-
+::::: Q.
 Produce a histogram of the settling velocity. Is it left or right skewed?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 It is right skewed.
 
 ```{r}
-hist(fishPoo_df$`Settling velocity (mm s-1)`)
+ggplot(fishPoo_df, aes(`Settling velocity (mm s-1)`)) + geom_histogram()
 ```
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 Which measures of central tendency and variability are most appropriate?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 Median and IQR, most likely.
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 Considering the distribution, is the mean or median larger?
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 The mean is larger.
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 Generate a new column of the log-transformed settling velocity data and plot these data.
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 ```{r}
-fishPoo_df$lnVelocity <- log(fishPoo_df$`Settling velocity (mm s-1)`)
-hist(fishPoo_df$lnVelocity)
+ggplot(fishPoo_df, aes(`Settling velocity (mm s-1)`)) + 
+  geom_histogram() + 
+  scale_x_log10() +
+  guides(x="axis_logticks")
 ```
-
 :::
+::::
+:::::
 
-:::
-
-:::
-
-::: Q.
-
+::::: Q.
 What measures of central tendency and variability could be applied to the log-transformed data? Selecting the preferable metrics for a dataset is not necessarily straightforward.
 
-::: {.content-visible when-profile="key"}
-
+:::: {.content-visible when-profile="key"}
 ::: callout-important
-
 Any, but mean and variance / standard deviation would be best.
-
 :::
-
-:::
-
-:::
+::::
+:::::
 
 @tbl-metric gives some indication of what issues you might consider.
 

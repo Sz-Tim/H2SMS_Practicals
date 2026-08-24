@@ -1,6 +1,11 @@
 # Problem Set 1 {#sec-P1_probSet .unnumbered}
 
 ::: callout-note
+
+<a href="downloads/probSets_P1_student.qmd" download="probSets_P1_student.qmd">
+  <i class="bi bi-download"></i>  Download file
+</a> 
+
 Please render this file to .html and submit via Brightspace.
 :::
 
@@ -9,9 +14,9 @@ Please render this file to .html and submit via Brightspace.
 #| warning: false
 #| code-fold: false
 
-library(tidyverse)
+library(tidyverse); theme_set(theme_classic())
 library(readxl)
-set.seed(1)
+set.seed(2026)
 ```
 
 ## R Basics

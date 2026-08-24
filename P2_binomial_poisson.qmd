@@ -1,6 +1,6 @@
-# Binomial and Poisson Distributions {#sec-P2}
+# Binomial and Poisson distributions {#sec-P2}
 
-We often wish to determine the probability of events occurring given our current understanding of the processes that are involved. This requires a mathematical description of a theoretical relationship. We refer to this as a statistical model. Models are simplified representations of reality. As George Box said, ‘All models are wrong but some are useful’.
+We often wish to determine the probability of events occurring given our current understanding of the processes involved. This requires a mathematical description of a theoretical relationship: a statistical model. Models are simplified representations of reality. As George Box said, ‘All models are wrong but some are useful’.
 
 Two models, the binomial and Poisson distributions, often provide excellent approximations of real-world events. This means that they can be used to determine the likelihood of events or series of events given certain ‘reasonable’ assumptions. In terms of planning, e.g. in the insurance industry, this is extremely useful.
 
@@ -17,7 +17,10 @@ This practical gives you the opportunity to practice using these distributions.
 #| message: false
 #| warning: false
 
-library(tidyverse)
+library(tidyverse); theme_set(theme_classic())
+library(readxl)
+library(cowplot)
+set.seed(2026)
 ```
 
 ------------------------------------------------------------------------
@@ -54,7 +57,7 @@ A fair coin has been heads in 99 consecutive flips. What is the probability of h
 
 :::
 
-This is different to asking whether (100 heads) or (99 heads + 1 tails) is more likely in a throw of 100 coins. This is different because each flip is independent.
+This is different to asking whether (100 heads) or (99 heads + 1 tails) is more likely in a throw of 100 coins. Each single flip is an independent event.
 
 ### The binomial distribution
 
@@ -64,7 +67,7 @@ For example, if a chicken laid 4 eggs and they were all female, you might wonder
 
 You need to know two things to use the binomial distribution. These are:
 
--   The number of trials ($n$, or sometimes $k$)
+-   The number of trials ($n$, sometimes called $k$)
 -   The probability of success ($p$)
 
 From *p*, we can calculate the probability of failure as $q = (1-p)$, since the two probabilities must sum to 1.
@@ -73,9 +76,17 @@ The distribution of a binomially distributed variable $y$ is specified as $y \si
 
 The **mean of a binomial distribution** is $n*p$. This gives you the *expected* outcome. For example, if $P(female)=0.5$ and $n=4$ eggs the expected number of females is $4*0.5=2$.
 
-### Binomial distributions by hand
 
-Wongles always lay two eggs in a clutch but 50% of the eggs are infertile and don't hatch. We are interested in the proportion that we expect to hatch from one clutch (two eggs).
+
+
+
+### Binomial calculations
+
+#### Sand tiger sharks
+
+Sand tiger shark (*Carcharias taurus*) females have two uterine horns, each with as many as 50 embryos. However, they display 'embryophagy', where the largest embryo in each uterine horn eats all of the smaller embryos, so that females typically give birth to two pups. 
+
+Assume that the average sex ratio of sand tiger shark pups is 50:50. We are interested in the proportion of pups we expect to be female from one clutch (two pups).
 
 ::: Q.
 What is the event?
@@ -84,7 +95,7 @@ What is the event?
 
 ::: callout-important
 
-Each egg -- whether or not it is fertile.
+Each pup -- whether or not it is female.
 
 :::
 
@@ -133,9 +144,9 @@ How many possible outcomes are there for a clutch? What are they?
 
 Three:
 
--   two fertile
--   one fertile, one infertile
--   two infertile
+-   two female
+-   one female, one male
+-   two male
 
 :::
 
@@ -162,7 +173,7 @@ $y \sim Binomial(n=k=2, p=0.5)$
 
 ::: Q.
 
-Calculate the expected proportions of clutches that contain (a) two fertile, (b) two infertile, and (c) one of each. Use a probability tree if needed.
+Calculate the expected proportions of clutches that contain (a) two female, (b) two male, and (c) one of each. Use a probability tree if needed.
 
 ::: {.content-visible when-profile="key"}
 
@@ -179,29 +190,11 @@ Calculate the expected proportions of clutches that contain (a) two fertile, (b)
 :::
 
 
-::: Q.
+#### Great white sharks
 
-Using the binomial probability mass function from @sec-appendix, calculate the expected proportions for two eggs.
+Great white sharks (*Carcharodon carcharias*) typically give birth to 2-10 pups at a time. You've captured a female for tagging and found that she has 8 developing embryos. 
 
-::: {.content-visible when-profile="key"}
-
-::: callout-important
-
-```{r}
-n <- 2
-x <- 0:n
-p <- 0.5
-
-(factorial(n)/(factorial(x)*factorial(n-x))) * p^x * (1-p)^(n-x)
-```
-
-:::
-
-:::
-
-:::
-
-Unlike Wongles, Oozles always have broods of eight offspring and all of them hatch. We are interested in modelling the probabilities of the number of male and female offspring in these broods of eight eggs.
+We are interested in the proportion of pups we expect to be female from this shark's clutch (8 pups).
 
 ::: Q.
 
@@ -243,7 +236,7 @@ What are the possible outcomes? What is the number of possible outcomes?
 
 ::: callout-important
 
-0 to 8 = 9 outcomes
+0F 8M, 1F 7M, ..., 8F 0M = 9 outcomes
 
 :::
 
@@ -251,11 +244,11 @@ What are the possible outcomes? What is the number of possible outcomes?
 
 :::
 
-We will assume that the probability $p$ of any offspring being female is 0.5 and being male $q$ is 0.5. For the extreme cases where all offspring are one sex, we can use simple probability theory: the probability of getting $n$ females in a brood of size $n$ is equal to $p^n$.
+Assume that the average sex ratio is even, such that the probability $p$ of any offspring being female is 0.5 and being male $q$ is 0.5. For the extreme cases where all offspring are one sex, we can use simple probability theory: the probability of getting $n$ females in a brood of size $n$ is equal to $p^n$.
 
 ::: Q.
 
-Write down the model for Oozle egg sex: $y \sim Binom(n,p)$.
+Write down the model for the number of female pups for this shark's brood: $y \sim Binom(n,p)$.
 
 ::: {.content-visible when-profile="key"}
 
@@ -290,7 +283,7 @@ Could use the binomial formula, but the coefficient reduces to 1 since there is 
 
 ::: Q.
 
-What is the mean number of females you would expect in Oozle broods?
+What is the mean number of females you would expect in great white shark broods of 8 pups?
 
 ::: {.content-visible when-profile="key"}
 
@@ -304,7 +297,7 @@ With p=0.5, expectation is 4
 
 :::
 
-It gets more complicated when you want to know the probability of getting, say, 1 male and 7 females from your clutch of eight eggs.
+It gets more complicated when you want to know the probability of getting, say, 1 male and 7 females from a brood of eight pups.
 
 ::: Q.
 
@@ -322,62 +315,39 @@ Symmetric
 
 :::
 
-::: Q.
+R can calculate probabilities for specific outcomes from a massive array of theoretical probability distributions, including the binomial distribution. 
 
-Use the binomial expression to calculate the probability of obtaining 0, 1, 2, 3, 4, 5, 6, 7 and 8 male offspring (note that the distribution is symmetric).
-
-::: {.content-visible when-profile="key"}
-
-::: callout-important
+For ease, we can save the binomial distribution parameters as objects:
 
 ```{r}
-n <- 8
-x <- 0:n
-p <- 0.5
-
-(factorial(n)/(factorial(x)*factorial(n-x))) * p^x * (1-p)^(n-x)
-```
-
-:::
-
-:::
-
-:::
-
-It is much easier, of course, to do this using functions in R.
-
-### Binomial distributions in R
-
-R can calculate probabilities for specific outcomes from a massive array of theoretical probability distributions. The binomial is just one of them.
-
-```{r}
-num_female <- 4 # note that 4 is assigned to the variable called num_female
-num_trials <- 8
+num_pups <- 8
 p_female <- 0.5
 ```
+
+To calculate the probability of 4 females:
 
 ```{r}
 #| eval: false
 
 # for a single probability: y~Binom(n=8, p=0.5) determine P(y_i=4)
-dbinom(num_female, num_trials, p_female) # dbinom(4, 8, 0.5)
+dbinom(4, num_pups, p_female) # dbinom(4, 8, 0.5)
 ```
 
 The function `dbinom()` gives the probability of a single outcome.
 
-Often we want to know cumulative probabilities instead. This allows us to answer questions like *"What is the probability of obtaining \< 4 females in a brood of 8 eggs?"* Here, \<4 equates to the cumulative probability P(0) + P(1) + P(2) + P(3).
+Often we want to know cumulative probabilities instead. This allows us to answer questions like *"What is the probability of obtaining \< 4 females in a brood of 8 pups?"* Here, \<4 equates to the cumulative probability P(0) + P(1) + P(2) + P(3).
 
 In this case, we can use either `pbinom(...)` or `sum(dbinom(...))` to give the cumulative probability.
 
 ```{r}
 #| results: hold
 
-dbinom(0:3, num_trials, p_female)
-sum(dbinom(0:3, num_trials, p_female))
+dbinom(0:3, num_pups, p_female)
+sum(dbinom(0:3, num_pups, p_female))
 ```
 
 ```{r}
-pbinom(3, num_trials, p_female)
+pbinom(3, num_pups, p_female)
 ```
 
 ::: Q.
@@ -405,7 +375,7 @@ Update the code to calculate $P( \leq 4)$?
 ::: callout-important
 
 ```{r}
-pbinom(4, num_trials, p_female)
+pbinom(4, num_pups, p_female)
 ```
 
 
@@ -415,55 +385,18 @@ pbinom(4, num_trials, p_female)
 
 :::
 
-::: Q.
-
-The following code aims to calculate the cumulative probability for each value up to `num_female-1` (i.e., P(<1), P(<2), P(<3), and P(<4)) using `pbinom()`. 
-
-```{r}
-pbinom(0:num_female-1, num_trials, p_female)
-```
-
-It has a bug.
-
-Identify the issue and correct it. Why was the first cumulative probability zero?
-
-::: {.content-visible when-profile="key"}
-
-::: callout-important
-
-Because of R's order of operations, brackets are needed to first calculate `num_female-1`. 
-
-When debugging, it is often useful to highlight *parts* of the code and run them. For example, if you highlight the first argument and run it, the issue is clear:
-
-```{r}
-0:num_female-1
-```
-
-R is creating a vector `0:num_female` and then subtracting `1` from each element. It is not possible to have `-1` females, and so R (correctly) tells you that the probability is 0.
-
-The correct code is:
-
-```{r}
-pbinom(0:(num_female-1), num_trials, p_female)
-```
-
-:::
-
-:::
-
-:::
 
 
 ::: Q.
 
-Calculate P(\< 4 females \| 8 eggs) using `dbinom()` instead of `pbinom()`.
+Calculate P(\< 4 females \| 8 pups) using `dbinom()` instead of `pbinom()`.
 
 ::: {.content-visible when-profile="key"}
 
 ::: callout-important
 
 ```{r}
-sum(dbinom(0:3, 8, 0.5))
+sum(dbinom(0:3, num_pups, p_female))
 ```
 
 :::
@@ -482,7 +415,7 @@ What is the probability of getting 3 females?
 ::: callout-important
 
 ```{r}
-dbinom(3, 8, 0.5)
+dbinom(3, num_pups, p_female)
 ```
 
 :::
@@ -500,7 +433,7 @@ What is the probability of getting 8 females?
 ::: callout-important
 
 ```{r}
-dbinom(8, 8, 0.5)
+dbinom(8, num_pups, p_female)
 ```
 
 :::
@@ -517,7 +450,7 @@ What cumulative probabilities would you need to consider to answer the question 
 
 ::: callout-important
 
-From 0 to 2, which could be calculated with `pbinom(2, 8, 0.5)`
+From 0 to 2, which could be calculated with `pbinom(2, num_pups, p_female)`
 
 :::
 
@@ -526,7 +459,7 @@ From 0 to 2, which could be calculated with `pbinom(2, 8, 0.5)`
 :::
 
 ::: Q.
-Review your model that describes this random process (number of females per eight eggs) that you wrote above: $y \sim Binom(n, p)$.
+Review your model that describes this random process (number of females per eight pups) that you wrote above: $y \sim Binom(n, p)$.
 :::
 
 ::: Q.
@@ -538,7 +471,7 @@ What is the probability of getting \< 4 females?
 ::: callout-important
 
 ```{r}
-pbinom(3, 8, 0.5)
+pbinom(3, num_pups, p_female)
 ```
 
 :::
@@ -555,7 +488,7 @@ What is the probability of getting $\leq$ 4 females?
 
 ::: callout-important
 ```{r}
-pbinom(4, 8, 0.5)
+pbinom(4, num_pups, p_female)
 ```
 
 :::
@@ -589,8 +522,8 @@ What is the probability of getting $\geq$ than 2 females?
 ::: callout-important
 
 ```{r}
-1 - pbinom(1, 8, 0.5)
-sum(dbinom(2:8, 8, 0.5))
+1 - pbinom(1, num_pups, p_female)
+sum(dbinom(2:8, num_pups, p_female))
 ```
 
 :::
@@ -615,8 +548,10 @@ p_female <- 0.5 # what are the limits of p_female?
 prFemale_df <- data.frame(num_female=num_female, 
                           prob=dbinom(num_female, max(num_female), p_female)) 
 prFemale_df 
-barplot(prFemale_df$prob, names=prFemale_df$num_female, 
-        xlab="Number of females", ylab="Probability")
+ggplot(prFemale_df, aes(num_female, prob)) + 
+  geom_bar(stat="identity") + 
+  labs(x="Number of females", 
+       y="Probability")
 ```
 
 ```{r}
@@ -626,17 +561,20 @@ barplot(prFemale_df$prob, names=prFemale_df$num_female,
 #| fig-height: 3
 
 prFemale_df$cumul_prob <- cumsum(prFemale_df$prob)
-barplot(prFemale_df$cumul_prob, names=prFemale_df$num_female, 
-        xlab="Enter the correct label!", ylab="Enter the correct label!")
+
+ggplot(prFemale_df, aes(num_female, cumul_prob)) + 
+  geom_bar(stat="identity") + 
+  labs(x="Enter the correct label!", 
+       y="Enter the correct label!")
 ```
 
-Try re-plotting so that the two panels appear side by side (hint: `par(mfrow=c(...))`).
+Try re-plotting so that the two panels appear side by side (hint: `library(cowplot)`, then `?plot_grid`).
 
 Note $P(y_i=x)$ is read as 'the probability that y sub i equals x'. Sometimes this includes conditions: $P(y_i=x|n,p)$, which is read as the probability that $y_i$ equals $x$ given $n$ and $p$. You may see $P()$, $Pr()$, $p()$, or $Prob()$, which all mean the same thing.
 
-The interpretation of $P(y_i=8\ |\ n=8,\ p=0.5) = 0.00391$ is that the probability of 8 female offspring in a clutch of 8 eggs where each egg has 50% probability of being female is 0.00391.
+The interpretation of $P(y_i=8\ |\ n=8,\ p=0.5) = 0.00391$ is that, in a brood of 8 pups where each pup has 50% probability of being female, the probability that all are 8 female is 0.00391.
 
-In other words, if we have 500 broods, each with 8 eggs, we expect $500 * 0.00391 = 1.95 \approx 2$ broods to be all female. Is there something strange about our Oozle or is it just one of the 2/500 by chance?
+In other words, if we have 500 broods, each with 8 pups, we expect $500 * 0.00391 = 1.95 \approx 2$ broods to be all female. You wonderously manage to identify the sex of your shark's pups, and find that all 8 are, in fact, female. Is there something strange about your shark or is it just one of the 2/500 by chance?
 
 ::: Q.
 
@@ -684,18 +622,21 @@ The distribution is skewed left, with more probability mass toward larger number
 #| fig-width: 8
 #| fig-height: 4
 
-par(mfrow=c(1,2))
 num_female <- 0:8 
 p_female <- 0.8 
 prFemale_df <- data.frame(num_female=num_female, 
                           prob=dbinom(num_female, max(num_female), p_female)) 
-prFemale_df 
-barplot(prFemale_df$prob, names=prFemale_df$num_female, 
-        xlab="Number of females", ylab="Probability")
-
 prFemale_df$cumul_prob <- cumsum(prFemale_df$prob)
-barplot(prFemale_df$cumul_prob, names=prFemale_df$num_female, 
-        xlab="Number of females", ylab="Cumulative probability")
+prFemale_df 
+pA <- ggplot(prFemale_df, aes(num_female, prob)) + 
+  geom_bar(stat="identity") + 
+  labs(x="Number of females", 
+       y="Probability")
+
+pB <- ggplot(prFemale_df, aes(num_female, cumul_prob)) + 
+  geom_bar(stat="identity") + 
+  labs(x="Number of females", y="Cumulative probability")
+plot_grid(pA, pB)
 ```
 
 :::
@@ -720,27 +661,9 @@ Here, $\bar{y}$ is the mean, $x$ is the outcome of interest, $e$ is Euler's numb
 
 Translate the Poisson formula into an R function by completing the following code.
 
-::: {.content-visible when-profile="key"}
-
-::: callout-important
-
-```{r}
-calc_poisson_prob <- function(x, y_bar) {
-  (y_bar^x * exp(-y_bar)) / factorial(x)
-}
-```
-
-:::
-
-:::
-
-:::
-
 ```{r}
 #| eval: false
 
-# hint: e^2 = exp(2)
-# hint: 3! = factorial(3)
 calc_poisson_prob <- function(x, y_bar) {
   # Translate the formula here using x and y_bar
 }
@@ -760,6 +683,21 @@ calc_poisson_prob <- function(x, y_bar) {
 # In R, 3! = factorial(3)
 ```
 
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+```{r}
+calc_poisson_prob <- function(x, y_bar) {
+  (y_bar^x * exp(-y_bar)) / factorial(x)
+}
+```
+
+:::
+
+:::
+
+:::
 
 ```{r}
 #| echo: false
@@ -771,33 +709,28 @@ calc_poisson_prob <- function(x, y_bar) {
 
 ### Poisson distributions by hand
 
-The first step is to calculate the mean number of observations per unit. This is the Poisson parameter, and is referred to as the *rate* or as *lambda* ($\lambda$). The unit could be spatial (e.g., per $m^2$) or temporal (e.g., per hour).
+When using the Poisson distribution, the first step is to calculate the mean number of observations per unit. This is the Poisson parameter, and is referred to as the *rate* or as *lambda* ($\lambda$). The unit could be spatial (e.g., per $m^2$) or temporal (e.g., per hour).
 
 Last weekend, I randomly threw a 1$m^2$ quadrat repeatedly on a sandy beach covered in worm casts @fig-wormcasts. In each quadrat, I counted the number of casts.
 
 ![Worm casts on a sandy beach with 1x1 m quadrats.](figs/worm_casts.png){#fig-wormcasts}
 
-From these data you can calculate the mean number of observations per unit.
+My observations can be found in the "WormCasts" sheet in "H2SMS_practicalData.xlsx". Read in the data and calculate the mean number of worm casts per quadrat as well as the range of observations.
 
 ```{r}
-#| include: false
-
-worm_df <- data.frame(num_worms = c(0, 1, 2, 3, 4, 5, 6),
-                      num_quadrats = c(35, 28, 15, 10, 7, 5, 0))
+worm_df <- read_excel("data/H2SMS_practicalData.xlsx", sheet="WormCasts")
+head(worm_df)
 ```
 
-The code below generates a dataframe from which you can determine that the mean number of worms per quadrat is `r with(worm_df, sum(num_worms * num_quadrats) / sum(num_quadrats))`. We wish to predict the proportion of quadrats that would contain 0, 1, 2, 3, 4, and 5 worms, assuming that the worms are independently distributed across space (i.e., random: one worm's location has no effect on another worm's location, and there is no relevant environmental variation).
+You should find a mean of `{r} mean(worm_df$casts)`, with values ranging between 0-5. 
+
+```{r}
+mean_casts <- mean(worm_df$casts)
+```
+
+We wish to predict the proportion of quadrats that would contain 0, 1, 2, 3, 4, and 5 worms, assuming that the worms are independently distributed across space (i.e., random: one worm's location has no effect on another worm's location, and there is no relevant environmental variation).
 
 We will then compare our observations to the expectations from the theoretical Poisson distribution. To do this, we need to know the probability of observing each count, given the mean count per quadrat.
-
-```{r}
-# num_worms is the number of worms per quadrat
-# num_quadrats is number of quadrats that contained each number of worms
-# This dataset is summarised. Raw data might have columns: quadrat_id, num_worms
-worm_df <- data.frame(num_worms=c(0, 1, 2, 3, 4, 5, 6),
-                      num_quadrats=c(35, 28, 15, 10, 7, 5, 0))
-worm_df
-```
 
 As the number of worms per quadrat is relatively small, the occurrences are rare enough to be reasonably described by a Poisson distribution if worms occur independently.
 
@@ -816,7 +749,7 @@ Use your `calc_poisson_prob()` function to calculate the expected frequency of 0
 ::: callout-important
 
 ```{r}
-calc_poisson_prob(x=0:2, y_bar=1.41)
+calc_poisson_prob(x=0:2, y_bar=mean_casts)
 ```
 
 :::
@@ -845,16 +778,9 @@ R has built-in functions for calculating these, but it is important to know what
 
 ### Poisson distributions using \*pois() functions
 
-You can determine the expected probabilities for each worm count per quadrat once you have determined the mean count of worms per quadrat. Since we have a summarised dataset (i.e., the number of observations `num_quadrats` for each number of worms `num_worms`, rather than the raw data with a row for each quadrat), we need to do some calculations. The mean number of worms per quadrat = (total number of worms) / (total number of quadrats).
+You can determine the expected probabilities for each worm count per quadrat using the mean count of worms per quadrat.
 
-```{r}
-sum(worm_df$num_quadrats) # total number of quadrats
-sum(worm_df$num_quadrats * worm_df$num_worms) # total number of worms
-lambda_worms <- with(worm_df, sum(num_worms * num_quadrats) / sum(num_quadrats))
-lambda_worms # the mean number of worms per quadrat
-```
-
-Given this, we can find $P(y_i \leq 5)$: the probability of a random quadrat containing five or fewer worms. With a mean of 1.41 worms per quadrat, $P(y_i \leq 5) = 0.997$ (3 sf). This means that if your data are Poisson distributed with $\lambda = 1.41$, it is highly unlikely to find more than five worms in a quadrat.
+Given this, we can find $P(y_i \leq 5)$: the probability of a random quadrat containing five or fewer worms. With a mean of 1.17 worms per quadrat, $P(y_i \leq 5) = 0.999$ (3 sf). This means that if your data are Poisson distributed with $\lambda = 1.17$, it is highly unlikely to find more than five worms in a quadrat.
 
 ::: Q.
 
@@ -867,7 +793,7 @@ If the mean number of worms was 3 per quadrat, would you be more or less likely 
 More likely, since the mean is larger. Proof:
 
 ```{r}
-dpois(5, 1.41)
+dpois(5, 1.17)
 dpois(5, 3)
 ```
 
@@ -883,7 +809,7 @@ To do these calculation in R, we can use `dpois()` and `ppois()`:
 # ?dpois 
 # for questions like 'determine P(y_i=a | lambda)'
 a <- 5 
-lambda <- 1.41 
+lambda <- 1.17 
 dpois(a, lambda) # probability of observing 'a' worms per quadrat: dpois()
 
 # ?ppois
@@ -913,9 +839,9 @@ For the converse (greater than, as in the example above), the same logic applies
 #| label: fig-worm_poisson
 #| fig-cap: "Poisson probability distribution."
 
-ppois(0:a, lambda) # what does 0:a mean? What's another way to make this vector? 
-signif(ppois(0:a, lambda), 3) # round with ?signif
-barplot(dpois(0:a, lambda),
+ppois(0:a, mean_casts) # what does 0:a mean? What's another way to make this vector? 
+signif(ppois(0:a, mean_casts), 3) # round with ?signif
+barplot(dpois(0:a, mean_casts),
         ylab = "Probability", xlab = "Number of worms",
         space = 0.2, ylim = c(0, 0.5), names.arg = 0:a)
 ```
@@ -929,7 +855,7 @@ Change the code to plot the cumulative probabilities. You will need to use `ppoi
 ::: callout-important
 
 ```{r}
-barplot(ppois(0:a, lambda),
+barplot(ppois(0:a, mean_casts),
         ylab="Cumulative probability", xlab="Number of worms",
         space=0.2, ylim=c(0, 1), names.arg=0:a)
 ```
@@ -940,10 +866,13 @@ barplot(ppois(0:a, lambda),
 
 :::
 
+To compare my observations with these theoretical Poisson expectations, we need to tally the number of 0, 1, etc worms. The easiest way is with `count()`.
+
 ```{r}
-# create new columns in worm_df for the probabilities
-worm_df$prob <- dpois(worm_df$num_worms, lambda)
-worm_df$cumul_prob <- cumsum(worm_df$prob)
+worm_summary <- worm_df |>
+  count(casts) |>
+  mutate(prob=dpois(casts, mean_casts),
+         cumul_prob=cumsum(prob))
 ```
 
 ```{r}
@@ -953,7 +882,7 @@ worm_df$cumul_prob <- cumsum(worm_df$prob)
 #| warning: false
 
 # Make Table 2.1. Use packageName::function() instead of loading with library()
-knitr::kable(worm_df, digits=5) 
+knitr::kable(worm_summary, digits=5) 
 ```
 
 ::: Q.
@@ -978,14 +907,14 @@ If individual probability values (not cumulative probability) are multiplied by 
 
 ::: Q.
 
-Write the appropriate code to add a column (called `num_quadrats_expected`) to `worm_df` that is the expected number of quadrats (given 100 quadrats total).
+Write the appropriate code to add a column (called `n_expected`) to `worm_summary` that is the expected number of quadrats (given 100 quadrats total).
 
 ::: {.content-visible when-profile="key"}
 
 ::: callout-important
 
 ```{r}
-worm_df$num_quadrats_expected <- 100 * worm_df$prob
+worm_summary$n_expected <- 100 * worm_summary$prob
 ```
 
 :::
@@ -994,18 +923,18 @@ worm_df$num_quadrats_expected <- 100 * worm_df$prob
 
 :::
 
-This is the number of quadrats that you would expect to contain 0, 1, ..., 5 worms, given that the mean density of worms is 1.41 per m$^2$. Note that the number of worms per quadrat is a discrete variable, but you can have non-integer ‘expectations’ (i.e. means).
+This is the number of quadrats that you would expect to contain 0, 1, ..., 5 worms, given that the mean density of worms is 1.17 per m$^2$. Note that the number of worms per quadrat is a discrete variable, but you can have non-integer ‘expectations’ (i.e. means).
 
 ::: Q.
 
-Add another column that is the difference in the observed number of quadrats and `num_quadrats_expected`.
+Add another column that is the difference in the observed number of quadrats and `n_expected`.
 
 ::: {.content-visible when-profile="key"}
 
 ::: callout-important
 
 ```{r}
-worm_df$diff <- worm_df$num_quadrats - worm_df$num_quadrats_expected
+worm_summary$diff <- worm_summary$n - worm_summary$n_expected
 ```
 
 :::
@@ -1023,9 +952,10 @@ Produce a bar graph of this difference.
 ::: callout-important
 
 ```{r}
-barplot(worm_df$diff, 
-        xlab="Number of worms per quadrat", ylab="Observed minus expected", 
-        names.arg=0:6)
+ggplot(worm_summary, aes(casts, diff)) + 
+  geom_bar(stat="identity") +
+  labs(x="Number of worms per quadrat", 
+       y="Observed minus expected")
 ```
 
 :::
@@ -1033,6 +963,53 @@ barplot(worm_df$diff,
 :::
 
 :::
+
+::: Q.
+
+Calculate the observed variance. Do these observations tend to be overdispersed or underdispersed (= clumped)?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+```{r}
+var(worm_df$casts)
+```
+
+They tend to be overdispersed, with higher variance than expected under a Poisson distribution. That is, there are more low and high values than predicted and fewer intermediate values than expected.
+
+:::
+
+:::
+
+:::
+
+Here is a figure showing the distributions side-by-side:
+
+```{r}
+#| label: tbl-worm_dist
+#| tbl-cap: "Worm cast observations and expected count from the Poisson distribution."
+#| message: false
+#| warning: false
+#| code-fold: true
+#| fig-width: 6
+#| fig-height: 4
+
+worm_summary |>
+  select(casts, n, n_expected) |>
+  pivot_longer(2:3) |>
+  ggplot(aes(casts, value, fill=name)) + 
+  geom_bar(stat="identity", position="dodge", colour="grey30") +
+  scale_fill_manual("Distribution", 
+                    values=c("cornsilk2", "cornsilk4"), 
+                    labels=c("Observed", "Expected")) +
+  labs(x="Number of worms per quadrat", 
+       y="Number of quadrats") +
+  theme(legend.position="inside",
+        legend.position.inside=c(0.9, 0.9))
+```
+
+
 
 ------------------------------------------------------------------------
 

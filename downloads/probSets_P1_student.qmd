@@ -41,8 +41,6 @@ Create a vector called `site_num` with the values 1 through 10.
 
 ```
 
-
-
 ## Data munging
 
 The *SmoltWeights* sheet from H2SMS_practicalData.xlsx contains the weight in grams (column `weight_g`) from a sample of 34 wild salmon smolts (column `fish_id`) during their out-migration from a river to the ocean. Load the dataset and perform basic summaries (range, mean, median, number of missing values for each column). Identify (using code) which fish are missing values for `weight_g`.
@@ -51,15 +49,11 @@ The *SmoltWeights* sheet from H2SMS_practicalData.xlsx contains the weight in gr
 
 ```
 
-
-
 Create a new column called `weight_lb` that gives the weights in pounds, where 1 kg = 2.205 lb.
 
 ```{r}
 
 ```
-
-
 
 What proportion of fish weigh less than 0.2 lb? How many fish is this?
 
@@ -67,23 +61,17 @@ What proportion of fish weigh less than 0.2 lb? How many fish is this?
 
 ```
 
-
-
 Create a new data.frame called `large_df` that contains only the fish as large or larger than the median weight *and* excludes rows with missing weights.
 
 ```{r}
 
 ```
 
-
-
 Create a new data.frame called `extreme_df` that contains only fish more than 1.5 standard deviations greater than the mean *and* excludes rows with missing weights.
 
 ```{r}
 
 ```
-
-
 
 ## Plotting
 
@@ -105,17 +93,15 @@ Note that you *cannot* re-use the same `label`.
 
 ```
 
-
-
 ### Line plots
 
-The dataset `beaver1` is available in R, giving the body temperature through time of a female beaver (*Castor canadensis*), with observations every 10 minutes. 
+The dataset `beaver1` is available in R, giving the body temperature through time of a female beaver (*Castor canadensis*), with observations every 10 minutes.
 
 ```{r}
 str(beaver1)
 ```
 
-Debug the following code so that it produces a line plot of body temperature by observation id. Note that `time` is given in the form `0330` for 3:30am (`?beaver1`). The `obs_id` column thus gives the ordered observations from first to last. 
+Debug the following code so that it produces a line plot of body temperature by observation id. Note that `time` is given in the form `0330` for 3:30am (`?beaver1`). The `obs_id` column thus gives the ordered observations from first to last.
 
 As an added challenge, add vertical dashed lines indicating when the beaver was active.
 
@@ -135,9 +121,6 @@ plot(obs_id ~ Temp,
      ylab="Body temperature (C)")
 ```
 
-
-
-
 ### Boxplots
 
 The dataset `ToothGrowth` is available in R, giving the length (`len`) of tooth-growth cells (odontoblasts) in 60 guinea pigs under different vitamin C regimes (`supp`: OJ=orange juice, VC=ascorbic acid; `dose`: 0.5, 1, 2 mg/day). Create a boxplot of the length by dose for only the guinea pigs receiving orange juice. Write a figure caption and add a label as above.
@@ -147,8 +130,6 @@ The dataset `ToothGrowth` is available in R, giving the length (`len`) of tooth-
 
 
 ```
-
-
 
 Use `ggplot()` to make the same boxplot, but with `supp` as the fill colour.
 
@@ -162,8 +143,6 @@ Remember to check the column types first!
 
 ```
 
-
-
 ### Scatter plots
 
 Using the same `ToothGrowth` dataset, produce a scatter plot of odontoblast length as a function of dose, where `supp` is the point colour.
@@ -173,5 +152,3 @@ Using the same `ToothGrowth` dataset, produce a scatter plot of odontoblast leng
 
 
 ```
-
-

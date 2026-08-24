@@ -1,4 +1,4 @@
 #!/bin/bash
 
 export QUARTO_PROFILE=man
-quarto publish quarto-pub
+quarto publish posit-connect-cloud

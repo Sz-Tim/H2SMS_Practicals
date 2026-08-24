@@ -1,6 +1,11 @@
-# . 5 Problem Set {#sec-P5_probSet .unnumbered}
+# Problem Set 5 {#sec-P5_probSet .unnumbered}
 
 ::: callout-note
+
+<a href="downloads/probSets_P5_student.qmd" download="probSets_P5_student.qmd">
+  <i class="bi bi-download"></i>  Download file
+</a> 
+
 Please render this file to .html and submit via Brightspace.
 :::
 
@@ -9,8 +14,10 @@ Please render this file to .html and submit via Brightspace.
 #| warning: false
 #| code-fold: false
 
-library(tidyverse)
+library(tidyverse); theme_set(theme_classic())
 library(readxl)
+library(emmeans)
+set.seed(2026)
 ```
 
 ## T-tests, ANOVA, and regression
@@ -19,30 +26,594 @@ For each scenario, select an appropriate analysis given the dataset. Follow the 
 
 ### Scenario 1
 
-(ANOVA)
+
+**Research question:** Do critical thermal limits change with repeated heatwave exposure in kelp?
+
+In an experiment similar to [King et al. 2024](https://doi.org/10.1111/1365-2435.14622), a (hypothetical) H4 student measured critical thermal maxima (CT~max~) on the kelp species *Laminaria hyperborea* under 1) no previous heat exposure, 2) recent moderate heat exposure, and 3) recent extreme heat exposure. 
+
+Identify the response and predictor variables, as well as what type of variable each is. 
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+CT~max~ is the response; it is continuous.
+
+Heat exposure is the predictor; it is categorical.
+
+:::
+:::
+
+Next, load the data from the "MHW" sheet in "H2SMS_practicalData.xlsx" and perform appropriate checks.
 
 ```{r}
 
 ```
 
+::: {.content-visible when-profile="key"}
 ::: callout-important
 ```{r}
 #| code-fold: true
-#| code-summary: "Solution"
+#| code-summary: "View code"
 
+mhw_df <- read_xlsx("data/H2SMS_practicalData.xlsx", sheet="MHW")
+str(mhw_df)
+summary(mhw_df)
+mhw_df$treatment <- factor(mhw_df$treatment, levels=c("Control", "Moderate", "Extreme"))
+```
+
+:::
+:::
+
+Which analysis is most appropriate?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+ANOVA
+
+:::
+:::
+
+
+What is the null hypothesis?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+$\mu_{Control} = \mu_{Moderate} = \mu_{Extreme}$
+
+:::
+:::
+
+
+Perform the analysis, including assumption checks. Calculate appropriate confidence intervals, make appropriate comparisons, and summarise results concisely in one short paragraph including key statistics.
+
+```{r}
 
 ```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+mhw_aov <- aov(CTmax ~ treatment, data=mhw_df)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+#| fig-width: 7
+#| fig-height: 6
+
+par(mfrow=c(2,2))
+plot(mhw_aov)
+par(mfrow=c(1,1))
+```
+
+Assumptions look reasonable. Approximately normally distributed residuals and similar residual variance in each treatment.
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+summary(mhw_aov)
+```
+
+There is a significant effect of treatment (p < 0.05).
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+em_df <- emmeans(mhw_aov, specs="treatment")
+em_df
+TukeyHSD(mhw_aov)
+```
+
+> There was a significant difference in CT~max~ among all treatments (F~2,87~=5502, p < 0.001). The individuals in the control showed the most heat tolerance (mean CT~max~ [95% CI]: 30.1 C [30.0-30.14 C]), with a slight decline in individuals previously exposed to moderate heatwave conditions (29.0 C [28.9-29.1 C]) and a dramatic decrease in heat tolerance for individuals previously exposed to extreme heatwave conditions (24.0 C [23.9-24.1 C]). 
+
+::: callout-note
+Depending on the specific question and focus, you might focus on the mean densities (listing them specifically in text) or on the differences: use the text to emphasize the main results of interest. Further detail can be included in figures and tables.
 :::
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+#| fig-cap: "CT~max~ in *Laminaria hyperborea* under different prior heatwave exposures. Observed values (small points) along with mean (open points) and 95% confidence intervals."
+#| fig-width: 3.5
+#| fig-height: 3.5
+
+ggplot(mhw_df, aes(treatment)) +
+  geom_point(aes(y=CTmax), alpha=0.5) +
+  geom_point(data=as_tibble(em_df), aes(y=emmean), shape=1, size=3) +
+  geom_errorbar(data=as_tibble(em_df), aes(ymin=lower.CL, ymax=upper.CL), width=0.25) + 
+  labs(x="Treatment", 
+       y="CTmax (C)")
+```
+
+:::
+:::
+
+
 
 
 ### Scenario 2
 
-(t-test)
+**Research question:** Is the average concentration of *Alexandrium spp* in an area greater than 40 cells per litre?
+
+In the UK, shellfish cannot be harvested on aquaculture farms if densities of harmful algal species exceed certain levels. For example, *Alexandrium spp* release paralytic shellfish toxins, and growers are not allowed to harvest when *Alexandrium spp* exceeds 40 cells per litre. 
+
+I've collected 13 water samples and enumerated the number of *Alexandrium spp* cells. 
+
+::: callout-note
+NB: This is *not* quite how the regulatory monitoring works!
+:::
+
+Identify the response and predictor variables, as well as what type of variable each is. 
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+Alexandrium density is the response; it is continuous.
+
+There is not a predictor variable.
+
+:::
+:::
+
+Next, load the data from the "Alexandrium" sheet in "H2SMS_practicalData.xlsx" and perform appropriate checks.
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+alex_df <- read_xlsx("data/H2SMS_practicalData.xlsx", sheet="Alexandrium")
+str(alex_df)
+summary(alex_df)
+```
+
+:::
+:::
+
+Which analysis is most appropriate?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+One-sample t-test
+
+:::
+:::
+
+What is the null hypothesis?
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+$\mu_{Alex} \leq 40$
+
+:::
+:::
+
+Perform the analysis, including assumption checks. Calculate appropriate confidence intervals, make appropriate comparisons, and summarise results concisely in one short paragraph including key statistics.
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+#| fig-width: 9
+#| fig-height: 4
+
+par(mfrow=c(1,2))
+hist(alex_df$alex_cells_L, breaks=5)
+qqnorm(alex_df$alex_cells_L); qqline(alex_df$alex_cells_L)
+```
+
+Data are reasonably normal.
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+t.test(alex_df$alex_cells_L, mu=40, alternative="greater")
+```
+
+> We did not find evidence that the mean density of *Alexandrium* cells was above 40 cells L^-1^ (t~12~=-11.1, p = 1), with an observed mean density of 30.4 (one-tailed 95% confidence limit: 28.8).
+
+:::
+:::
+
 
 ### Scenario 3
 
-(ANOVA with log transformation)
+
+**Research question:** Does mean seagrass shoot density differ among patches?
+
+The data consists of seagrass shoot density measured by snorkelers in 20 randomly located quadrats in each of 3 lochs in western Scotland. 
+
+Identify the response and predictor variables, as well as what type of variable each is. 
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+Seagrass shoot density is the response; it is continuous.
+
+Loch is the predictor; it is categorical.
+
+:::
+:::
+
+Next, load the data from the "Seagrass" sheet in "H2SMS_practicalData.xlsx" and perform appropriate checks.
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+seagrass_df <- read_xlsx("data/H2SMS_practicalData.xlsx", sheet="Seagrass")
+str(seagrass_df)
+summary(seagrass_df)
+seagrass_df$loch <- factor(seagrass_df$loch)
+```
+
+:::
+:::
+
+Which analysis is most appropriate?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+ANOVA
+
+:::
+:::
+
+
+What is the null hypothesis?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+$\mu_{Ailort} = \mu_{Duich} = \mu_{Hourn}$
+
+:::
+:::
+
+
+Perform the analysis, including assumption checks. Calculate appropriate confidence intervals, make appropriate comparisons, and summarise results concisely in one short paragraph including key statistics.
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+seagrass_aov <- aov(obs ~ loch, data=seagrass_df)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+#| fig-width: 7
+#| fig-height: 6
+
+par(mfrow=c(2,2))
+plot(seagrass_aov)
+par(mfrow=c(1,1))
+```
+
+Normality is not good, and the variance seems to be different among lochs, with an apparent increase with the fitted value (i.e., variance increases with the mean). A log transform is a reasonable choice to try.
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+seagrass_df$log_obs <- log(seagrass_df$obs)
+seagrass_aov <- aov(log_obs ~ loch, data=seagrass_df)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+#| fig-width: 7
+#| fig-height: 6
+
+par(mfrow=c(2,2))
+plot(seagrass_aov)
+par(mfrow=c(1,1))
+```
+
+Not perfect, but much better and close enough.
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+summary(seagrass_aov)
+```
+
+There is no significant effect of loch (p > 0.05).
+
+> There was no a significant difference in mean seagrass shoot density among lochs (F~2,57~=0.906, p = 0.41).  
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+em_df <- emmeans(seagrass_aov, specs="loch")
+em_df <- as_tibble(em_df) |>
+  mutate(exp_mn=exp(emmean),
+         exp_lo=exp(lower.CL),
+         exp_hi=exp(upper.CL))
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+#| fig-cap: "Seagrass shoot density. Observed values (small points) along with mean (open points) and 95% confidence intervals."
+#| fig-width: 3.5
+#| fig-height: 3.5
+
+ggplot(seagrass_df, aes(loch)) +
+  geom_point(aes(y=obs), alpha=0.5) +
+  geom_point(data=em_df, aes(y=exp_mn), shape=1, size=3) +
+  geom_errorbar(data=em_df, aes(ymin=exp_lo, ymax=exp_hi), width=0.25) + 
+  labs(x="Loch", 
+       y="Seagrass shoot density (n/m2)")
+```
+
+Or, potentially consider the log-scale version:
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+#| fig-cap: "Seagrass shoot density. Observed values (small points) along with mean (open points) and 95% confidence intervals."
+#| #| fig-width: 3.5
+#| fig-height: 3.5
+
+ggplot(seagrass_df, aes(loch)) +
+  geom_point(aes(y=obs), alpha=0.5) +
+  geom_point(data=em_df, aes(y=exp_mn), shape=1, size=3) +
+  geom_errorbar(data=em_df, aes(ymin=exp_lo, ymax=exp_hi), width=0.25) + 
+  labs(x="Loch", 
+       y="Seagrass shoot density (n/m2)") +
+  scale_y_log10() + 
+   guides(y="axis_logticks")
+```
+
+
+:::
+:::
+
+
+
 
 ### Scenario 4
 
-(Regression)
+**Research question:** Does egg hatching success rate of *Acartia tonsa* depend on temperature?
+
+A (hypothetical) H4 student has decided to replicate one of the experiments of [Holste and Peck (2006)]( https://doi.org/10.1007/s00227-005-0132-0) to test the effect of temperature on egg hatching success of the copepod *Acartia tonsa*. Their data are in the "HatchTemp" sheet in "H2SMS_practicalData.xlsx", containing the temperature (C) and hatching success rate (%) for 3 replicates at each temperature.
+
+
+```{r}
+#| include: false
+#| eval: false
+
+calc_hatch_prob <- function(temperature) {
+  a <- rnorm(1, 5.73, 7.68)
+  b <- rnorm(1, 3.8, 0.44)
+  return(a + b*temperature)
+}
+
+set.seed(1)
+HS_df <- expand_grid(temp=8:18,
+                     replicate=1:3) |>
+  rowwise() |>
+  mutate(HS=calc_hatch_prob(temp)) |> 
+  ungroup() |>
+  mutate(obs=HS + rnorm(n(), 0, 3))
+if(FALSE) {
+  write_csv(HS_df, "temp_hatchTemp.csv")
+}
+HS_df |>
+  ggplot(aes(temp, obs)) + geom_point() + ylim(0, 100) + stat_smooth(method="lm")
+par(mfrow=c(2,2))
+plot(lm(obs ~ temp, data=HS_df)) 
+par(mfrow=c(1,1))
+summary(lm(obs ~ temp, data=HS_df))
+
+```
+
+
+Identify the response and predictor variables, as well as what type of variable each is. 
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+Hatching success rate is the response; it is continuous and constrained 0-100.
+
+Temperature is the predictor; it is continuous
+
+:::
+:::
+
+Next, load the data from the "HatchTemp" sheet in "H2SMS_practicalData.xlsx" and perform appropriate checks.
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+hatchTemp_df <- read_xlsx("data/H2SMS_practicalData.xlsx", sheet="HatchTemp")
+str(hatchTemp_df)
+summary(hatchTemp_df)
+```
+
+:::
+:::
+
+Which analysis is most appropriate?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+Linear regression
+
+:::
+:::
+
+
+What is the null hypothesis?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+$\beta = 0$
+
+:::
+:::
+
+
+Perform the analysis, including assumption checks. Calculate appropriate confidence intervals, make appropriate comparisons, and summarise results concisely in one short paragraph including key statistics.
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+hatchTemp_lm <- lm(hatch_percent ~ temp, data=hatchTemp_df)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+#| fig-width: 7
+#| fig-height: 6
+
+par(mfrow=c(2,2))
+plot(hatchTemp_lm)
+par(mfrow=c(1,1))
+```
+
+Assumptions look reasonable. Approximately normally distributed residuals and similar residual variance in across temperatures.
+
+::: callout-note
+Note that the response variable is a percentage. In this case, the assumptions look reasonable for the original data, but be aware that extrapolating to temperatures beyond the measured range would very quickly lead to impossible predictions! 
+:::
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+summary(hatchTemp_lm)
+```
+
+There is a significant effect of temperature (p < 0.05).
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+confint(hatchTemp_lm)
+```
+
+> Hatching success rate increased with temperature (mean [95% CI]: 4.17 [3.1-5.24] percentage points per degree C; p < 0.001, R^2^~adj~ = 0.66, n=33). 
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+#| fig-cap: "Hatching success rate by temperature. Observed values (small points) along with fitted line and 95% confidence interval."
+#| fig-width: 3.5
+#| fig-height: 3.5
+
+ggplot(hatchTemp_df, aes(temp, hatch_percent)) +
+  geom_point(alpha=0.5) +
+  geom_smooth(method="lm") +
+  scale_x_continuous("Temperature (C)", breaks=seq(8, 18, by=2)) +
+  scale_y_continuous("Hatching success (%)", limits=c(0, 100))
+```
+
+:::
+:::
+
+

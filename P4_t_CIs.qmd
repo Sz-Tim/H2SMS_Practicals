@@ -12,9 +12,9 @@ The t-distribution models the probability of making a given observation from a p
 #| message: false
 #| warning: false
 
-library(tidyverse)
+library(tidyverse); theme_set(theme_classic())
 library(readxl)
-set.seed(2025)
+set.seed(2026)
 ```
 
 ```{r}

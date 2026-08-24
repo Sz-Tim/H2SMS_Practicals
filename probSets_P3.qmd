@@ -1,6 +1,11 @@
-# . 3 Problem Set {#sec-P3_probSet .unnumbered}
+# Problem Set 3 {#sec-P3_probSet .unnumbered}
 
 ::: callout-note
+
+<a href="downloads/probSets_P3_student.qmd" download="probSets_P3_student.qmd">
+  <i class="bi bi-download"></i>  Download file
+</a> 
+
 Please render this file to .html and submit via Brightspace.
 :::
 
@@ -9,21 +14,24 @@ Please render this file to .html and submit via Brightspace.
 #| warning: false
 #| code-fold: false
 
-library(tidyverse)
+library(tidyverse); theme_set(theme_classic())
 library(readxl)
+set.seed(2026)
 ```
 
 ## Normal distribution
 
 ### Scenario 1: Using `*norm()`
 
-For a particular population of brown seaweed, the winter carbon:nitrogen ratio is distributed normally among individuals as $y \sim Norm(\mu=27.6, \sigma=2.5)$. 
+For a particular population of brown seaweed, the winter carbon:nitrogen ratio is distributed approximately normally among individuals as $y \sim Norm(\mu=27.6, \sigma=2.5)$. 
 
 What proportion of the population would you expect to have a C:N ratio greater than 30?
 
 ```{r}
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -37,11 +45,15 @@ sigma <- 2.5
 ```
 :::
 
+:::
+
 What is the probability of sampling an individual with a ratio between 23 and 24?
 
 ```{r}
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -52,11 +64,15 @@ pnorm(24, mu, sigma) - pnorm(23, mu, sigma)
 ```
 :::
 
+:::
+
 What ratio would delineate the lowest 30% of the population?
 
 ```{r}
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -67,11 +83,15 @@ qnorm(0.3, mu, sigma)
 ```
 :::
 
+:::
+
 Generate a random sample of 12 individuals from this population. Calculate the sample mean and sample standard deviation. 
 
 ```{r}
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -95,9 +115,13 @@ sd(obs)
 
 :::
 
+:::
+
 What is the difference between your sample mean and the true population mean called? Why does it occur and what are two aspects of your sampling design that affect it?
 
 > 
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -146,6 +170,8 @@ What is the difference between your sample mean and the true population mean cal
 ```
 :::
 
+:::
+
 
 Repeat your random sampling 1000 times, calculate a sample mean for each of the 1000 samples, and make a histogram of them. Calculate the mean of these sample means. 
 
@@ -153,7 +179,7 @@ Repeat your random sampling 1000 times, calculate a sample mean for each of the 
 
 ```
 
-::: callout-important
+::: callout-tip
 ```{r}
 #| code-fold: true
 #| code-summary: "Hint"
@@ -167,6 +193,8 @@ Repeat your random sampling 1000 times, calculate a sample mean for each of the 
 
 :::
 
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -192,10 +220,17 @@ hist(y_bar, breaks=15); abline(v=mu, col="blue")
 signif(mean(y_bar), 3)
 ```
 
+:::
+
+:::
+
 How does this mean (and the histogram) compare to the population mean? 
 
 >
 
+::: {.content-visible when-profile="key"}
+
+::: callout-important
 
 ```{r}
 #| code-fold: true
@@ -211,6 +246,8 @@ How does this mean (and the histogram) compare to the population mean?
 # This relies on a *random* sample. If the sampling is biased (non-random), this
 # pattern can not be relied upon!
 ```
+
+:::
 
 :::
 
@@ -231,6 +268,8 @@ The values are given as percentages ranging from 0-100. Make a histogram for the
 
 ```
 
+::: {.content-visible when-profile="key"}
+
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -244,9 +283,13 @@ hist(swiss$Education,
 
 :::
 
+:::
+
 What transformation would be most appropriate for these kinds of data? 
 
 >
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -254,10 +297,12 @@ What transformation would be most appropriate for these kinds of data?
 #| code-summary: "Solution"
 #| eval: false
 
-# Logistic: Data are percentages (easily converted to proportions) and tend to be smaller values near the lower boundary (0%) with a long tail of larger values (right skew).
+# Logistic: Data are percentages (convert to proportions by dividing by 100) and tend to be smaller values near the lower boundary (0%) with a long tail of larger values (right skew).
 
 # A log transformation may also be suitable.
 ```
+
+:::
 
 :::
 
@@ -266,6 +311,8 @@ Apply this transformation and make a histogram of the transformed values.
 ```{r}
 
 ```
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -279,9 +326,13 @@ hist(boot::logit(swiss$Education/100),
 
 :::
 
+:::
+
 What do you notice about the shape of the original and transformed distributions?
 
 >
+
+::: {.content-visible when-profile="key"}
 
 ::: callout-important
 ```{r}
@@ -294,10 +345,186 @@ What do you notice about the shape of the original and transformed distributions
 
 :::
 
+:::
 
 ## Standard error of the mean
 
-Calculations with populations vs. samples.
+For the seaweed population in Scenario 1, we simulated a sample of 12 individuals from the population. In my particular sample, I found a sample mean of `{r} round(mean(obs), 3)`. Recall that the true population was distributed as $y \sim Norm(\mu=27.6, \sigma=2.5)$. 
+
+Using the true population standard deviation $\sigma=2.5$, calculate the standard error of the mean. 
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Solution"
+
+sigma <- 2.5
+n <- 12
+
+sigma / sqrt(n)
+```
+
+:::
+
+:::
+
+In your own words, describe what the standard error of the mean is. 
+
+>
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Solution (my words)"
+#| eval: false
+
+# The standard error of the mean is the standard deviation of the distribution of possible sample means from a given population. It describes the breadth of the distribution of sample means we would expect if we were to collect many, many different samples, each with size n, and calculate a mean from each sample.
+```
+
+:::
+
+:::
+
+The distribution of sample means can be simulated in R. Write code to 1) simulate 100 different samples from the seaweed population with $n=12$, and 2) calculate a sample mean from each of these 100 samples.
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Solution"
+
+n_samples <- 100
+n <- 12
+sample_means <- rep(0, n_samples)
+for(i in 1:n_samples) {
+  sample_means[i] <- rnorm(n, mu, sigma) |> mean()
+}
+```
+
+:::
+
+:::
 
 
+Make a plot to show the distribution of these sample means, and indicate the true population mean $\mu$.
 
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Solution"
+
+hist(sample_means, breaks=10)
+abline(v=mu, col="red", lwd=2)
+```
+
+:::
+
+:::
+
+Calculate the standard deviation of the 100 sample means. 
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Solution"
+
+sd(sample_means)
+```
+
+:::
+
+:::
+
+How does it compare to the standard error of the mean you calculated above? Try increasing the number of samples to 3,000 and recalculate.
+
+>
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Solution"
+#| eval: false
+
+# The standard deviation of the sample means should be close. Increasing the number of samples should bring this value even closer to the standard error of the mean calculated analytically. Note that this is because we are averaging over sampling error! 
+```
+
+:::
+
+:::
+
+
+Lastly, repeat the process, this time with $n=120$ for each sample. Calculate the standard error of the mean, simulate 100 sample means, and compare the standard deviation of these with the calculated standard error.
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Solution"
+
+n <- 120
+
+sigma / sqrt(n)
+n_samples <- 100
+sample_means <- rep(0, n_samples)
+for(i in 1:n_samples) {
+  sample_means[i] <- rnorm(n, mu, sigma) |> mean()
+}
+hist(sample_means, breaks=10)
+abline(v=mu, col="red", lwd=2)
+sd(sample_means)
+```
+
+:::
+
+:::
+
+Why does the standard error decrease? What does this tell us about our level of confidence in the sample statistics we calculate ($\bar{y}$, $s$) and our inferences about the population parameters we are interested in ($\mu$, $\sigma$)?
+
+>
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Solution"
+#| eval: false
+
+# Sample means will vary less (among samples) as the size of each sample increases. The variability among individuals averages out, and our samples become more representative of the population. According to the equation, the standard error decreases with the square root of the sample size. 
+
+# So, with a larger sample size, we can be more confident that our sample mean is near to the population mean. 
+
+# Note that this assumes proper sampling methodology! (See Experimental Design lectures)
+```
+
+:::
+
+:::

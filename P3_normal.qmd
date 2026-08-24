@@ -28,9 +28,9 @@ In this practical we will examine the normal distribution, calculate Z scores, a
 #| message: false
 #| warning: false
 
-library(tidyverse)
+library(tidyverse); theme_set(theme_classic())
 library(readxl)
-set.seed(2025)
+set.seed(2026)
 ```
 
 ------------------------------------------------------------------------
@@ -599,67 +599,53 @@ The assumption that our sample data are drawn from a normally distributed popula
 
 A common issue is that our measurements are logically bounded. For example, chemical concentrations (e.g., zinc in sediments) cannot be negative. Similarly, you cannot have negative lengths, time, mass, etc. Proportions must be between 0 and 1. Where data is collected ‘near’ a logical boundary they are often not normally distributed, since the normal distribution predicts ‘tails’ which are impossible.
 
-One solution is to use a mathematical transformation to convert your data to something that is reasonably approximated by a normal distribution even if it is not well approximated in the original measurement units. Often transformations will also correct unequal variances (see @sec-P5) in addition to non-normality so they are very useful. The appropriate transformation depends on the data.
+The best solution is to use an appropriate member of the GLM family.
+
+An alternative solution is to use a mathematical transformation to convert your data to something that is reasonably approximated by a normal distribution even if it is not well approximated in the original measurement units. Often transformations will also correct unequal variances (see @sec-P5) in addition to non-normality so they are very useful. The appropriate transformation depends on the data.
 
 Common transformations include:
 
 -   Log (`log(x)`, inverse: `exp(x)`): When the distribution is skewed right and all values are \>0. Often ‘cures’ heteroscedasticity. Commonly used for observations spanning orders of magnitude such as body size.\
 -   Square-root (`sqrt(x)`, inverse: `x^2`): When the measurements are areas (e.g., leaf areas). Often used to ‘down-weight’ common species (e.g., @sec-P6), which is unrelated to model assumptions. Values must be \>0.\
--   Arcsine (`asin(x)`, inverse: `sin(x)^2`): When the measurements are proportions. Tends to stretch out the tails (e.g., near 0 or 1 for proportions) and squash the middle (e.g., near 0.5).\
 -   Logit (`boot::logit(x)`, inverse: `boot::inv.logit(x)`): Used for proportions excluding 0 and 1. Also commonly used in models with a binary (Bernoulli) response variable (e.g., survival probability predicted by temperature, where the response variable is 'alive'/'dead').
 -   Reciprocal (`1/x`, inverse: `1/x`): When the distribution is skewed right. Generally 'stronger' than a log transformation and often has logically interpretable units ($m~s^{-1}$, $s~m^{-1}$).\
 
 Identifying the correct transformation can be led by an underlying comprehension of the nature of the data. However, this often doesn’t work so expect some trial and error.
 
-We can visualize the relationship between data on the original scale and the transformed values. For values bounded by 0:
-
-::: callout-warning
-
-For next year, probably more intuitive to plot distributions instead. Maybe. Strange to go from a normal distribution to a skewed distribution...
-
-:::
 
 ```{r}
 #| label: fig-trans_positiveData
-#| fig-cap: "Effect of common transformations on positive data."
+#| fig-cap: "Distributions needing transformation for normality. For each panel, applying the stated transformation will result in an approximately normal distribution. Note that often there are multiple transformations that will work."
 #| fig-width: 9
 #| fig-height: 2.5
 #| code-fold: true
 
-positive_df <- tibble(orig=seq(0.01, 10, length.out=1e3)) |>
-  mutate(sqrt=sqrt(orig),
-         ln=log(orig),
-         reciprocal=1/orig,
-         squared=orig^2) |>
-  pivot_longer(cols=2:5, names_to="transformation", values_to="new_value")
+library(ggdist)
 
-ggplot(positive_df, aes(orig, new_value)) + 
-  geom_line() + 
-  facet_wrap(~transformation, scales="free", nrow=1) + 
-  labs(title="Positive values", x="Original value", y="Transformed value")
+tibble(x_norm=rnorm(0.5e3, 2, 0.5)) |>
+  mutate(x_sq=x_norm^2,
+         x_exp=exp(x_norm),
+         x_recip=1/x_norm) |>
+  select(-x_norm) |>
+  pivot_longer(everything()) |>
+  bind_rows(
+    tibble(x_invlogit=rnorm(0.5e3, 0, 1.5)) |>
+      mutate(x_logit=boot::inv.logit(x_invlogit)) |>
+      select(-x_invlogit) |>
+      pivot_longer(everything())
+  ) |>
+  mutate(name=factor(name, 
+                     levels=paste0("x_", c("exp", "sq", "logit", "recip")),
+                     labels=paste(c("Log", "Square-root", "Logit", "Reciprocal")))) |>
+  ggplot(aes(value, group=name)) + 
+  geom_dots(side="bottom", scale=1) +
+  stat_halfeye(scale=1, .width=c(0.5, 0.95), normalize="panels") +
+  facet_wrap(~name, scales="free", nrow=1) +
+  theme(axis.text.y=element_blank(),
+        axis.title.y=element_blank(),
+        axis.ticks.y=element_blank())
 ```
 
-And for proportions:
-
-```{r}
-#| label: fig-trans_proportionalData
-#| fig-cap: "Effect of common transformations on proportions."
-#| fig-width: 9
-#| fig-height: 2.5
-#| code-fold: true
-
-proportion_df <- tibble(orig=seq(0.01, 0.99, length.out=1e3)) |>
-  mutate(sqrt=sqrt(orig),
-         ln=log(orig),
-         asin=asin(orig),
-         logit=boot::logit(orig)) |>
-  pivot_longer(cols=2:5, names_to="transformation", values_to="new_value")
-
-ggplot(proportion_df, aes(orig, new_value)) + 
-  geom_line() + 
-  facet_wrap(~transformation, scales="free", nrow=1) + 
-  labs(title="Proportions", x="Original value", y="Transformed value")
-```
 
 ::: Q.
 

@@ -1,11 +1,20 @@
 project:
   type: book
 
+resources:
+  - downloads/probSets_P1_student.qmd
+  - downloads/probSets_P2_student.qmd
+  - downloads/probSets_P3_student.qmd
+  - downloads/probSets_P4_student.qmd
+  - downloads/probSets_P5_student.qmd
+  - downloads/CA1_extra_R_student.qmd
+  - downloads/CA2_extra_R_student.qmd
+
 book:
-  title: "H2SMS Practicals"
+  title: "H2 Statistics for Marine Science: Practicals"
   date: "2026-09-07"
   repo-actions: [issue]
-  repo-url: https://github.com/Sz-Tim/H2SMS_Practicals
+  repo-url: https://github.com/Sz-Tim/H2DS_Practicals
   favicon: figs/one_distribution.png
   search: true
 
@@ -16,6 +25,8 @@ format:
     code-block-bg: true
     code-summary: "Code (bonus)"
     code-link: true
+    warning: false
+    message: false
     callout-appearance: simple
     link-external-newwindow: true
     link-external-filter: ^(?:http:|https:)\/\/\.sz-tim\.quarto\.pub/custom

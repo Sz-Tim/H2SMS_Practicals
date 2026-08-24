@@ -1,0 +1,583 @@
+# Extra: CA2 {#sec-extraCA2 .unnumbered}
+
+::: callout-note
+<a href="downloads/CA2_extra_R_student.qmd" download="CA2_extra_R_student.qmd">
+  <i class="bi bi-download"></i> Download file
+</a> 
+
+:::
+
+## Overview {.unnumbered}
+
+Coverage: L10-L20, P4-P6
+
+This is a document to **supplement** the document for CA1. Keep in mind that CA2 covers **all** lectures and practicals. Please work through `CA1_extra_R.qmd` again as well.
+
+Note that there are often many possible paths to the correct solution.
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse); theme_set(theme_classic())
+library(readxl)
+library(cowplot)
+set.seed(2026)
+```
+
+
+## Air quality
+
+The `airquality` dataset is available in R upon start-up, and gives daily values of mean ozone, solar radiation, mean wind speed, and max temperature at LaGuardia Airport in New York City (`?airquality`).
+
+Assume we do not know the population parameters, but wish to estimate the probability of observing our sample mean under the hypothesis that $\mu = 11 mph$. What is the T statistic?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+T_mu11 <- (mean(airquality$Wind) - 11)/(sd(airquality$Wind)/sqrt(nrow(airquality)))
+T_mu11
+```
+:::
+
+:::
+
+Under this hypothesized $\mu$, what is the probability of collecting a sample with a mean further from $\mu$ than in this dataset?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+2 * pt(T_mu11, nrow(airquality)-1)
+```
+:::
+
+:::
+
+## Iris
+
+The `iris` dataset is available in R upon start-up.
+
+**Research question:** What is the difference in mean sepal area among *Iris setosa*, *I. versicolor*, and *I. virginica*?
+
+What type of variables are the response and predictor variables?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> Response: continuous
+
+> Predictor: categorical
+
+:::
+
+:::
+
+What analysis is appropriate for this question?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> ANOVA
+
+:::
+
+:::
+
+For this question, is `Species` a fixed effect or a random effect?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> `Species` is a fixed effect.
+
+:::
+
+:::
+
+### Calculate Sepal.Area
+
+Create a new column in the data.frame `iris` called `Sepal.Area`.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+iris$Sepal.Area <- iris$Sepal.Length * iris$Sepal.Width
+str(iris)
+```
+:::
+
+:::
+
+Create a histogram of Sepal.Area, showing the distribution for each species using the same limits for the x-axis.
+
+Option 1. ggplot:
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| message: false
+#| warning: false
+#| fig-width: 4
+#| fig-height: 8
+#| code-fold: true
+#| code-summary: "View code"
+
+library(tidyverse)
+# facet_grid() by default uses the same x-axis for all panels
+ggplot(iris, aes(Sepal.Area)) +
+  geom_histogram(binwidth=2) + 
+  facet_grid(Species~.)
+```
+:::
+
+:::
+
+Option 2. Base R:
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| fig-width: 4
+#| fig-height: 8
+#| code-fold: true
+#| code-summary: "View code"
+
+par(mfrow=c(3,1)) 
+# Need to set xlim for each panel in base R
+x_lims <- range(iris$Sepal.Area)
+hist(iris$Sepal.Area[iris$Species=="setosa"], 
+     main="Iris setosa", xlab="Sepal Area", xlim=x_lims)
+hist(iris$Sepal.Area[iris$Species=="versicolor"], 
+     main="Iris versicolor", xlab="Sepal Area", xlim=x_lims)
+hist(iris$Sepal.Area[iris$Species=="virginica"], 
+     main="Iris virginica", xlab="Sepal Area", xlim=x_lims)
+```
+:::
+
+:::
+
+### Perform the analysis
+
+Perform the analysis and assess the assumptions.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+SepalArea_aov <- aov(Sepal.Area ~ Species, data=iris) 
+```
+:::
+
+:::
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| fig-width: 6
+#| fig-height: 7
+#| code-fold: true
+#| code-summary: "View code"
+
+par(mfrow=c(2, 2)) 
+plot(SepalArea_aov)
+```
+:::
+
+:::
+
+What assumptions of this ANOVA can you evaluate with these plots? Do they appear reasonable?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> 1.  Residual error is normally distributed.
+
+> 2.  Standard deviation of residual error is identical across groups (= homoscedastic).
+
+> Yes, both assumptions are reasonable, though there are several individuals of *Iris virginica* that are rather large. This is not so extreme as to require a transformation.
+
+:::
+
+:::
+
+What is the null hypothesis?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> The population means for all species are the same. That is, the populations follow identical normal distributions.
+
+:::
+
+:::
+
+What is the probability of the observed difference in group means if the null hypothesis were true?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+summary(SepalArea_aov)
+```
+
+> 2.22 x 10\^-6 = 0.00000222
+
+:::
+
+:::
+
+### Follow up analysis
+
+What are the means and 95% confidence intervals for each species?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+library(emmeans) 
+emmeans(SepalArea_aov, "Species")
+```
+:::
+
+:::
+
+What is the best interpretation of these 95% confidence intervals?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> The population mean (mu) is captured by 95% CIs in 95% of random samples of the population. The population mean is a fixed value, so the 95% CIs from this specific sample either capture mu or they do not, and we do not know which.
+
+:::
+
+:::
+
+What are the effect sizes and 95% confidence intervals? That is, which species are meaningfully different from one another and how confident are we in those differences?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+TukeyHSD(SepalArea_aov)
+```
+
+> *I. virginica* is 2.43 greater than *I. setosa* (95% CI: 0.960 - 3.89; p \< 0.001).
+
+> *I. virginica* is 3.16 greater than *I. versicolor* (95% CI: 1.69 - 4.63; p \< 0.001).
+
+> There is no support for a difference between *I. versicolor* and *I. setosa* (p = 0.466).
+
+:::
+
+:::
+
+## Iris (reprise)
+
+**Research question:** For the species *I. virginica*, what is the effect of sepal width on petal width?
+
+What type of variables are the response and predictor variables?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> Response: continuous
+
+> Predictor: continuous
+
+:::
+
+:::
+
+What analysis is appropriate for this question?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> Linear regression
+
+:::
+
+:::
+
+### Create the appropriate data.frame
+
+Create a new dataframe containing all columns in `iris`, but only rows where the species is `virginica`.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+virginica_df <- iris[iris$Species=="virginica",]
+```
+:::
+
+:::
+
+Create a scatterplot of the relationship, with the predictor variable on the x-axis and the response variable on the y-axis.
+
+Option 1. ggplot:
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| fig-width: 4
+#| fig-height: 4
+#| code-fold: true
+#| code-summary: "View code"
+
+ggplot(virginica_df, aes(Sepal.Width, Petal.Width)) + 
+  geom_point()
+```
+:::
+
+:::
+
+Option 2. Base R:
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| fig-width: 4
+#| fig-height: 4
+#| code-fold: true
+#| code-summary: "View code"
+
+par(mfrow=c(1,1))
+plot(Petal.Width ~ Sepal.Width, data=virginica_df)
+```
+:::
+
+:::
+
+### Perform the analysis
+
+Perform the analysis and check the assumptions.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+width_lm <- lm(Petal.Width ~ Sepal.Width, data=virginica_df)
+```
+
+```{r}
+#| fig-width: 6
+#| fig-height: 7
+#| code-fold: true
+#| code-summary: "View code"
+
+par(mfrow=c(2,2))
+plot(width_lm)
+```
+:::
+
+:::
+
+What assumptions of this linear regression can you evaluate with these plots? Do they appear reasonable?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> 1.  Residual error is normally distributed.
+
+> 2.  Standard deviation of residual error is constant across values of the predictor (= homoscedastic).
+
+> Yes, both assumptions are reasonable, though there's a hint of a possible increase in standard deviation at high fitted values (3rd plot, sqrt(abs(standardized residuals))). However, there are only two observations at the far end, so that is very plausibly due to random chance.
+
+:::
+
+:::
+
+What is the null hypothesis?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> There is no effect of sepal width on petal width in the population.
+
+:::
+
+:::
+
+What would the null hypothesis look like on the scatter plot above?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> A flat line (slope = 0) with intercept at the mean petal width.
+
+```{r}
+#| fig-width: 4
+#| fig-height: 4
+#| code-fold: true
+#| code-summary: "View code"
+
+par(mfrow=c(1,1))
+plot(Petal.Width ~ Sepal.Width, data=virginica_df)
+abline(h=mean(virginica_df$Petal.Width))
+```
+:::
+
+:::
+
+What is the probability of the observed change in petal width per unit increase in sepal width if the null hypothesis were true?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+summary(width_lm)
+```
+
+> 5.65 x 10\^-5 = 0.0000565
+
+:::
+
+:::
+
+### Follow up analysis
+
+To three significant figures, what is the best estimate of the change in petal width per unit increase in sepal width, and what are the 95% confidence intervals?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+# Best estimate of slope:
+signif(coef(width_lm)[2], 3)
+# 95% CIs:
+signif(confint(width_lm)[2,], 3)
+```
+:::
+
+:::
+
+Create a scatter plot of the relationship and add the best fit line from the linear regression with 95% confidence intervals.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| fig-width: 4
+#| fig-height: 4
+#| code-fold: true
+#| code-summary: "View code"
+
+# Create a sequence of Sepal.Width values to generate predictions for
+sepW_seq <- seq(min(virginica_df$Sepal.Width)*0.8, 
+                max(virginica_df$Sepal.Width)*1.2, 
+                length.out=100)
+# Generate predictions (fit & 95% CIs)
+width_preds <- predict(width_lm, interval="confidence", level=0.95, 
+                       newdata=data.frame(Sepal.Width=sepW_seq))
+# Plot
+par(mfrow=c(1,1))
+plot(Petal.Width ~ Sepal.Width, data=virginica_df)
+lines(sepW_seq, width_preds[, "fit"])
+lines(sepW_seq, width_preds[, "lwr"], lty=2)
+lines(sepW_seq, width_preds[, "upr"], lty=2)
+```
+:::
+
+:::
+
+## NMDS, PCA
+
+You will not be asked to produce any R code relating to Practical 6, so I am not including extra R practice here. You should nevertheless be familiar with the concepts, confident in the steps involved, and comfortable interpreting the output.

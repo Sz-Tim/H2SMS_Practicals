@@ -4,3 +4,8 @@
       url: https://sz-tim.quarto.pub/h2ds-practicals
     - id: cb7d6180-89d0-42a8-b2e2-6e99ee8b552b
       url: https://sz-tim.quarto.pub/h2ds-practicals-key
+  posit-connect-cloud:
+    - id: 019dfda2-ad81-8fb2-3391-86de6135fe73
+      url: https://connect.posit.cloud/sz-tim/content/019dfda2-ad81-8fb2-3391-86de6135fe73
+    - id: 019dfd93-390b-a87c-a3ea-a558f3c399be
+      url: https://connect.posit.cloud/sz-tim/content/019dfd93-390b-a87c-a3ea-a558f3c399be

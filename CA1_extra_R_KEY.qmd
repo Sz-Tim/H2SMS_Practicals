@@ -1,0 +1,667 @@
+# Extra: CA1 {#sec-extraCA1 .unnumbered}
+
+::: callout-note
+
+<a href="downloads/CA1_extra_R_student.qmd" download="CA1_extra_R_student.qmd">
+  <i class="bi bi-download"></i> Download file
+</a> 
+
+:::
+
+## Overview {.unnumbered}
+
+Coverage: L01-L09, P1-P3
+
+This is a document to give you additional practice working in R. It will include working with data (manipulating, summarising, plotting) and analyzing the distributions we've covered.
+
+Please do not treat this as a comprehensive study guide for CA1!
+
+Note that there are often many possible paths to the correct solution.
+
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: false
+
+library(tidyverse); theme_set(theme_classic())
+library(readxl)
+set.seed(2026)
+```
+
+## Iris
+
+The `iris` dataset is available in R upon start-up.
+
+What are the dimensions of the object (rows, columns) and what data type is it?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+str(iris)
+```
+:::
+
+:::
+
+Create a scatter plot of sepal area on the x-axis and petal area on the y-axis.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+First create new columns `Sepal.Area` and `Petal.Area`.
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: "View code"
+
+# method 1
+iris_df <- iris |>
+  mutate(Sepal.Area=Sepal.Length*Sepal.Width,
+         Petal.Area=Petal.Length*Petal.Width)
+
+# method 2
+iris_df <- iris
+iris$Sepal.Area <- iris$Sepal.Length * iris$Sepal.Width
+iris$Petal.Area <- iris$Petal.Length * iris$Petal.Width
+```
+
+Then make the scatter plot:
+
+```{r}
+#| fig-width: 4
+#| fig-height: 4
+#| code-fold: true
+#| code-summary: "View code"
+
+plot(Petal.Area ~ Sepal.Area, data=iris)
+```
+:::
+
+:::
+
+For each species, what is the mean and standard deviation of sepal area?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r, message=FALSE}
+#| code-fold: true
+#| code-summary: "View code"
+
+# method 1
+iris |>
+  group_by(Species) |>
+  summarise(mean_SepalArea=mean(Sepal.Area),
+            sd_SepalArea=sd(Sepal.Area))
+```
+
+```{r, eval=F}
+#| code-fold: true
+#| code-summary: "View code"
+
+# method2
+summary(iris$Species) # unique values of Species
+mean(iris$Sepal.Area[iris$Species=="setosa"])
+mean(iris$Sepal.Area[iris$Species=="versicolor"])
+mean(iris$Sepal.Area[iris$Species=="virginica"])
+sd(iris$Sepal.Area[iris$Species=="setosa"])
+sd(iris$Sepal.Area[iris$Species=="versicolor"])
+sd(iris$Sepal.Area[iris$Species=="virginica"])
+```
+:::
+
+:::
+
+Create a plot with two panels, each with a boxplot with species on the x-axis. In the first panel, plot sepal area on the y-axis. In the second panel, plot petal area on the y-axis.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+par(mfrow=c(1,2))
+boxplot(Sepal.Area ~ Species, data=iris, cex.axis=0.7)
+boxplot(Petal.Area ~ Species, data=iris, cex.axis=0.7)
+```
+:::
+
+:::
+
+Extract the even numbered rows from `iris`, and the columns `Species`, `Sepal.Area`, and `Petal.Area` in that order.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+iris[seq(2, nrow(iris), by=2), c("Species", "Sepal.Area", "Petal.Area")]
+```
+:::
+
+:::
+
+## Air quality
+
+The `airquality` dataset is available in R upon start-up, and gives daily values of mean ozone, solar radiation, mean wind speed, and max temperature at LaGuardia Airport in New York City (`?airquality`).
+
+Make a histogram of wind speed.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+hist(airquality$Wind)
+```
+:::
+
+:::
+
+Assume wind speed is normally distributed in this dataset with $\mu=9.99 mph$ and $\sigma = 3.51 mph$.
+
+What proportion of days would you expect to have a wind speed less than 5 mph?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+pnorm(5, 9.99, 3.51)
+```
+:::
+
+:::
+
+You have a kite that can only be flown safely in winds between 14 mph and 20 mph. What proportion of days would be suitable?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+pnorm(20, 9.99, 3.51) - pnorm(14, 9.99, 3.51)
+```
+:::
+
+:::
+
+How many days would be suitable in a 31-day month?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+31 * (pnorm(20, 9.99, 3.51) - pnorm(14, 9.99, 3.51))
+```
+:::
+
+:::
+
+What proportion of days in the dataset were actually suitable?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+mean(airquality$Wind >= 14 & airquality$Wind <= 20)
+```
+:::
+
+:::
+
+What are the z-scores for 14 and 20 mph?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+(14 - 9.99)/3.51
+(20 - 9.99)/3.51
+```
+:::
+
+:::
+
+What are the quantiles for the middle 95%?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+qnorm(c(0.025, 0.975), 9.99, 3.51)
+```
+:::
+
+:::
+
+What is the quantile for the largest 5%?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+qnorm(0.95, 9.99, 3.51)
+```
+:::
+
+:::
+
+Given the population parameters above, what is the z score of the sample mean in the dataset?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+(mean(airquality$Wind) - 9.99)/(3.51/sqrt(nrow(airquality)))
+```
+:::
+
+:::
+
+Given the population parameters above, what is the probability of observing a sample mean smaller than the one in this dataset?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+pnorm(mean(airquality$Wind), 9.99, 3.51/sqrt(nrow(airquality)))
+```
+:::
+
+:::
+
+Create a scatter plot with temperature on the x-axis and log-transformed ozone on the y-axis.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+plot(airquality$Temp, log(airquality$Ozone))
+```
+:::
+
+:::
+
+Create a boxplot with the solar radiation on the y-axis and the month on the x-axis.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+boxplot(Solar.R ~ Month, data=airquality)
+```
+:::
+
+:::
+
+## Coral predation
+
+You are studying predation of the Flamingo Tongue Snail on soft corals on South Water Caye in Belize. In a distinct patch of reef, you randomly select a sample of 14 corals and identify that 9 of these have feeding scars.
+
+What distribution would you expect this variable (i.e., the number of corals with feeding scars of those sampled) to follow?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> Binomial
+
+:::
+
+:::
+
+What is your sample proportion and its standard error?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+p_hat <- 9/14
+p_hat
+sqrt((p_hat)*(1-p_hat)/(14-1))
+```
+
+:::
+
+:::
+
+Create a bar graph of the binomial distribution corresponding to these parameters, with the x-axis spanning the full range of possible outcomes.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+barplot(dbinom(0:14, 14, prob=9/14), names.arg=0:14)
+```
+:::
+
+:::
+
+Based on this distribution, if you were to collect another random sample of the same size, what is the probability that all 14 would have feeding scars?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+dbinom(14, 14, 9/14)
+```
+:::
+
+:::
+
+What is the probability you would find *fewer* with feeding scars than in the first sample?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+pbinom(8, 14, 9/14)
+```
+:::
+
+:::
+
+What is the probability of finding *more* with feeding scars than in the first sample?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+1-pbinom(9, 14, 9/14)
+```
+:::
+
+:::
+
+What is the probability of a sample with 4, 5, or 6 corals with feeding scars?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+sum(dbinom(4:6, 14, 9/14))
+```
+:::
+
+:::
+
+## Earthquakes
+
+The dataset `quakes` is available in R upon start-up, and gives magnitudes and locations for 1000 seismic events near Fiji since 1964.
+
+Plot the locations of the earthquakes (x-axis: longitude, y-axis: latitude).
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+plot(lat ~ long, data=quakes)
+```
+:::
+
+:::
+
+Create a column called `mag_cat` with the magnitude truncated to integer (i.e., 4.0-4.99 become 4). Hint: `?trunc`
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+quakes$mag_cat <- trunc(quakes$mag)
+```
+:::
+
+:::
+
+For each magnitude category (`mag_cat`), count the number of occurrences in the dataset.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+summary(quakes) # ranges 3-6
+# Handy trick:
+summary(as.factor(quakes$mag_cat))
+```
+:::
+
+:::
+
+Let's assume the dataset spans 60 years (1964-2023). What is the mean number of magnitude category 5 earthquakes per year?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+lambda_cat5 <- sum(quakes$mag_cat==5)/60
+lambda_cat5
+```
+:::
+
+:::
+
+What distribution is most suitable for the number of category 5 earthquakes per year?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+> Poisson
+
+:::
+
+:::
+
+Using the above value as $\lambda$, create a bar plot of the probability distribution of the number of category 5 earthquakes per year, ranging from 0 to 10 earthquakes.
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+barplot(dpois(0:10, lambda_cat5), names.arg=0:10, xlab="Category 5 earthquakes per year")
+```
+:::
+
+:::
+
+What is the probability that next year has no category 5 earthquakes?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+dpois(0, lambda_cat5)
+```
+:::
+
+:::
+
+Of the next 10 years, how many would you expect to have:
+
+No category 5 earthquakes?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+dpois(0, lambda_cat5)*10
+```
+:::
+
+:::
+
+Fewer than 2 earthquakes?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+ppois(1, lambda_cat5)*10
+```
+:::
+
+:::
+
+At least 5?
+
+::: {.content-visible when-profile="key"}
+
+::: callout-important
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+(1-ppois(4, lambda_cat5))*10
+```
+:::
+
+:::

@@ -1,6 +1,8 @@
-# . 4 Problem Set {#sec-P4_probSet .unnumbered}
+# Problem Set 4 {#sec-P4_probSet .unnumbered}
 
 ::: callout-note
+<a href="downloads/probSets_P4_student.qmd" download="probSets_P4_student.qmd"> <i class="bi bi-download"></i> Download file </a>
+
 Please render this file to .html and submit via Brightspace.
 :::
 
@@ -9,39 +11,430 @@ Please render this file to .html and submit via Brightspace.
 #| warning: false
 #| code-fold: false
 
-library(tidyverse)
+library(tidyverse); theme_set(theme_classic())
 library(readxl)
+set.seed(2026)
 ```
 
-## Single sample t-tests
+## Sample mean vs. a reference value
 
 ### Scenario 1
 
+A marine protected area (MPA) was established five years ago. Previous surveys from nearby fished reefs found a mean fish biomass of 12.2 kg 100m^-2^.
 
+Researchers survey 15 transects inside the MPA and want to test whether fish biomass is higher than the regional average of fished reefs.
+
+The data are available from the "MPA" sheet in "H2SMS_practicalData.xlsx". Load and check the data.
 
 ```{r}
 
 ```
 
+::: {.content-visible when-profile="key"}
 ::: callout-important
 ```{r}
 #| code-fold: true
-#| code-summary: "Solution"
+#| code-summary: "Load and check data"
 
-
+MPA_df <- read_xlsx("data/H2SMS_practicalData.xlsx", sheet="MPA")
+str(MPA_df)
+summary(MPA_df)
 ```
+
+:::
 :::
 
-Explain the p-value!!
+What is the response variable?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+> Fish biomass (kg 100m^-2^)
+
+:::
+:::
+
+What is the null hypothesis?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+$\mu_{MPA} \leq 12.2 kg \cdot 100m^{-2}$
+
+The mean fish biomass within the MPA is **less than or equal to** the mean fish biomass outside the MPA.
+
+Note that the hypothesis is about the *population mean*, not the *sample mean*.
+
+:::
+:::
+
+What is the alternative hypothesis?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+$\mu_{MPA} > 12.2 kg \cdot 100m^{-2}$
+
+The mean fish biomass within the MPA is **greater than** the mean fish biomass outside the MPA.
+
+Note that the hypothesis is about the *population mean*, not the *sample mean*.
+
+:::
+:::
+
+Evaluate the null hypothesis using $\alpha = 0.05$. Perform an appropriate analysis (including assumption checks), and report the relevant results in written text. 
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Data distribution"
+#| fig-width: 9
+#| fig-height: 4
+
+pA <- ggplot(MPA_df, aes(biomass_kg_100m2)) + 
+  geom_histogram(bins=10) + 
+  geom_rug()
+pB <- ggplot(MPA_df, aes(sample=biomass_kg_100m2)) + 
+  geom_qq() + geom_qq_line() +
+  labs(x="Theoretical quantiles", 
+       y="Observed")
+cowplot::plot_grid(pA, pB, nrow=1, align="h", axis="tb")
+
+```
+
+It's a small sample, but the observations seem approximately normal.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Analysis"
+
+t.test(MPA_df$biomass_kg_100m2, mu=12.2, alternative="greater")
+```
+
+In a one-tailed one sample t-test, the mean fish biomass within the MPA (12.8 kg 100m^2^; 95% confidence limit: 12.1 kg 100m^-2^) was not significantly greater than the regional mean outside the MPA of 12.2 kg 100m^-2^ (T~14~=1.57, p=0.069).
+
+:::
+:::
+
+In your own words, explain what the p-value represents.
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+> The p-value gives the probability of these observations if the null hypothesis were true. That is, it is the likelihood of these observed values if the MPA mean were equal to 12.2 kg 100^-2^.
+
+:::
+:::
 
 
 ### Scenario 2
+
+In New Zealand, [Brewin et al. (2000)](https://doi.org/10.1007/s002270000366) studied fecundity and spawning of the sea urchin *Evechinus chloroticus*, finding a mean annual gamete output of 0.068 g g^-1^ yr^-1^ between 1990-1994 at Dieffenbach Point. On my holiday, I decided to repeat that aspect of their experiment (securing all necessary permits and approvals). 
+
+The data are in the "UrchinGametes" sheet in "H2SMS_practicalData.xlsx", already summarised to grams of gamete per grams of urchin per year. Load the data and perform appropriate checks.
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Load and check data"
+
+urchin_df <- read_xlsx("data/H2SMS_practicalData.xlsx", sheet="UrchinGametes")
+str(urchin_df)
+summary(urchin_df)
+```
+
+:::
+:::
+
+What is the response variable?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+> Annual gamete output (g gamete per gram of urchin per year)
+
+:::
+:::
+
+What is the null hypothesis?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+$\mu_{new} = 0.068 g \cdot g^{-1} \cdot yr^{-1}$
+
+The mean gamete output of the current population is **equal to** the historic mean.
+
+Note that the hypothesis is about the *population mean*, not the *sample mean*.
+
+:::
+:::
+
+What is the alternative hypothesis?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+$\mu_{new} \neq 0.068 g \cdot g^{-1} \cdot yr^{-1}$
+
+The mean gamete output of the current population is **not equal to** the historic mean.
+
+Note that the hypothesis is about the *population mean*, not the *sample mean*.
+
+:::
+:::
+
+Evaluate the null hypothesis using $\alpha = 0.05$. Perform an appropriate analysis (including assumption checks), and report the relevant results in written text. 
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Data distribution"
+#| fig-width: 9
+#| fig-height: 4
+
+pA <- ggplot(urchin_df, aes(output)) + 
+  geom_histogram(bins=10) + 
+  geom_rug()
+pB <- ggplot(urchin_df, aes(sample=output)) + 
+  geom_qq() + geom_qq_line() +
+  labs(x="Theoretical quantiles", 
+       y="Observed")
+cowplot::plot_grid(pA, pB, nrow=1, align="h", axis="tb")
+
+```
+
+The observations seem approximately normal, given the sample size.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Analysis"
+
+t.test(urchin_df$output, mu=0.068)
+```
+
+In a two-tailed one sample t-test, the mean gamete output (0.0682 g g^-1^ yr^-1^; 95% CI: 0.0547-0.0817 g g^-1^ yr^-1^) was not significantly different than the historic average of 0.068 g g^-1^ yr^-1^ (T~19~=0.03, p=0.976).
+
+:::
+:::
+
+In your own words, interpret your results with regard to the null hypothesis and the p-value.
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+> The observed gamete output was entirely plausible under the null hypothesis that the population mean was the same as in 1990-1994.
+
+:::
+:::
+
 
 
 
 ## Confidence Intervals
 
-Calculations with populations vs. samples.
+The sheet "Plastics" in "H2SMS_practicalData.xlsx" contains observations of the number of plastic pellets per kilogram. Load the data. 
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "Load and check data"
+
+plastic_df <- read_xlsx("data/H2SMS_practicalData.xlsx", sheet="Plastics")
+str(plastic_df)
+summary(plastic_df)
+```
+
+:::
+:::
+
+Consider this the entire *population* of interest. 
+
+Write code to take a sample of 25 observations from this population and store it in a vector called `obs`.
+
+::: {.callout-tip collapse=TRUE}
+## Hint
+`sample()`
+:::
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+obs <- sample(plastic_df$pellets, size=25)
+```
+
+:::
+:::
+
+How different is your sample mean from the true population mean?
+
+```{r}
+
+```
 
 
+::: {.content-visible when-profile="key"}
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
 
+mean(obs) - mean(plastic_df$pellets)
+```
+
+The true mean is `{r} round(mean(plastic_df$pellets), 1)` and my sample mean was `{r} round(mean(obs), 1)`.
+
+:::
+:::
+
+What is the term that describes this difference?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+Sampling error: The difference between a sample statistic and the population parameter.
+
+:::
+:::
+
+Calculate 95% confidence intervals for your sample mean using only your sample. Do they include the true value?
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+```{r}
+#| code-fold: true
+#| code-summary: "The easy way"
+
+t.test(obs)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "The hard way"
+
+# y_bar +/- T[df,95%] * SE
+mean(obs) + qt(c(0.025, 0.975), length(obs)-1) * sd(obs)/sqrt(length(obs))
+```
+
+In this case, `{r} ifelse(between(mean(plastic_df$pellets), t.test(obs)$conf.int[1], t.test(obs)$conf.int[2]), "yes", "no")`.
+:::
+:::
+
+Assuming each student starts with a different `set.seed`, what proportion of students would answer 'yes' to the previous question?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+0.95 = 95%
+
+:::
+:::
+
+If you instead calculated 80% CIs, a) would you be more likely to capture the true mean or less? And, b) would the width of your confidence interval be larger or smaller?
+
+>
+
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+a) Less likely and b) smaller. An 80% CI will only include the true value in 80% of samples (under ideal conditions!), while a 95% CI will include the true value in 95% of samples. 
+
+:::
+:::
+
+Calculate the 80% CI for your sample and compare.
+
+```{r}
+
+```
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+ci_95 <- t.test(obs)$conf.int
+ci_80 <- t.test(obs, conf.level=0.8)$conf.int
+
+ci_95
+ci_80
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+#| fig-width: 5
+#| fig-height: 3
+#| fig-cap: "True value (dotted line) compared to the 80% and 95% confidence interval from one sample."
+
+expand_grid(confidence=c(0.8, 0.95),
+            limit=c("lo", "high")) |>
+  mutate(limit=c(ci_80, ci_95)) |>
+  ggplot(aes(limit, confidence, group=confidence)) + 
+  geom_line() +
+  geom_point(shape="|") +
+  geom_vline(xintercept=mean(plastic_df$pellets), linetype=3) +
+  labs(x="Value", y="Confidence level")
+```
+
+
+:::
+:::
+
+If you were to run your code again (without resetting `set.seed`), what is the probability that you would collect a sample with a 90% CI that includes the true value?
+
+>
+
+::: {.content-visible when-profile="key"}
+::: callout-important
+
+90% - each (future) sample will have a 90% chance of having 90% CIs that include the true value.
+
+:::
+:::

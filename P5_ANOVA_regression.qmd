@@ -95,9 +95,10 @@ In some cases, this may be of interest. What is almost always more interesting, 
 #| message: false
 #| warning: false
 
-library(tidyverse)
+library(tidyverse); theme_set(theme_classic())
 library(readxl)
 library(emmeans)
+set.seed(2026)
 ```
 
 ### ANOVA in R
@@ -230,7 +231,7 @@ The column should be a `factor` with the levels in a logical order. Remember tha
 #| label: fig-algae_boxplot
 #| fig-cap: "Boxplot of algal yield at different light levels."
 #| fig-width: 5.5
-#| fig-height: 5
+#| fig-height: 4.5
 #| code-fold: true
 algae_df$Treatment <- factor(algae_df$Treatment, 
                              levels=c("low", "medium", "high"))
@@ -371,13 +372,13 @@ Finally, we should make a figure to communicate the results of our analysis. See
 ```{r}
 #| label: fig-algae_aov_results
 #| fig-cap: "Algae yield under three light levels. Red points and bars give means and 89% CIs. Black points show observations."
-#| fig-width: 8
-#| fig-height: 5
+#| fig-width: 4
+#| fig-height: 3.5
 
 ggplot(algae_df, aes(Treatment)) + 
-  geom_point(aes(y=Yield), shape=1) +
+  geom_point(aes(y=Yield), alpha=0.5) +
   geom_errorbar(data=algae_emm_df, aes(ymin=lower.CL, ymax=upper.CL), colour="red", width=0.1) +
-  geom_point(data=algae_emm_df, aes(y=emmean), shape=1, size=2, colour="red")
+  geom_point(data=algae_emm_df, aes(y=emmean), shape=1, size=3, colour="red")
 ```
 
 
@@ -398,7 +399,7 @@ The media often misreport science because it is difficult to resist the impulse 
 
 ### Overview
 
-Regression is at the heart of linear models. ANOVA and t-tests are, basically, special cases of linear regression models. The regression coefficient is a measure of the strength of the relationship between the dependent variable (the one you measure) and the independent variable (the one you fix like a fixed factor in ANOVA). The regression coefficient is denoted by $R^2$ compared with $r$ in correlation. The regression coefficient $R^2$ ranges from 0 to 1 (unlike $r$ which ranges from -1 to 1). A value $R^2 = 0$ indicates no relationship to the independent variable while $R^2=1$ indicates that the independent variable is entirely responsible for the variability in the measured variable.
+Regression is at the heart of linear models. ANOVA and t-tests are, basically, special cases of linear regression models. The regression coefficient is a measure of the strength of the relationship between the dependent variable (the one you measure) and the independent variable (the one you fix like a fixed factor in ANOVA). The regression coefficient is denoted by *R^2^* compared with *r* in correlation. The regression coefficient *R^2^* ranges from 0 to 1 (unlike *r* which ranges from -1 to 1). A value $R^2 = 0$ indicates no relationship to the independent variable while $R^2=1$ indicates that the independent variable is entirely responsible for the variability in the measured variable.
 
 As usual, null hypothesis significance testing is often applied to regression statistics. As usual, the null hypothesis being tested is usually “there is no functional relationship between the response and the predictor” and this is usually conceptually nonsense. In conducting regression analysis, your objective is to quantify to the most appropriate precision and accuracy possible the relationship between X (the aspect you control, the predictor, plotted on the X axis) and Y (the variable you measure, the response, plotted on the Y axis). Your objective is to quantify this relationship, put confidence intervals on it, and then interpret your findings in relation to the objectives of the study and in relation to other research.
 
@@ -573,12 +574,12 @@ It is the responsibility of the researcher to determine what is reasonable. The 
 
 :::
 
-The residual error is the variance in y around the line. The $R^2$ is the proportion of this variance that is explained by the regression line. In the current case $R^2 = 0.97$. This is an extremely high value and indicates that the regression model is extraordinarily good at accounting for the variance in weight loss based on the relative humidity.
+The residual error is the variance in y around the line. The *R^2^* is the proportion of this variance that is explained by the regression line. In the current case $R^2 = 0.97$. This is an extremely high value and indicates that the regression model is extraordinarily good at accounting for the variance in weight loss based on the relative humidity.
 
 The P values allow us to assess if the slope and the intercept are likely different from zero.
 
 ::: Q.
-Given the very high $R^2$ (and looking at your plot) would you expect the regression model to be significantly better than the null model in explaining the variance in weight loss?
+Given the very high *R^2^* (and looking at your plot) would you expect the regression model to be significantly better than the null model in explaining the variance in weight loss?
 
 ::: {.content-visible when-profile="key"}
 
@@ -746,116 +747,43 @@ These are prediction intervals and they are broader than confidence intervals. T
 
 ## Further practice
 
-### One-way ANOVA
-
-**Question:** How does limpet travel distance (within a set timespan) vary by surface type?
-
-Import the 'LimpetDist' sheet from "H2SMS_practicalData.xlsx", which gives travel distance of limpets on three different surface types. Perform a one-way ANOVA of distance predicted by surface type. Make sure you perform appropriate data quality checks and assumption checks. Report the ANOVA table and the pairwise effect sizes with confidence intervals.
-
-::: {.callout-tip collapse="true"}
-## View solution
-
-::: {.callout-tip collapse="true"}
-## View step 1
-
-First load and prepare the data.
-```{r}
-#| label: fig-limpetBoxplot
-#| fig-cap: "Boxplot of limpet travel distances by surface."
-#| fig-width: 8
-#| fig-height: 5
-#| code-fold: true
-
-limpet_wide_df <- read_excel("data/H2SMS_practicalData.xlsx", sheet = "LimpetDist")
-limpet_df <- limpet_wide_df |>
-  pivot_longer(everything(), names_to="Surface", values_to="Distance") |>
-  mutate(Surface=factor(Surface, levels=c("Smooth", "Intermediate", "Rough")))
-glimpse(limpet_df)
-ggplot(limpet_df, aes(Surface, Distance)) + 
-  geom_boxplot() +
-  geom_point(shape=1)
-```
-:::
-
-::: {.callout-tip collapse="true"}
-## View step 2
-
-Second, run the ANOVA.
-```{r}
-#| code-fold: true
-
-limpet_aov <- aov(Distance ~ Surface, data=limpet_df)
-```
-:::
-
-::: {.callout-tip collapse="true"}
-## View step 3
-
-Third, check assumptions.
-```{r}
-#| label: fig-limpet_aov
-#| fig-cap: "Residual plots from the limpet one-way ANOVA."
-#| fig-width: 5.5
-#| fig-height: 5
-#| code-fold: true
-
-par(mfrow = c(2, 2), mar=c(4,4,1,1)) 
-plot(limpet_aov) 
-```
-
-If the assumptions seem invalid, try transformations. Once satisfactory, continue.
-:::
-
-::: {.callout-tip collapse="true"}
-## View step 4
-In this case, the residuals show that the assumptions of normally distributed residuals with homoscedasticity among groups are reasonable. No transformation is needed.
-
-Fourth, produce the ANOVA table and evaluate the null hypothesis.
-```{r}
-#| code-fold: true
-
-summary(limpet_aov)
-```
-
-If you failed to reject $H_0$, report this and stop. Otherwise, continue.
-:::
-
-::: {.callout-tip collapse="true"}
-## View step 5
-
-We've rejected the omnibus null hypothesis, so we proceed with pairwise comparisons to determine which means are different from each other, by how much, and how confident we are in that difference. We also of course calculate means for each group with CIs.
-
-Fifth, calculate group means with CIs and perform a Tukey HSD test.
-```{r}
-#| label: fig-limpet_aov_Tukey
-#| fig-cap: "Tukey HSD plot from a one-way ANOVA."
-#| fig-width: 8
-#| fig-height: 5
-#| code-fold: true
-
-emmeans(limpet_aov, specs="Surface")
-
-limpet_grp_diffs <- TukeyHSD(x = limpet_aov) 
-limpet_grp_diffs
-plot(limpet_grp_diffs)
-```
-
-Report the results. In a full report or paper, this should include the ANOVA table, group means and CIs, effect sizes and CIs, and likely a figure communicating the results.
-:::
-
-:::
 
 
-
-
-### Regression
+### Scenario 1
 
 **Question:** What is the relationship between phosphate concentration and absorbance?
 
-Import the 'PhosphateCalibration' sheet from "H2SMS_practicalData.xlsx" (1st year practical data) into R and perform a linear regression with absorbance predicted by concentration. Perform all appropriate checks for data quality and assumptions. Report relevant parameter estimates with 92% confidence intervals.
+Import the 'PhosphateCalibration' sheet from "H2SMS_practicalData.xlsx" (1st year practical data) into R and perform an appropriate analysis with absorbance predicted by concentration. Perform all appropriate checks for data quality and assumptions. Report relevant results with 92% confidence intervals.
 
 ::: {.callout-tip collapse="true"}
 ## View solution
+
+::: {.callout-tip collapse="true"}
+## View analysis type
+
+```{r}
+#| code-fold: true
+#| code-summary: "Response variable and type"
+
+# 'Absorbance' is continuous
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Predictor variable and type"
+
+# 'Concentration' is continuous
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Analysis type"
+
+# Linear regression: The predictor and response are both continuous
+```
+
+:::
+
 
 ::: {.callout-tip collapse="true"}
 ## View step 1
@@ -867,6 +795,7 @@ First load and prepare the data.
 #| fig-width: 5
 #| fig-height: 5
 #| code-fold: true
+#| code-summary: "View code"
 
 phosphate_df <- read_xlsx("data/H2SMS_practicalData.xlsx", "PhosphateCalibration")
 phosphate_df
@@ -880,6 +809,7 @@ plot(Absorbance ~ Concentration, data = phosphate_df)
 Second, run the linear regression.
 ```{r}
 #| code-fold: true
+#| code-summary: "View code"
 
 phos.mod <- lm(Absorbance ~ Concentration, data = phosphate_df)
 ```
@@ -895,6 +825,7 @@ Third, check assumptions.
 #| fig-width: 5
 #| fig-height: 5
 #| code-fold: true
+#| code-summary: "View code"
 
 par(mfrow=c(2,2), mar=c(4,4,1,1))
 plot(phos.mod)
@@ -909,6 +840,7 @@ If the assumptions seem invalid, try transformations. Once satisfactory, continu
 Fourth, view the results and evaluate the null hypothesis.
 ```{r}
 #| code-fold: true
+#| code-summary: "View code"
 
 summary(phos.mod)
 ```
@@ -925,6 +857,7 @@ Fifth, produce a figure with the best fit line and 92% confidence intervals.
 #| fig-width: 4
 #| fig-height: 4
 #| code-fold: true
+#| code-summary: "View code"
 
 newPhosphate <- tibble(Concentration=seq(min(phosphate_df$Concentration),
                                          max(phosphate_df$Concentration),
@@ -945,7 +878,6 @@ Report the results. In a full report or paper, this should include the intercept
 
 :::
 
-This is the workflow for performing a linear regression. 
 
 ::: callout-note
 Most often, researchers report 95% CIs, but occasionally 80%, 90%, or 95%. It would be a bit cheeky to report the 92% CIs, but keep in mind that there is nothing magic about 95% (just like 0.05). 
@@ -953,6 +885,14 @@ Most often, researchers report 95% CIs, but occasionally 80%, 90%, or 95%. It wo
 
 ::: Q.
 For a concentration of 0.75 units, what values would you expect (95 times in 100) to see from your experimental set-up?
+
+You should get:
+
+```{r}
+#| echo: false
+
+predict(phos.mod, newdata=data.frame(Concentration = 0.75), interval = "predict")
+```
 
 ::: {.content-visible when-profile="key"}
 
@@ -968,13 +908,139 @@ predict(phos.mod, newdata=data.frame(Concentration = 0.75), interval = "predict"
 
 :::
 
-You should get:
+
+### Scenario 2
+
+**Question:** How does limpet travel distance (within a set timespan) vary by surface type?
+
+Import the 'LimpetDist' sheet from "H2SMS_practicalData.xlsx", which gives travel distance of limpets on three different surface types. Perform an appropriate analysis of distance predicted by surface type. Make sure you perform appropriate data quality checks and assumption checks. Report results as appropriate.
+
+::: {.callout-tip collapse="true"}
+## View solution
+
+::: {.callout-tip collapse="true"}
+## View analysis type
 
 ```{r}
-#| echo: false
+#| code-fold: true
+#| code-summary: "Response variable and type"
 
-predict(phos.mod, newdata=data.frame(Concentration = 0.75), interval = "predict")
+# 'Travel distance' is continuous
 ```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Predictor variable and type"
+
+# 'Surface type' is categorical
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Analysis type"
+
+# ANOVA: The predictor is categorical and the response is continuous
+```
+
+:::
+
+::: {.callout-tip collapse="true"}
+## View step 1
+
+First load and prepare the data.
+```{r}
+#| label: fig-limpetBoxplot
+#| fig-cap: "Boxplot of limpet travel distances by surface."
+#| fig-width: 8
+#| fig-height: 5
+#| code-fold: true
+#| code-summary: "View code"
+
+limpet_wide_df <- read_excel("data/H2SMS_practicalData.xlsx", sheet = "LimpetDist")
+limpet_df <- limpet_wide_df |>
+  pivot_longer(everything(), names_to="Surface", values_to="Distance") |>
+  mutate(Surface=factor(Surface, levels=c("Smooth", "Intermediate", "Rough")))
+glimpse(limpet_df)
+ggplot(limpet_df, aes(Surface, Distance)) + 
+  geom_boxplot() +
+  geom_point(shape=1)
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## View step 2
+
+Second, run the ANOVA.
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+limpet_aov <- aov(Distance ~ Surface, data=limpet_df)
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## View step 3
+
+Third, check assumptions.
+```{r}
+#| label: fig-limpet_aov
+#| fig-cap: "Residual plots from the limpet one-way ANOVA."
+#| fig-width: 5.5
+#| fig-height: 5
+#| code-fold: true
+#| code-summary: "View code"
+
+par(mfrow = c(2, 2), mar=c(4,4,1,1)) 
+plot(limpet_aov) 
+```
+
+If the assumptions seem invalid, try transformations. Once satisfactory, continue.
+:::
+
+::: {.callout-tip collapse="true"}
+## View step 4
+In this case, the residuals show that the assumptions of normally distributed residuals with homoscedasticity among groups are reasonable. No transformation is needed.
+
+Fourth, produce the ANOVA table and evaluate the null hypothesis.
+```{r}
+#| code-fold: true
+#| code-summary: "View code"
+
+summary(limpet_aov)
+```
+
+If you failed to reject $H_0$, report this and stop. Otherwise, continue.
+:::
+
+::: {.callout-tip collapse="true"}
+## View step 5
+
+We've rejected the omnibus null hypothesis, so we proceed with pairwise comparisons to determine which means are different from each other, by how much, and how confident we are in that difference. We also of course calculate means for each group with CIs.
+
+Fifth, calculate group means with CIs and perform a Tukey HSD test.
+```{r}
+#| label: fig-limpet_aov_Tukey
+#| fig-cap: "Tukey HSD plot from a one-way ANOVA."
+#| fig-width: 8
+#| fig-height: 5
+#| code-fold: true
+#| code-summary: "View code"
+
+emmeans(limpet_aov, specs="Surface")
+
+limpet_grp_diffs <- TukeyHSD(x = limpet_aov) 
+limpet_grp_diffs
+plot(limpet_grp_diffs)
+```
+
+Report the results. In a full report or paper, this should include the ANOVA table, group means and CIs, effect sizes and CIs, and likely a figure communicating the results.
+:::
+
+:::
+
+
+
 
 ------------------------------------------------------------------------
 
