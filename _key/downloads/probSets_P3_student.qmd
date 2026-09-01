@@ -1,0 +1,137 @@
+---
+title: "Problem Set 3"
+subtitle: "H2 Statistics for Marine Science"
+author: "Name"
+date: today
+format:
+  html:
+    theme: lux
+    code-block-bg: true
+    code-link: true
+    toc: true
+    number-sections: true
+    callout-appearance: simple
+    embed-resources: true
+editor: visual
+---
+
+# Problem Set 3 {#sec-P3_probSet .unnumbered}
+
+::: callout-note
+Please render this file to .html and submit via Brightspace.
+:::
+
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: false
+
+library(tidyverse)
+library(readxl)
+set.seed(1)
+```
+
+## Normal distribution
+
+### Scenario 1: Using `*norm()`
+
+For a particular population of brown seaweed, the winter carbon:nitrogen ratio is distributed normally among individuals as $y \sim Norm(\mu=27.6, \sigma=2.5)$.
+
+What proportion of the population would you expect to have a C:N ratio greater than 30?
+
+```{r}
+
+```
+
+What is the probability of sampling an individual with a ratio between 23 and 24?
+
+```{r}
+
+```
+
+What ratio would delineate the lowest 30% of the population?
+
+```{r}
+
+```
+
+Generate a random sample of 12 individuals from this population. Calculate the sample mean and sample standard deviation.
+
+```{r}
+
+```
+
+What is the difference between your sample mean and the true population mean called? Why does it occur and what are two aspects of your sampling design that affect it?
+
+Repeat your random sampling 1000 times, calculate a sample mean for each of the 1000 samples, and make a histogram of them. Calculate the mean of these sample means.
+
+```{r}
+
+```
+
+How does this mean (and the histogram) compare to the population mean?
+
+### Scenario 2: Transformations
+
+The `swiss` dataset in R gives standardised fertility and socioeconomic indicators for each of the 47 French-speaking provinces of Switzerland in ca. 1888:
+
+```{r}
+str(swiss)
+```
+
+The values are given as percentages ranging from 0-100. Make a histogram for the `Education` column, setting the x-axis limits to the theoretical range of the variable.
+
+```{r}
+
+```
+
+What transformation would be most appropriate for these kinds of data?
+
+Apply this transformation and make a histogram of the transformed values.
+
+```{r}
+
+```
+
+What do you notice about the shape of the original and transformed distributions?
+
+## Standard error of the mean
+
+For the seaweed population in Scenario 1, we simulated a sample of 12 individuals from the population. In my particular sample, I found a sample mean of `{r} round(mean(obs), 3)`. Recall that the true population was distributed as $y \sim Norm(\mu=27.6, \sigma=2.5)$.
+
+Using the true population standard deviation $\sigma=2.5$, calculate the standard error of the mean.
+
+```{r}
+
+```
+
+In your own words, describe what the standard error of the mean is.
+
+The distribution of sample means can be simulated in R. Write code to 1) simulate 100 different samples from the seaweed population with $n=12$, and 2) calculate a sample mean from each of these 100 samples.
+
+```{r}
+
+```
+
+Make a plot to show the distribution of these sample means, and indicate the true population mean $\mu$.
+
+```{r}
+
+```
+
+Calculate the standard deviation of the 100 sample means.
+
+```{r}
+
+```
+
+How does it compare to the standard error of the mean you calculated above? Try increasing the number of samples to 3,000 and recalculate.
+
+Lastly, repeat the process, this time with $n=120$ for each sample. Calculate the standard error of the mean, simulate 100 sample means, and compare the standard deviation of these with the calculated standard error.
+
+```{r}
+
+```
+
+Why does the standard error decrease? What does this tell us about our level of confidence in the sample statistics we calculate ($\bar{y}$, $s$) and our inferences about the population parameters we are interested in ($\mu$, $\sigma$)?
+

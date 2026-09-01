@@ -1,0 +1,202 @@
+---
+title: "Problem Set 5"
+subtitle: "H2 Statistics for Marine Science"
+author: "Name"
+date: today
+format:
+  html:
+    theme: lux
+    code-block-bg: true
+    code-link: true
+    toc: true
+    number-sections: true
+    callout-appearance: simple
+    embed-resources: true
+editor: visual
+---
+
+# Problem Set 5
+
+::: callout-note
+Please render this file to .html and submit via Brightspace.
+:::
+
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: false
+
+library(tidyverse); theme_set(theme_classic())
+library(readxl)
+library(emmeans)
+set.seed(2026)
+```
+
+## T-tests, ANOVA, and regression
+
+For each scenario, select an appropriate analysis given the dataset. Follow the workflow illustrated in the practical and in the lectures, checking assumptions and applying transformations as needed.
+
+### Scenario 1
+
+
+**Research question:** Do critical thermal limits change with repeated heatwave exposure in kelp?
+
+In an experiment similar to [King et al. 2024](https://doi.org/10.1111/1365-2435.14622), a (hypothetical) H4 student measured critical thermal maxima (CT~max~) on the kelp species *Laminaria hyperborea* under 1) no previous heat exposure, 2) recent moderate heat exposure, and 3) recent extreme heat exposure. 
+
+Identify the response and predictor variables, as well as what type of variable each is. 
+
+>
+
+
+Next, load the data from the "MHW" sheet in "H2SMS_practicalData.xlsx" and perform appropriate checks.
+
+```{r}
+
+```
+
+
+Which analysis is most appropriate?
+
+>
+
+
+
+What is the null hypothesis?
+
+>
+
+
+
+Perform the analysis, including assumption checks. Calculate appropriate confidence intervals, make appropriate comparisons, and summarise results concisely in one short paragraph including key statistics.
+
+```{r}
+
+```
+
+
+
+
+
+
+### Scenario 2
+
+**Research question:** Is the average concentration of *Alexandrium spp* in an area greater than 40 cells per litre?
+
+In the UK, shellfish cannot be harvested on aquaculture farms if densities of harmful algal species exceed certain levels. For example, *Alexandrium spp* release paralytic shellfish toxins, and growers are not allowed to harvest when *Alexandrium spp* exceeds 40 cells per litre. 
+
+I've collected 13 water samples and enumerated the number of *Alexandrium spp* cells. 
+
+::: callout-note
+NB: This is *not* quite how the regulatory monitoring works!
+:::
+
+Identify the response and predictor variables, as well as what type of variable each is. 
+
+>
+
+
+Next, load the data from the "Alexandrium" sheet in "H2SMS_practicalData.xlsx" and perform appropriate checks.
+
+```{r}
+
+```
+
+
+Which analysis is most appropriate?
+
+>
+
+
+What is the null hypothesis?
+
+
+Perform the analysis, including assumption checks. Calculate appropriate confidence intervals, make appropriate comparisons, and summarise results concisely in one short paragraph including key statistics.
+
+```{r}
+
+```
+
+
+
+
+### Scenario 3
+
+
+**Research question:** Does mean seagrass shoot density differ among patches?
+
+The data consists of seagrass shoot density measured by snorkelers in 20 randomly located quadrats in each of 3 lochs in western Scotland. 
+
+Identify the response and predictor variables, as well as what type of variable each is. 
+
+>
+
+
+Next, load the data from the "Seagrass" sheet in "H2SMS_practicalData.xlsx" and perform appropriate checks.
+
+```{r}
+
+```
+
+
+Which analysis is most appropriate?
+
+>
+
+
+
+What is the null hypothesis?
+
+>
+
+
+
+Perform the analysis, including assumption checks. Calculate appropriate confidence intervals, make appropriate comparisons, and summarise results concisely in one short paragraph including key statistics.
+
+```{r}
+
+```
+
+
+
+
+
+### Scenario 4
+
+**Research question:** Does egg hatching success rate of *Acartia tonsa* depend on temperature?
+
+A (hypothetical) H4 student has decided to replicate one of the experiments of [Holste and Peck (2006)]( https://doi.org/10.1007/s00227-005-0132-0) to test the effect of temperature on egg hatching success of the copepod *Acartia tonsa*. Their data are in the "HatchTemp" sheet in "H2SMS_practicalData.xlsx", containing the temperature (C) and hatching success rate (%) for 3 replicates at each temperature.
+
+
+Identify the response and predictor variables, as well as what type of variable each is. 
+
+>
+
+
+Next, load the data from the "HatchTemp" sheet in "H2SMS_practicalData.xlsx" and perform appropriate checks.
+
+```{r}
+
+```
+
+
+Which analysis is most appropriate?
+
+>
+
+
+
+What is the null hypothesis?
+
+>
+
+
+
+Perform the analysis, including assumption checks. Calculate appropriate confidence intervals, make appropriate comparisons, and summarise results concisely in one short paragraph including key statistics.
+
+```{r}
+
+```
+
+
+
+

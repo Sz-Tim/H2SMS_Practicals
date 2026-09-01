@@ -1,0 +1,190 @@
+---
+title: "Problem Set 2"
+subtitle: "H2 Statistics for Marine Science"
+author: "Name"
+date: today
+format:
+  html:
+    theme: lux
+    code-block-bg: true
+    code-link: true
+    toc: true
+    number-sections: true
+    callout-appearance: simple
+    embed-resources: true
+editor: visual
+---
+
+# Problem Set 2 {#sec-P2_probSet .unnumbered}
+
+::: callout-note
+Please render this file to .html and submit via Brightspace.
+:::
+
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: false
+
+library(tidyverse)
+library(readxl)
+set.seed(10)
+```
+
+## Binomial distribution
+
+### Scenario 1
+
+Alex is interested in how likely their tulip bulbs are to flower in their garden. They buy three identical packages of five bulbs from Tesco and plant them in November. In April, they see that 12 have successfully produced flowers.
+
+What is $k=n$? 
+
+```{r}
+
+```
+
+
+
+What is their best estimate for the probability that a given tulip bulb will flower ($\hat{p}$)?
+
+```{r}
+
+```
+
+
+
+What is the standard error on this sample proportion?
+
+```{r}
+
+```
+
+
+
+
+### Scenario 2
+
+Mary is interested in the effect of winter storms on the detachment rates of the kelp *Laminaria hyperborea*. She is studying a small population near the beach at Wee Ganavan with $n=22$ individuals forming the canopy. She reads that in similar locations, storms cause an average of 39.4% of canopy plants to dislodge over the winter. 
+
+Using these values, what is the mean expected number of dislodged plants in her population?
+
+```{r}
+
+```
+
+
+
+Make a barplot showing the probability of each possible number dislodged individuals.
+
+```{r}
+
+```
+
+
+
+What is the probability that 9 individuals are dislodged?
+
+```{r}
+
+```
+
+
+
+What is the probability that 5 or fewer dislodge ($\le 5$)?
+
+```{r}
+
+```
+
+
+
+How many out of every 10 years would you expect more than half of this population to dislodge (i.e., $> 11$), assuming dislodgement occurs independently among years?
+
+```{r}
+
+```
+
+
+
+
+## Poisson distribution
+
+### Scenario 1
+
+The *Dogwhelks* sheet from H2SMS_practicalData.xlsx contains the number of dog whelks (*Nucella lapillus*) in 40 quadrats on a beach on Skye. Load the dataset and calculate the mean and variance of the number of dog whelks per quadrat.
+
+```{r}
+
+```
+
+
+
+What is the proportion of quadrats with 0, 1, and 2 dogwhelks?
+
+```{r}
+
+```
+
+
+
+Using the sample mean as $\lambda$, what is the probability of observing more than 2 dogwhelks in the next quadrat?
+
+```{r}
+
+```
+
+
+
+If you were to repeat the sampling ($n=40$ quadrats), in how many would you expect 1 dogwhelk?
+
+```{r}
+
+```
+
+
+
+### Scenario 2
+
+In July from 2018-2022, there were an average of 14.2 days where an orca sighting was reported in Shetland ([shetland.org](https://www.shetland.org/blog/when-is-the-best-time-to-see-orcas-in-shetland)). 
+
+For the following questions, use the Poisson distribution to approximate the distribution of the number of days with reported sightings. Assume that the days with reported sightings occur independently and that there is no change in methodology or ecology.
+
+What is the probability that there are 7 or fewer days with reported sightings next July?
+
+```{r}
+
+```
+
+
+
+What is the probability of having 14 days with sightings?
+
+```{r}
+
+```
+
+
+
+What is the probability of having 14 or more days with sightings?
+
+```{r}
+
+```
+
+
+
+What is the maximum possible number of days with sightings? 
+
+```{r}
+
+```
+
+
+
+According to the Poisson distribution, what is more likely: a July with 0 days with reported sightings or a July with more than 31 days of reported sightings?
+
+```{r}
+
+```
+
+

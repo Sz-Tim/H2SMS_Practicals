@@ -1,0 +1,218 @@
+---
+title: "Extra R: CA2"
+subtitle: "H2 Statistics for Marine Science"
+author: "Name"
+date: today
+format:
+  html:
+    theme: lux
+    code-block-bg: true
+    code-link: true
+    toc: true
+    number-sections: true
+    callout-appearance: simple
+    embed-resources: true
+editor: visual
+---
+
+# Extra: CA2
+
+## Overview 
+
+Coverage: L11-L19, P4-P6
+
+This is a document to **supplement** the document for CA1. Keep in mind that CA2 covers **all** lectures and practicals. Please work through `CA1_extra_R.qmd` again as well.
+
+Note that there are often many possible paths to the correct solution.
+
+## Air quality
+
+The `airquality` dataset is available in R upon start-up, and gives daily values of mean ozone, solar radiation, mean wind speed, and max temperature at LaGuardia Airport in New York City (`?airquality`).
+
+Assume we do not know the population parameters, but wish to estimate the probability of observing our sample mean under the hypothesis that $\mu = 11 mph$. What is the T statistic?
+
+```{r}
+
+```
+
+
+Under this hypothesized $\mu$, what is the probability of collecting a sample with a mean further from $\mu$ than in this dataset?
+
+```{r}
+
+```
+
+
+## Iris
+
+The `iris` dataset is available in R upon start-up.
+
+**Research question:** What is the difference in mean sepal area among *Iris setosa*, *I. versicolor*, and *I. virginica*?
+
+What type of variables are the response and predictor variables?
+
+>
+
+What analysis is appropriate for this question?
+
+>
+
+For this question, is `Species` a fixed effect or a random effect?
+
+>
+
+
+### Calculate Sepal.Area
+
+Create a new column in the data.frame `iris` called `Sepal.Area`.
+
+```{r}
+
+```
+
+
+Create a histogram of Sepal.Area, showing the distribution for each species using the same limits for the x-axis.
+
+Option 1. ggplot:
+
+```{r}
+
+```
+
+
+Option 2. Base R:
+
+```{r}
+
+```
+
+
+### Perform the analysis
+
+Perform the analysis and assess the assumptions.
+
+```{r}
+
+```
+
+
+What assumptions of this ANOVA can you evaluate with these plots? Do they appear reasonable?
+
+>
+
+What is the null hypothesis?
+
+>
+
+What is the probability of the observed difference in group means if the null hypothesis were true?
+
+```{r}
+
+```
+
+
+### Follow up analysis
+
+What are the means and 95% confidence intervals for each species?
+
+```{r}
+
+```
+
+
+What is the best interpretation of these 95% confidence intervals?
+
+>
+
+What are the effect sizes and 95% confidence intervals? That is, which species are meaningfully different from one another and how confident are we in those differences?
+
+```{r}
+
+```
+
+
+## Iris (reprise)
+
+**Research question:** For the species *I. virginica*, what is the effect of sepal width on petal width?
+
+What type of variables are the response and predictor variables?
+
+>
+
+What analysis is appropriate for this question?
+
+>
+
+### Create the appropriate data.frame
+
+Create a new dataframe containing all columns in `iris`, but only rows where the species is `virginica`.
+
+```{r}
+
+```
+
+
+Create a scatterplot of the relationship, with the predictor variable on the x-axis and the response variable on the y-axis.
+
+Option 1. ggplot:
+
+```{r}
+
+```
+
+
+Option 2. Base R:
+
+```{r}
+
+```
+
+
+### Perform the analysis
+
+Perform the analysis and check the assumptions.
+
+```{r}
+
+```
+
+
+What assumptions of this linear regression can you evaluate with these plots? Do they appear reasonable?
+
+>
+
+
+What is the null hypothesis?
+
+>
+
+What would the null hypothesis look like on the scatter plot above?
+
+>
+
+What is the probability of the observed change in petal width per unit increase in sepal width if the null hypothesis were true?
+
+```{r}
+
+```
+
+
+### Follow up analysis
+
+To three significant figures, what is the best estimate of the change in petal width per unit increase in sepal width, and what are the 95% confidence intervals?
+
+```{r}
+
+```
+
+Create a scatter plot of the relationship and add the best fit line from the linear regression with 95% confidence intervals.
+
+```{r}
+
+```
+
+
+
+## NMDS, PCA
+
+You will not be asked to produce any R code relating to Practical 6, so I am not including extra R practice here. You should nevertheless be familiar with the concepts, confident in the steps involved, and comfortable interpreting the output.

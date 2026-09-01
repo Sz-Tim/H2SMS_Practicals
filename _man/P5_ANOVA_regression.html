@@ -2,10 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.30">
+<meta name="generator" content="quarto-1.9.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>5&nbsp; ANOVA and regression – H2 Data Science Practicals</title>
+<title>5&nbsp; ANOVA and regression – H2SMS Practicals</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -61,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./P6_machine_learning.html" rel="next">
-<link href="./P4_t_CIs.html" rel="prev">
+<link href="./probSets_P5.html" rel="next">
+<link href="./probSets_P4.html" rel="prev">
 <link href="./figs/one_distribution.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -70,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c27fdc8e5b00b532d2d5a75ada188648.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-65953fb98a42cd6fe15a0b51d653d2b9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -106,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   --color2: #3F6F76;
 }
 </style>
-<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -117,7 +120,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -151,26 +154,10 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">H2 Data Science Practicals</a> 
+      <a href="./">H2SMS Practicals</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/Sz-Tim/H2DS_Practicals" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <div class="dropdown">
-      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
-      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-<li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./H2-Data-Science-Practicals.pdf">
-              <i class="bi bi-file-pdf pe-1"></i>
-            Download PDF
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./H2-Data-Science-Practicals.epub">
-              <i class="bi bi-journal pe-1"></i>
-            Download ePub
-            </a>
-          </li>
-      </ul>
-</div>
+    <a href="./H2SMS-Practicals.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -195,14 +182,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./R_basics_KEY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./P1_R_recap.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R recap</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probSets_P1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./P2_binomial_poisson.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binomial and Poisson Distributions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binomial and Poisson distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probSets_P2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -213,8 +218,26 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./probSets_P3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CA1_extra_R_KEY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: CA1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./P4_t_CIs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The t-distribution and confidence intervals</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probSets_P4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 4</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -225,8 +248,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./P6_machine_learning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></span></a>
+  <a href="./probSets_P5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P6_multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multivariate analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CA2_extra_R_KEY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: CA2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -261,8 +296,8 @@ window.Quarto = {
   <li>
 <a href="#further-practice" id="toc-further-practice" class="nav-link" data-scroll-target="#further-practice"><span class="header-section-number">5.3</span> Further practice</a>
   <ul class="collapse">
-<li><a href="#one-way-anova-1" id="toc-one-way-anova-1" class="nav-link" data-scroll-target="#one-way-anova-1"><span class="header-section-number">5.3.1</span> One-way ANOVA</a></li>
-  <li><a href="#regression-1" id="toc-regression-1" class="nav-link" data-scroll-target="#regression-1"><span class="header-section-number">5.3.2</span> Regression</a></li>
+<li><a href="#scenario-1" id="toc-scenario-1" class="nav-link" data-scroll-target="#scenario-1"><span class="header-section-number">5.3.1</span> Scenario 1</a></li>
+  <li><a href="#scenario-2" id="toc-scenario-2" class="nav-link" data-scroll-target="#scenario-2"><span class="header-section-number">5.3.2</span> Scenario 2</a></li>
   </ul>
 </li>
   <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions"><span class="header-section-number">5.4</span> Conclusions</a></li>
@@ -300,7 +335,7 @@ window.Quarto = {
 </div>
 <p>In an ANOVA, we compare the means of different groups by analyzing the variance (<a href="#fig-ANOVA_overview" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>). The variance is partitioned into 1) the mean variance between treatment means and the overall mean (thick arrows), and 2) the mean variance within treatments (thin arrows). By comparing the magnitude of these two quantities, we draw conclusions about whether the difference between group means is plausibly due to noise or not.</p>
 <div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>Code (bonus)</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_theme.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># simulate two populations A and B</span></span>
 <span><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">1.5</span></span>
@@ -363,7 +398,7 @@ window.Quarto = {
 <span>               colour<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"steelblue2"</span>, <span class="st">"firebrick"</span><span class="op">)</span>, guide<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">x_lim</span> <span class="op">+</span> <span class="va">y_lim</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Response variable"</span>, y<span class="op">=</span><span class="st">""</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Response variable"</span>, y<span class="op">=</span><span class="st">""</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div id="fig-ANOVA_overview" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-ANOVA_overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -378,9 +413,10 @@ Figure&nbsp;5.1: Sources of variation (within group vs.&nbsp;among groups) as qu
 <p>The null hypothesis in an ANOVA is that there is no difference in group means: <span class="math inline">\(\mu_A = \mu_B = ... = \mu_k\)</span>. Under the null hypothesis, the data come from a single population and our groupings are meaningless with regard to the response variable.</p>
 <p>In some cases, this may be of interest. What is almost always more interesting, however, is estimating means, differences between means, and our confidence in those.</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>; <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_theme.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvlenth.github.io/emmeans/">emmeans</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvlenth.github.io/emmeans/">emmeans</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2026</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="anova-in-r" class="level3" data-number="5.1.1"><h3 data-number="5.1.1" class="anchored" data-anchor-id="anova-in-r">
 <span class="header-section-number">5.1.1</span> ANOVA in R</h3>
@@ -390,7 +426,7 @@ Figure&nbsp;5.1: Sources of variation (within group vs.&nbsp;among groups) as qu
 <p>One-way ANOVA is a procedure we use to estimate the magnitude of differences between means of two or more groups. We also use it to put confidence intervals on those differences.</p>
 <p>The first example data is the yield in <span class="math inline">\(\mu g ~ C ~ ml^{-1}\)</span> of a species of microalgae (<em>Isochrysis galbana</em>) in laboratory culture exposed to three light levels (low, medium, high). We are interested in these particular light levels because they represent the means of winter, spring, and summer Scottish sun intensity. The data are in the worksheet ‘Microalgae’.</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_wide_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/H2DS_practicalData.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Microalgae"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_wide_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/H2SMS_practicalData.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Microalgae"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Check these data as usual.</p>
 <div id="Q.-5.1" class="Q.">
@@ -425,7 +461,7 @@ Figure&nbsp;5.1: Sources of variation (within group vs.&nbsp;among groups) as qu
 </div>
 <p>To work with our data, we need to rearrange the <code>data.frame</code> to a tidy format with each variable corresponding to one column, and each observation corresponding to one row. We’ll use the <em>tidyverse</em> as before.</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">algae_wide_df</span>, <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">algae_wide_df</span>, <span class="fl">2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
     low medium  high
@@ -433,9 +469,9 @@ Figure&nbsp;5.1: Sources of variation (within group vs.&nbsp;among groups) as qu
 1  13.1   12    14.2
 2  11.5   11.5  13.1</code></pre>
 </div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_df</span> <span class="op">&lt;-</span> <span class="va">algae_wide_df</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_df</span> <span class="op">&lt;-</span> <span class="va">algae_wide_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"Treatment"</span>, values_to <span class="op">=</span> <span class="st">"Yield"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">algae_df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">algae_df</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 15
 Columns: 2
@@ -448,12 +484,12 @@ $ Yield     &lt;dbl&gt; 13.07599, 12.00000, 14.20000, 11.53923, 11.50000, 13.100
 </div></details><p></p>
 </div>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View solution
+<span class="screen-reader-only">Tip</span>View solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -461,18 +497,18 @@ View solution
 <div class="callout-body-container callout-body">
 <p>The column should be a <code>factor</code> with the levels in a logical order. Remember that unless you specify the levels, R will order them alphabetically. In this case, that would be <code>"high", "low", "medium"</code>.</p>
 <div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_df</span><span class="op">$</span><span class="va">Treatment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">algae_df</span><span class="op">$</span><span class="va">Treatment</span>, </span>
+<details class="code-fold"><summary>Code (bonus)</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_df</span><span class="op">$</span><span class="va">Treatment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">algae_df</span><span class="op">$</span><span class="va">Treatment</span>, </span>
 <span>                             levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">algae_df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">algae_df</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>Rows: 15
 Columns: 2
 $ Treatment &lt;fct&gt; low, medium, high, low, medium, high, low, medium, high, low…
 $ Yield     &lt;dbl&gt; 13.07599, 12.00000, 14.20000, 11.53923, 11.50000, 13.10000, …</code></pre>
 </div>
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">algae_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Treatment</span>, <span class="va">Yield</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<details class="code-fold"><summary>Code (bonus)</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">algae_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Treatment</span>, <span class="va">Yield</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div id="fig-algae_boxplot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-algae_boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -501,7 +537,7 @@ Figure&nbsp;5.2: Boxplot of algal yield at different light levels.
 </div>
 <p>Next to conduct the analysis. This is a one-way ANOVA (one predictor) with fixed effects (we are interested in the differences between specific groups rather than characterizing the variation among groups generally).</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_aov</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aov.html">aov</a></span><span class="op">(</span><span class="va">Yield</span> <span class="op">~</span> <span class="va">Treatment</span>, data <span class="op">=</span> <span class="va">algae_df</span><span class="op">)</span> <span class="co"># ?aov</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_aov</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aov.html">aov</a></span><span class="op">(</span><span class="va">Yield</span> <span class="op">~</span> <span class="va">Treatment</span>, data <span class="op">=</span> <span class="va">algae_df</span><span class="op">)</span> <span class="co"># ?aov</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-simple callout-note">
 <div class="callout-body d-flex">
@@ -519,8 +555,8 @@ Figure&nbsp;5.2: Boxplot of algal yield at different light levels.
 <li>The <em>residual error</em> is homoscedastic, with constant variance across groups.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> </span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">algae_aov</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">algae_aov</span><span class="op">)</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-algae_aov" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-algae_aov-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -559,8 +595,8 @@ Figure&nbsp;5.3: Residual plots from one-way ANOVA.
 </div>
 <p>Everything looks OK, so we can then look at the results of the ANOVA.</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># anova(algae_aov) # outputs an anova-type table, but unnecessary with aov()</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">algae_aov</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># anova(algae_aov) # outputs an anova-type table, but unnecessary with aov()</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">algae_aov</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)  
 Treatment    2 10.050   5.025   6.487 0.0123 *
@@ -575,9 +611,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>Reporting that there are ‘significant’ differences between means is not enough. What your readers should be interested in is what the differences between the means actually are, and how confident you are in your assessment. This can be provided by the Tukey HSD test.</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># HSD stands for 'honestly significant difference'</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># HSD stands for 'honestly significant difference'</span></span>
 <span><span class="va">algae_grp_diffs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TukeyHSD.html">TukeyHSD</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">algae_aov</span>, conf.level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> </span>
-<span><span class="va">algae_grp_diffs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">algae_grp_diffs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Tukey multiple comparisons of means
     95% family-wise confidence level
@@ -590,7 +626,7 @@ medium-low  -0.09077539 -1.5758551 1.394304 0.9854641
 high-low     1.68922461  0.2041449 3.174304 0.0260570
 high-medium  1.78000000  0.2949203 3.265080 0.0194474</code></pre>
 </div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">algae_grp_diffs</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">algae_grp_diffs</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-algae_aov_Tukey" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-algae_aov_Tukey-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -611,8 +647,8 @@ Figure&nbsp;5.4: Tukey HSD plot from a one-way ANOVA.
 <p>We of course also want to report the group means with confidence intervals. While we could calculate these individually as in <a href="P4_t_CIs.html" class="quarto-xref"><span>Chapter 4</span></a>, the simplest way is to use the <em>emmeans</em> package. This has the added benefit of using our model’s assumption of homoscedasticity in calculating the standard error.</p>
 <p>The <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans()</a></code> function can correctly calculate means and confidence intervals for complex models (<code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">?emmeans</a></code>). Our model is simple, so we only need to provide our <code>aov</code> object and the name of the predictor variable (<code>specs=...</code>). The confidence level is specified with <code>level=...</code>, which is set to <code>0.95</code> by default.</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_emm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">algae_aov</span>, specs<span class="op">=</span><span class="st">"Treatment"</span>, level<span class="op">=</span><span class="fl">0.89</span><span class="op">)</span></span>
-<span><span class="va">algae_emm</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_emm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">algae_aov</span>, specs<span class="op">=</span><span class="st">"Treatment"</span>, level<span class="op">=</span><span class="fl">0.89</span><span class="op">)</span></span>
+<span><span class="va">algae_emm</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Treatment emmean    SE df lower.CL upper.CL
  low         12.1 0.394 12     11.4     12.8
@@ -621,18 +657,18 @@ Figure&nbsp;5.4: Tukey HSD plot from a one-way ANOVA.
 
 Confidence level used: 0.89 </code></pre>
 </div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_emm_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">algae_emm</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">algae_emm_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">algae_emm</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally, we should make a figure to communicate the results of our analysis. See the ANOVA lecture and accompanying R script for additional options.</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">algae_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Treatment</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">Yield</span><span class="op">)</span>, shape<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">algae_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Treatment</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">Yield</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">algae_emm_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>ymin<span class="op">=</span><span class="va">lower.CL</span>, ymax<span class="op">=</span><span class="va">upper.CL</span><span class="op">)</span>, colour<span class="op">=</span><span class="st">"red"</span>, width<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">algae_emm_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">emmean</span><span class="op">)</span>, shape<span class="op">=</span><span class="fl">1</span>, size<span class="op">=</span><span class="fl">2</span>, colour<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">algae_emm_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">emmean</span><span class="op">)</span>, shape<span class="op">=</span><span class="fl">1</span>, size<span class="op">=</span><span class="fl">3</span>, colour<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-algae_aov_results" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-algae_aov_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="P5_ANOVA_regression_files/figure-html/fig-algae_aov_results-1.png" class="img-fluid figure-img" width="768">
+<img src="P5_ANOVA_regression_files/figure-html/fig-algae_aov_results-1.png" class="img-fluid figure-img" width="384">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-algae_aov_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5.5: Algae yield under three light levels. Red points and bars give means and 89% CIs. Black points show observations.
@@ -647,14 +683,14 @@ Figure&nbsp;5.5: Algae yield under three light levels. Red points and bars give 
 <p>The media often misreport science because it is difficult to resist the impulse to attribute causation. An overwhelming number of spurious correlations (i.e., those <em>clearly</em> having no causal relationship) are documented on <a href="https://tylervigen.com/spurious-correlations">tylervigen.com</a>.</p>
 <section id="overview" class="level3" data-number="5.2.1"><h3 data-number="5.2.1" class="anchored" data-anchor-id="overview">
 <span class="header-section-number">5.2.1</span> Overview</h3>
-<p>Regression is at the heart of linear models. ANOVA and t-tests are, basically, special cases of linear regression models. The regression coefficient is a measure of the strength of the relationship between the dependent variable (the one you measure) and the independent variable (the one you fix like a fixed factor in ANOVA). The regression coefficient is denoted by <span class="math inline">\(R^2\)</span> compared with <span class="math inline">\(r\)</span> in correlation. The regression coefficient <span class="math inline">\(R^2\)</span> ranges from 0 to 1 (unlike <span class="math inline">\(r\)</span> which ranges from -1 to 1). A value <span class="math inline">\(R^2 = 0\)</span> indicates no relationship to the independent variable while <span class="math inline">\(R^2=1\)</span> indicates that the independent variable is entirely responsible for the variability in the measured variable.</p>
+<p>Regression is at the heart of linear models. ANOVA and t-tests are, basically, special cases of linear regression models. The regression coefficient is a measure of the strength of the relationship between the dependent variable (the one you measure) and the independent variable (the one you fix like a fixed factor in ANOVA). The regression coefficient is denoted by <em>R<sup>2</sup></em> compared with <em>r</em> in correlation. The regression coefficient <em>R<sup>2</sup></em> ranges from 0 to 1 (unlike <em>r</em> which ranges from -1 to 1). A value <span class="math inline">\(R^2 = 0\)</span> indicates no relationship to the independent variable while <span class="math inline">\(R^2=1\)</span> indicates that the independent variable is entirely responsible for the variability in the measured variable.</p>
 <p>As usual, null hypothesis significance testing is often applied to regression statistics. As usual, the null hypothesis being tested is usually “there is no functional relationship between the response and the predictor” and this is usually conceptually nonsense. In conducting regression analysis, your objective is to quantify to the most appropriate precision and accuracy possible the relationship between X (the aspect you control, the predictor, plotted on the X axis) and Y (the variable you measure, the response, plotted on the Y axis). Your objective is to quantify this relationship, put confidence intervals on it, and then interpret your findings in relation to the objectives of the study and in relation to other research.</p>
 <div id="Q.-5.12" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 5.12</strong></summary><div>
 <p>What does the plot look like when there is no relationship between the predictor and the response?</p>
 </div></details>
 </div>
-<p>Let us now consider an example in which cause and effect does exist. The data in worksheet ‘Beetles’ in <em>H2DS_practicalData.xlsx</em> shows the weight loss in <em>Tribolium confusum</em>, the confused flour beetle, at different relative humidities (data from Sokal and Rohlf, 1995). The relative humidity (RH) to which the beetles are exposed can be fixed and the weight loss (via evaporative losses) of the beetles then assessed. There is no way that the null hypothesis can be true in this case: humidity will obviously influence weight loss in beetles.</p>
+<p>Let us now consider an example in which cause and effect does exist. The data in worksheet ‘Beetles’ in <em>H2SMS_practicalData.xlsx</em> shows the weight loss in <em>Tribolium confusum</em>, the confused flour beetle, at different relative humidities (data from Sokal and Rohlf, 1995). The relative humidity (RH) to which the beetles are exposed can be fixed and the weight loss (via evaporative losses) of the beetles then assessed. There is no way that the null hypothesis can be true in this case: humidity will obviously influence weight loss in beetles.</p>
 <div id="Q.-5.13" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 5.13</strong></summary><div>
 <p>In this case, what is your response variable (what are you measuring) and your predictor (i.e.&nbsp;what is it that you are manipulating to determine the extent of the response)?</p>
@@ -671,10 +707,10 @@ Figure&nbsp;5.5: Algae yield under three light levels. Red points and bars give 
 <p>In R we can use a variety of techniques to conduct linear regression. The easiest is to use <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>. It is worth noting that <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> would also work for all your other general linear models (e.g.&nbsp;ANOVA). They are, in fact, the same model, it is just the default output (and necessary input formatting) that differs. Try reproducing the ANOVAs above with <code>anova(lm(...))</code>.</p>
 <p>Import data and begin:</p>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">beetle_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/H2DS_practicalData.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Beetles"</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">beetle_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/H2SMS_practicalData.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Beetles"</span><span class="op">)</span></span>
 <span><span class="co"># inspect the dataframe, then make a scatter plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">WeightLoss_Mg</span> <span class="op">~</span> <span class="va">Humidity</span>, data <span class="op">=</span> <span class="va">beetle_df</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">WeightLoss_Mg</span> <span class="op">~</span> <span class="va">Humidity</span>, data <span class="op">=</span> <span class="va">beetle_df</span><span class="op">)</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-beetle_scatter" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-beetle_scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -698,15 +734,15 @@ Figure&nbsp;5.6: Beetle weight loss as a function of relative humidity.
 </div>
 <p>Now we have explored and plotted the data we can conduct the regression analysis.</p>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># weight loss is modelled as (~) a function of humidity</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># weight loss is modelled as (~) a function of humidity</span></span>
 <span><span class="va">beetle_lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">WeightLoss_Mg</span> <span class="op">~</span> <span class="va">Humidity</span>, data <span class="op">=</span> <span class="va">beetle_df</span><span class="op">)</span> </span>
 <span><span class="co"># beetle_lm</span></span>
-<span><span class="co"># str(beetle_lm) # lm outputs are complex structures</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co"># str(beetle_lm) # lm outputs are complex structures</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Before we go on and interpret the model output we need to assess the model assumptions. This is done in the same way as for ANOVA with the same commands.</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="co"># set up 4 in 1 plot.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">beetle_lm</span><span class="op">)</span> <span class="co"># plot the regression residuals.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="co"># set up 4 in 1 plot.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">beetle_lm</span><span class="op">)</span> <span class="co"># plot the regression residuals.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-beetle_diag" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-beetle_diag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -726,7 +762,7 @@ Figure&nbsp;5.7: Regression diagnostics
 </div>
 <p>We will now proceed to looking at the linear regression analysis results on the basis that the residuals do not raise any concerns.</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">beetle_lm</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">beetle_lm</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -766,11 +802,11 @@ F-statistic: 267.2 on 1 and 7 DF,  p-value: 7.816e-07</code></pre>
 <p>What does the model suggest the weight loss will be when relative humidity is -50% and +150%? Are these values sensible? What does this tell you about extrapolating beyond the data range in using regression analysis in predictions?</p>
 </div></details>
 </div>
-<p>The residual error is the variance in y around the line. The <span class="math inline">\(R^2\)</span> is the proportion of this variance that is explained by the regression line. In the current case <span class="math inline">\(R^2 = 0.97\)</span>. This is an extremely high value and indicates that the regression model is extraordinarily good at accounting for the variance in weight loss based on the relative humidity.</p>
+<p>The residual error is the variance in y around the line. The <em>R<sup>2</sup></em> is the proportion of this variance that is explained by the regression line. In the current case <span class="math inline">\(R^2 = 0.97\)</span>. This is an extremely high value and indicates that the regression model is extraordinarily good at accounting for the variance in weight loss based on the relative humidity.</p>
 <p>The P values allow us to assess if the slope and the intercept are likely different from zero.</p>
 <div id="Q.-5.19" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 5.19</strong></summary><div>
-<p>Given the very high <span class="math inline">\(R^2\)</span> (and looking at your plot) would you expect the regression model to be significantly better than the null model in explaining the variance in weight loss?</p>
+<p>Given the very high <em>R<sup>2</sup></em> (and looking at your plot) would you expect the regression model to be significantly better than the null model in explaining the variance in weight loss?</p>
 </div></details>
 </div>
 <div id="Q.-5.20" class="Q.">
@@ -779,7 +815,7 @@ F-statistic: 267.2 on 1 and 7 DF,  p-value: 7.816e-07</code></pre>
 </div></details>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html">confint</a></span><span class="op">(</span><span class="va">beetle_lm</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html">confint</a></span><span class="op">(</span><span class="va">beetle_lm</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                  2.5 %      97.5 %
 (Intercept)  8.25104923  9.15700538
@@ -792,14 +828,14 @@ Humidity    -0.06092143 -0.04552287</code></pre>
 <span class="header-section-number">5.2.3</span> Plotting the regression line and confidence intervals</h3>
 <p>A regression model (i.e.&nbsp;the linear relationship between the predictor and response variables) allows us to predict values for any value of the predictor, along with confidence levels. We can plot this regression line without too much effort.</p>
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">beetle_pred_line</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">beetle_lm</span>, interval <span class="op">=</span> <span class="st">"confidence"</span>, level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">beetle_pred_line</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">beetle_lm</span>, interval <span class="op">=</span> <span class="st">"confidence"</span>, level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">WeightLoss_Mg</span> <span class="op">~</span> <span class="va">Humidity</span>, data <span class="op">=</span> <span class="va">beetle_df</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">10</span><span class="op">)</span>,</span>
 <span>     xlab <span class="op">=</span> <span class="st">"Relative humidity (%)"</span>, ylab <span class="op">=</span> <span class="st">"Weight loss (mg)"</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">beetle_df</span><span class="op">$</span><span class="va">Humidity</span>, <span class="va">beetle_pred_line</span><span class="op">[</span>, <span class="st">"fit"</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">beetle_df</span><span class="op">$</span><span class="va">Humidity</span>, <span class="va">beetle_pred_line</span><span class="op">[</span>, <span class="st">"lwr"</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">beetle_df</span><span class="op">$</span><span class="va">Humidity</span>, <span class="va">beetle_pred_line</span><span class="op">[</span>, <span class="st">"upr"</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">beetle_df</span><span class="op">$</span><span class="va">Humidity</span>, <span class="va">beetle_pred_line</span><span class="op">[</span>, <span class="st">"upr"</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-beetle_regline" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-beetle_regline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -834,20 +870,20 @@ Figure&nbsp;5.8: Regression line (solid) with upper and lower 95% confidence int
 </div>
 <p>We can make predictions based on our regression line, and put confidence intervals on those predictions. Say we had a relative humidity of 50% in the above example. You could ask for the model-predicted weight loss and you’d want confidence intervals on that prediction.</p>
 <div class="cell">
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># predict() needs a data.frame with the same predictors used in beetle_lm</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># predict() needs a data.frame with the same predictors used in beetle_lm</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">beetle_lm</span>, </span>
 <span>        newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Humidity <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>, </span>
 <span>        interval <span class="op">=</span> <span class="st">"predict"</span>, </span>
-<span>        level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>        level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      fit      lwr      upr
 1 6.04292 5.303471 6.782368</code></pre>
 </div>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># or more fully:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># or more fully:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">beetle_lm</span>, </span>
 <span>        newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Humidity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span>, by<span class="op">=</span><span class="fl">25</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>        interval <span class="op">=</span> <span class="st">"predict"</span>, </span>
-<span>        level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>        level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       fit      lwr      upr
 1 8.704027 7.868990 9.539064
@@ -859,7 +895,7 @@ Figure&nbsp;5.8: Regression line (solid) with upper and lower 95% confidence int
 </div>
 <p>And we can plot these intervals too:</p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">new_humidity_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Humidity <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">new_humidity_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Humidity <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">beetle_pred_line</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">beetle_lm</span>, </span>
 <span>                            newdata <span class="op">=</span> <span class="va">new_humidity_df</span>,</span>
 <span>                            interval <span class="op">=</span> <span class="st">"confidence"</span>, </span>
@@ -876,7 +912,7 @@ Figure&nbsp;5.8: Regression line (solid) with upper and lower 95% confidence int
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">new_humidity_df</span><span class="op">$</span><span class="va">Humidity</span>, <span class="va">beetle_pred_line</span><span class="op">[</span>, <span class="st">"lwr"</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">new_humidity_df</span><span class="op">$</span><span class="va">Humidity</span>, <span class="va">beetle_pred_line</span><span class="op">[</span>, <span class="st">"upr"</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">new_humidity_df</span><span class="op">$</span><span class="va">Humidity</span>, <span class="va">beetle_pred_obs</span><span class="op">[</span>, <span class="st">"lwr"</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">new_humidity_df</span><span class="op">$</span><span class="va">Humidity</span>, <span class="va">beetle_pred_obs</span><span class="op">[</span>, <span class="st">"upr"</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">new_humidity_df</span><span class="op">$</span><span class="va">Humidity</span>, <span class="va">beetle_pred_obs</span><span class="op">[</span>, <span class="st">"upr"</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-beetle_regline_predInterval" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-beetle_regline_predInterval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -891,232 +927,65 @@ Figure&nbsp;5.9: Regression line (solid) with upper and lower 95% confidence int
 <p>These are prediction intervals and they are broader than confidence intervals. The confidence intervals express your confidence about the <em>regression line</em> for the population. The prediction interval expresses your confidence about the distribution of the <em>observations</em> for the population.</p>
 <hr></section></section><section id="further-practice" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="further-practice">
 <span class="header-section-number">5.3</span> Further practice</h2>
-<section id="one-way-anova-1" class="level3" data-number="5.3.1"><h3 data-number="5.3.1" class="anchored" data-anchor-id="one-way-anova-1">
-<span class="header-section-number">5.3.1</span> One-way ANOVA</h3>
-<p><strong>Question:</strong> How does limpet travel distance (within a set timespan) vary by surface type?</p>
-<p>Import the ‘LimpetDist’ sheet from “H2DS_practicalData.xlsx”, which gives travel distance of limpets on three different surface types. Perform a one-way ANOVA of distance predicted by surface type. Make sure you perform appropriate data quality checks and assumption checks. Report the ANOVA table and the pairwise effect sizes with confidence intervals.</p>
+<section id="scenario-1" class="level3" data-number="5.3.1"><h3 data-number="5.3.1" class="anchored" data-anchor-id="scenario-1">
+<span class="header-section-number">5.3.1</span> Scenario 1</h3>
+<p><strong>Question:</strong> What is the relationship between phosphate concentration and absorbance?</p>
+<p>Import the ‘PhosphateCalibration’ sheet from “H2SMS_practicalData.xlsx” (1st year practical data) into R and perform an appropriate analysis with absorbance predicted by concentration. Perform all appropriate checks for data quality and assumptions. Report relevant results with 92% confidence intervals.</p>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View solution
+<span class="screen-reader-only">Tip</span>View solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View step 1
+<span class="screen-reader-only">Tip</span>View analysis type
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>First load and prepare the data.</p>
 <div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">limpet_wide_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/H2DS_practicalData.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"LimpetDist"</span><span class="op">)</span></span>
-<span><span class="va">limpet_df</span> <span class="op">&lt;-</span> <span class="va">limpet_wide_df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span>, names_to<span class="op">=</span><span class="st">"Surface"</span>, values_to<span class="op">=</span><span class="st">"Distance"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Surface<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Surface</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Smooth"</span>, <span class="st">"Intermediate"</span>, <span class="st">"Rough"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">limpet_df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output cell-output-stdout">
-<pre><code>Rows: 24
-Columns: 2
-$ Surface  &lt;fct&gt; Smooth, Intermediate, Rough, Smooth, Intermediate, Rough, Smo…
-$ Distance &lt;dbl&gt; 97, 66, 55, 83, 98, 49, 90, 78, 41, 93, 70, 64, 71, 89, 69, 1…</code></pre>
+<details class="code-fold"><summary>Response variable and type</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 'Absorbance' is continuous</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">limpet_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Surface</span>, <span class="va">Distance</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-limpetBoxplot" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-limpetBoxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="P5_ANOVA_regression_files/figure-html/fig-limpetBoxplot-1.png" class="img-fluid figure-img" width="768">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-limpetBoxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.10: Boxplot of limpet travel distances by surface.
-</figcaption></figure>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-View step 2
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Second, run the ANOVA.</p>
 <div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">limpet_aov</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aov.html">aov</a></span><span class="op">(</span><span class="va">Distance</span> <span class="op">~</span> <span class="va">Surface</span>, data<span class="op">=</span><span class="va">limpet_df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Predictor variable and type</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 'Concentration' is continuous</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Analysis type</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Linear regression: The predictor and response are both continuous</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </div>
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View step 3
+<span class="screen-reader-only">Tip</span>View step 1
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Third, check assumptions.</p>
-<div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> </span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">limpet_aov</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-limpet_aov" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-limpet_aov-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="P5_ANOVA_regression_files/figure-html/fig-limpet_aov-1.png" class="img-fluid figure-img" width="528">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-limpet_aov-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.11: Residual plots from the limpet one-way ANOVA.
-</figcaption></figure>
-</div>
-</div>
-</div>
-<p>If the assumptions seem invalid, try transformations. Once satisfactory, continue.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-View step 4
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>In this case, the residuals show that the assumptions of normally distributed residuals with homoscedasticity among groups are reasonable. No transformation is needed.</p>
-<p>Fourth, produce the ANOVA table and evaluate the null hypothesis.</p>
-<div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">limpet_aov</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output cell-output-stdout">
-<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
-Surface      2   4478  2239.1   18.99 1.95e-05 ***
-Residuals   21   2476   117.9                     
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
-</div>
-</div>
-<p>If you failed to reject <span class="math inline">\(H_0\)</span>, report this and stop. Otherwise, continue.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-View step 5
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>We’ve rejected the omnibus null hypothesis, so we proceed with pairwise comparisons to determine which means are different from each other, by how much, and how confident we are in that difference. We also of course calculate means for each group with CIs.</p>
-<p>Fifth, calculate group means with CIs and perform a Tukey HSD test.</p>
-<div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">limpet_aov</span>, specs<span class="op">=</span><span class="st">"Surface"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output cell-output-stdout">
-<pre><code> Surface      emmean   SE df lower.CL upper.CL
- Smooth         89.8 3.84 21     81.8     97.7
- Intermediate   75.1 3.84 21     67.1     83.1
- Rough          56.4 3.84 21     48.4     64.4
-
-Confidence level used: 0.95 </code></pre>
-</div>
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">limpet_grp_diffs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TukeyHSD.html">TukeyHSD</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">limpet_aov</span><span class="op">)</span> </span>
-<span><span class="va">limpet_grp_diffs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output cell-output-stdout">
-<pre><code>  Tukey multiple comparisons of means
-    95% family-wise confidence level
-
-Fit: aov(formula = Distance ~ Surface, data = limpet_df)
-
-$Surface
-                       diff       lwr         upr     p adj
-Intermediate-Smooth -14.625 -28.31037  -0.9396343 0.0348495
-Rough-Smooth        -33.375 -47.06037 -19.6896343 0.0000123
-Rough-Intermediate  -18.750 -32.43537  -5.0646343 0.0064480</code></pre>
-</div>
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">limpet_grp_diffs</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-limpet_aov_Tukey" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-limpet_aov_Tukey-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="P5_ANOVA_regression_files/figure-html/fig-limpet_aov_Tukey-1.png" class="img-fluid figure-img" width="768">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-limpet_aov_Tukey-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.12: Tukey HSD plot from a one-way ANOVA.
-</figcaption></figure>
-</div>
-</div>
-</div>
-<p>Report the results. In a full report or paper, this should include the ANOVA table, group means and CIs, effect sizes and CIs, and likely a figure communicating the results.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section><section id="regression-1" class="level3" data-number="5.3.2"><h3 data-number="5.3.2" class="anchored" data-anchor-id="regression-1">
-<span class="header-section-number">5.3.2</span> Regression</h3>
-<p><strong>Question:</strong> What is the relationship between phosphate concentration and absorbance?</p>
-<p>Import the ‘PhosphateCalibration’ sheet from “H2DS_practicalData.xlsx” (1st year practical data) into R and perform a linear regression with absorbance predicted by concentration. Perform all appropriate checks for data quality and assumptions. Report relevant parameter estimates with 92% confidence intervals.</p>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-View solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-View step 1
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>First load and prepare the data.</p>
 <div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">phosphate_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span><span class="op">(</span><span class="st">"data/H2DS_practicalData.xlsx"</span>, <span class="st">"PhosphateCalibration"</span><span class="op">)</span></span>
-<span><span class="va">phosphate_df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">phosphate_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span><span class="op">(</span><span class="st">"data/H2SMS_practicalData.xlsx"</span>, <span class="st">"PhosphateCalibration"</span><span class="op">)</span></span>
+<span><span class="va">phosphate_df</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
   Concentration Absorbance
@@ -1128,14 +997,14 @@ View step 1
 5           2        0.054
 6           3        0.067</code></pre>
 </div>
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Absorbance</span> <span class="op">~</span> <span class="va">Concentration</span>, data <span class="op">=</span> <span class="va">phosphate_df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Absorbance</span> <span class="op">~</span> <span class="va">Concentration</span>, data <span class="op">=</span> <span class="va">phosphate_df</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div id="fig-phosphatePoints" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-phosphatePoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="P5_ANOVA_regression_files/figure-html/fig-phosphatePoints-1.png" class="img-fluid figure-img" width="480">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-phosphatePoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.13: Phosphate calibration data.
+Figure&nbsp;5.10: Phosphate calibration data.
 </figcaption></figure>
 </div>
 </div>
@@ -1144,48 +1013,48 @@ Figure&nbsp;5.13: Phosphate calibration data.
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View step 2
+<span class="screen-reader-only">Tip</span>View step 2
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Second, run the linear regression.</p>
 <div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">phos.mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Absorbance</span> <span class="op">~</span> <span class="va">Concentration</span>, data <span class="op">=</span> <span class="va">phosphate_df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">phos.mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Absorbance</span> <span class="op">~</span> <span class="va">Concentration</span>, data <span class="op">=</span> <span class="va">phosphate_df</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </div>
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View step 3
+<span class="screen-reader-only">Tip</span>View step 3
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Third, check assumptions.</p>
 <div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">phos.mod</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">phos.mod</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div id="fig-phosphateDiagnostics" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-phosphateDiagnostics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="P5_ANOVA_regression_files/figure-html/fig-phosphateDiagnostics-1.png" class="img-fluid figure-img" width="480">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-phosphateDiagnostics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.14: Phosphate calibration regression diagnostics.
+Figure&nbsp;5.11: Phosphate calibration regression diagnostics.
 </figcaption></figure>
 </div>
 </div>
@@ -1195,20 +1064,20 @@ Figure&nbsp;5.14: Phosphate calibration regression diagnostics.
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View step 4
+<span class="screen-reader-only">Tip</span>View step 4
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Fourth, view the results and evaluate the null hypothesis.</p>
 <div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">phos.mod</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">phos.mod</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1234,20 +1103,20 @@ F-statistic: 155.3 on 1 and 4 DF,  p-value: 0.0002383</code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View step 5
+<span class="screen-reader-only">Tip</span>View step 5
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Fifth, produce a figure with the best fit line and 92% confidence intervals.</p>
 <div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">newPhosphate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>Concentration<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">phosphate_df</span><span class="op">$</span><span class="va">Concentration</span><span class="op">)</span>,</span>
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">newPhosphate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>Concentration<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">phosphate_df</span><span class="op">$</span><span class="va">Concentration</span><span class="op">)</span>,</span>
 <span>                                         <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">phosphate_df</span><span class="op">$</span><span class="va">Concentration</span><span class="op">)</span>,</span>
 <span>                                         length.out<span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">phos_pred_line</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">phos.mod</span>, </span>
@@ -1258,14 +1127,14 @@ View step 5
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Absorbance</span> <span class="op">~</span> <span class="va">Concentration</span>, data <span class="op">=</span> <span class="va">phosphate_df</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">newPhosphate</span><span class="op">$</span><span class="va">Concentration</span>, <span class="va">phos_pred_line</span><span class="op">[</span>, <span class="st">"fit"</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">newPhosphate</span><span class="op">$</span><span class="va">Concentration</span>, <span class="va">phos_pred_line</span><span class="op">[</span>, <span class="st">"lwr"</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">newPhosphate</span><span class="op">$</span><span class="va">Concentration</span>, <span class="va">phos_pred_line</span><span class="op">[</span>, <span class="st">"upr"</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">newPhosphate</span><span class="op">$</span><span class="va">Concentration</span>, <span class="va">phos_pred_line</span><span class="op">[</span>, <span class="st">"upr"</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div id="fig-phosphateScatter" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-phosphateScatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="P5_ANOVA_regression_files/figure-html/fig-phosphateScatter-1.png" class="img-fluid figure-img" width="384">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-phosphateScatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.15: Phosphate calibration scatter plot with best fit line and 92% confidence intervals.
+Figure&nbsp;5.12: Phosphate calibration scatter plot with best fit line and 92% confidence intervals.
 </figcaption></figure>
 </div>
 </div>
@@ -1277,7 +1146,6 @@ Figure&nbsp;5.15: Phosphate calibration scatter plot with best fit line and 92% 
 </div>
 </div>
 </div>
-<p>This is the workflow for performing a linear regression.</p>
 <div class="callout callout-style-simple callout-note">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -1291,13 +1159,234 @@ Figure&nbsp;5.15: Phosphate calibration scatter plot with best fit line and 92% 
 <div id="Q.-5.25" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 5.25</strong></summary><div>
 <p>For a concentration of 0.75 units, what values would you expect (95 times in 100) to see from your experimental set-up?</p>
-</div></details>
-</div>
 <p>You should get:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>         fit         lwr        upr
 1 0.01988519 0.005298129 0.03447225</code></pre>
+</div>
+</div>
+</div></details>
+</div>
+</section><section id="scenario-2" class="level3" data-number="5.3.2"><h3 data-number="5.3.2" class="anchored" data-anchor-id="scenario-2">
+<span class="header-section-number">5.3.2</span> Scenario 2</h3>
+<p><strong>Question:</strong> How does limpet travel distance (within a set timespan) vary by surface type?</p>
+<p>Import the ‘LimpetDist’ sheet from “H2SMS_practicalData.xlsx”, which gives travel distance of limpets on three different surface types. Perform an appropriate analysis of distance predicted by surface type. Make sure you perform appropriate data quality checks and assumption checks. Report results as appropriate.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>View solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>View analysis type
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<details class="code-fold"><summary>Response variable and type</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 'Travel distance' is continuous</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Predictor variable and type</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 'Surface type' is categorical</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Analysis type</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ANOVA: The predictor is categorical and the response is continuous</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>View step 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>First load and prepare the data.</p>
+<div class="cell">
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">limpet_wide_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/H2SMS_practicalData.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"LimpetDist"</span><span class="op">)</span></span>
+<span><span class="va">limpet_df</span> <span class="op">&lt;-</span> <span class="va">limpet_wide_df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span>, names_to<span class="op">=</span><span class="st">"Surface"</span>, values_to<span class="op">=</span><span class="st">"Distance"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Surface<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Surface</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Smooth"</span>, <span class="st">"Intermediate"</span>, <span class="st">"Rough"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">limpet_df</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Rows: 24
+Columns: 2
+$ Surface  &lt;fct&gt; Smooth, Intermediate, Rough, Smooth, Intermediate, Rough, Smo…
+$ Distance &lt;dbl&gt; 97, 66, 55, 83, 98, 49, 90, 78, 41, 93, 70, 64, 71, 89, 69, 1…</code></pre>
+</div>
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">limpet_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Surface</span>, <span class="va">Distance</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div id="fig-limpetBoxplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-limpetBoxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P5_ANOVA_regression_files/figure-html/fig-limpetBoxplot-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-limpetBoxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.13: Boxplot of limpet travel distances by surface.
+</figcaption></figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>View step 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Second, run the ANOVA.</p>
+<div class="cell">
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">limpet_aov</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aov.html">aov</a></span><span class="op">(</span><span class="va">Distance</span> <span class="op">~</span> <span class="va">Surface</span>, data<span class="op">=</span><span class="va">limpet_df</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>View step 3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Third, check assumptions.</p>
+<div class="cell">
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">limpet_aov</span><span class="op">)</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div id="fig-limpet_aov" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-limpet_aov-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P5_ANOVA_regression_files/figure-html/fig-limpet_aov-1.png" class="img-fluid figure-img" width="528">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-limpet_aov-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.14: Residual plots from the limpet one-way ANOVA.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>If the assumptions seem invalid, try transformations. Once satisfactory, continue.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>View step 4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In this case, the residuals show that the assumptions of normally distributed residuals with homoscedasticity among groups are reasonable. No transformation is needed.</p>
+<p>Fourth, produce the ANOVA table and evaluate the null hypothesis.</p>
+<div class="cell">
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">limpet_aov</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+Surface      2   4478  2239.1   18.99 1.95e-05 ***
+Residuals   21   2476   117.9                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>If you failed to reject <span class="math inline">\(H_0\)</span>, report this and stop. Otherwise, continue.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>View step 5
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We’ve rejected the omnibus null hypothesis, so we proceed with pairwise comparisons to determine which means are different from each other, by how much, and how confident we are in that difference. We also of course calculate means for each group with CIs.</p>
+<p>Fifth, calculate group means with CIs and perform a Tukey HSD test.</p>
+<div class="cell">
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">limpet_aov</span>, specs<span class="op">=</span><span class="st">"Surface"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> Surface      emmean   SE df lower.CL upper.CL
+ Smooth         89.8 3.84 21     81.8     97.7
+ Intermediate   75.1 3.84 21     67.1     83.1
+ Rough          56.4 3.84 21     48.4     64.4
+
+Confidence level used: 0.95 </code></pre>
+</div>
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">limpet_grp_diffs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TukeyHSD.html">TukeyHSD</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">limpet_aov</span><span class="op">)</span> </span>
+<span><span class="va">limpet_grp_diffs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = Distance ~ Surface, data = limpet_df)
+
+$Surface
+                       diff       lwr         upr     p adj
+Intermediate-Smooth -14.625 -28.31037  -0.9396343 0.0348495
+Rough-Smooth        -33.375 -47.06037 -19.6896343 0.0000123
+Rough-Intermediate  -18.750 -32.43537  -5.0646343 0.0064480</code></pre>
+</div>
+<details class="code-fold"><summary>View code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">limpet_grp_diffs</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div id="fig-limpet_aov_Tukey" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-limpet_aov_Tukey-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="P5_ANOVA_regression_files/figure-html/fig-limpet_aov_Tukey-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-limpet_aov_Tukey-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.15: Tukey HSD plot from a one-way ANOVA.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>Report the results. In a full report or paper, this should include the ANOVA table, group means and CIs, effect sizes and CIs, and likely a figure communicating the results.</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <hr></section></section><section id="conclusions" class="level2" data-number="5.4"><h2 data-number="5.4" class="anchored" data-anchor-id="conclusions">
@@ -1357,13 +1446,14 @@ Figure&nbsp;5.15: Phosphate calibration scatter plot with best fit line and 92% 
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1710,13 +1800,13 @@ Figure&nbsp;5.15: Phosphate calibration scatter plot with best fit line and 92% 
     }
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./P4_t_CIs.html" class="pagination-link" aria-label="The t-distribution and confidence intervals">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The t-distribution and confidence intervals</span></span>
+      <a href="./probSets_P4.html" class="pagination-link" aria-label="Problem Set 4">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Problem Set 4</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./P6_machine_learning.html" class="pagination-link" aria-label="Machine Learning">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./probSets_P5.html" class="pagination-link" aria-label="Problem Set 5">
+        <span class="nav-page-text">Problem Set 5</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

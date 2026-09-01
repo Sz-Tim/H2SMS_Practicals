@@ -1,0 +1,154 @@
+---
+title: "Problem Set 1"
+subtitle: "H2 Statistics for Marine Science"
+author: "Name"
+date: today
+format:
+  html:
+    theme: lux
+    code-block-bg: true
+    code-link: true
+    toc: true
+    number-sections: true
+    callout-appearance: simple
+    embed-resources: true
+editor: visual
+---
+
+# Problem Set 1
+
+::: callout-note
+Please render this file to .html and submit via Brightspace.
+:::
+
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: false
+
+library(tidyverse)
+library(readxl)
+set.seed(1)
+```
+
+## R Basics
+
+### Data types
+
+Create a vector called `site_num` with the values 1 through 10.
+
+```{r}
+
+```
+
+## Data munging
+
+The *SmoltWeights* sheet from H2SMS_practicalData.xlsx contains the weight in grams (column `weight_g`) from a sample of 34 wild salmon smolts (column `fish_id`) during their out-migration from a river to the ocean. Load the dataset and perform basic summaries (range, mean, median, number of missing values for each column). Identify (using code) which fish are missing values for `weight_g`.
+
+```{r}
+
+```
+
+Create a new column called `weight_lb` that gives the weights in pounds, where 1 kg = 2.205 lb.
+
+```{r}
+
+```
+
+What proportion of fish weigh less than 0.2 lb? How many fish is this?
+
+```{r}
+
+```
+
+Create a new data.frame called `large_df` that contains only the fish as large or larger than the median weight *and* excludes rows with missing weights.
+
+```{r}
+
+```
+
+Create a new data.frame called `extreme_df` that contains only fish more than 1.5 standard deviations greater than the mean *and* excludes rows with missing weights.
+
+```{r}
+
+```
+
+## Plotting
+
+### Histograms
+
+Create a histogram of the smolt weights, labelling the axes and omitting a plot title. Add a figure legend using `#| fig-cap: "..."` in the quarto document code block. Add `#| label: fig-smoltHist`, and then in *text* below, reference the figure by typing `@fig-smoltHist`.
+
+::: callout-tip
+When rendered, `@fig-smoltHist` in the text is automatically replaced by "Figure 1", with figure numbers updated automatically. Adding a legend with `#| fig-cap: "..."` in your code block will automatically give that figure a number, making your life easier.
+
+The label must start with `fig-` for this to work.
+
+Note that you *cannot* re-use the same `label`.
+:::
+
+```{r}
+#| fig-cap: "..."
+
+
+```
+
+### Line plots
+
+The dataset `beaver1` is available in R, giving the body temperature through time of a female beaver (*Castor canadensis*), with observations every 10 minutes.
+
+```{r}
+str(beaver1)
+```
+
+Debug the following code so that it produces a line plot of body temperature by observation id. Note that `time` is given in the form `0330` for 3:30am (`?beaver1`). The `obs_id` column thus gives the ordered observations from first to last.
+
+As an added challenge, add vertical dashed lines indicating when the beaver was active.
+
+::: callout-tip
+Set `#| eval: true` to run the code when you click Render. If you've successfully debugged, you should then see your plot.
+:::
+
+```{r}
+#| eval: false
+
+beaver_df <- beaver1
+beaver_df$obs_id <- 1:nrow(beaver_df)
+plot(obs_id ~ Temp, 
+     data=beaver_df, 
+     type="p", 
+     xLab="Observation (time)",
+     ylab="Body temperature (C)")
+```
+
+### Boxplots
+
+The dataset `ToothGrowth` is available in R, giving the length (`len`) of tooth-growth cells (odontoblasts) in 60 guinea pigs under different vitamin C regimes (`supp`: OJ=orange juice, VC=ascorbic acid; `dose`: 0.5, 1, 2 mg/day). Create a boxplot of the length by dose for only the guinea pigs receiving orange juice. Write a figure caption and add a label as above.
+
+```{r}
+#| fig-cap: "..."
+
+
+```
+
+Use `ggplot()` to make the same boxplot, but with `supp` as the fill colour.
+
+::: callout-tip
+Remember to check the column types first!
+:::
+
+```{r}
+#| fig-cap: "..."
+
+
+```
+
+### Scatter plots
+
+Using the same `ToothGrowth` dataset, produce a scatter plot of odontoblast length as a function of dose, where `supp` is the point colour.
+
+```{r}
+#| fig-cap: "..."
+
+
+```

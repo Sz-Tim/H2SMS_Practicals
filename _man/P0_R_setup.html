@@ -2,10 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.30">
+<meta name="generator" content="quarto-1.9.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>R setup – H2 Data Science Practicals</title>
+<title>R setup – H2SMS Practicals</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -61,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./P1_R_recap.html" rel="next">
+<link href="./R_basics_KEY.html" rel="next">
 <link href="./index.html" rel="prev">
 <link href="./figs/one_distribution.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
@@ -70,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c27fdc8e5b00b532d2d5a75ada188648.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-65953fb98a42cd6fe15a0b51d653d2b9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -125,26 +128,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">H2 Data Science Practicals</a> 
+      <a href="./">H2SMS Practicals</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/Sz-Tim/H2DS_Practicals" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <div class="dropdown">
-      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
-      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-<li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./H2-Data-Science-Practicals.pdf">
-              <i class="bi bi-file-pdf pe-1"></i>
-            Download PDF
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./H2-Data-Science-Practicals.epub">
-              <i class="bi bi-journal pe-1"></i>
-            Download ePub
-            </a>
-          </li>
-      </ul>
-</div>
+    <a href="./H2SMS-Practicals.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -169,14 +156,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./R_basics_KEY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./P1_R_recap.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R recap</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probSets_P1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./P2_binomial_poisson.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binomial and Poisson Distributions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binomial and Poisson distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probSets_P2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -187,8 +192,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./probSets_P3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CA1_extra_R_KEY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: CA1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./P4_t_CIs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The t-distribution and confidence intervals</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probSets_P4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 4</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -199,8 +222,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./P6_machine_learning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></span></a>
+  <a href="./probSets_P5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P6_multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multivariate analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CA2_extra_R_KEY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: CA2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -268,10 +303,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
 <li>Choose <em>New Directory &gt; New Project</em>
 </li>
-<li>Set the <em>Directory name</em> as <strong>H2_DataScience</strong> and use the <em>Browse</em> button by <em>Create project as a subdirectory of:</em> to set a convenient location in your OneDrive folder. Click ‘Create Project’.</li>
+<li>Set the <em>Directory name</em> as <strong>H2SMS</strong> and use the <em>Browse</em> button by <em>Create project as a subdirectory of:</em> to set a convenient location in your OneDrive folder. Click ‘Create Project’.</li>
 <li>In the <em>Files</em> panel in RStudio, click the <em>New Folder</em> button and create a folder called <strong>data</strong>.</li>
-<li>On Brightspace, download H2DS_practicalData.xlsx in <em>Practicals</em> and move it into your newly created <strong>data</strong> folder.</li>
-<li>On Brightspace, download the files in <em>Practicals &gt; Weekly qmd</em> and move them into the <strong>H2_DataScience</strong> folder.</li>
+<li>On Brightspace, download H2SMS_practicalData.xlsx in <em>Practicals</em> and move it into your newly created <strong>data</strong> folder.</li>
 <li>Close RStudio (to learn how to open appropriately)</li>
 </ol>
 <div id="fig-RStudioNewProject" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -280,14 +314,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-RStudioNewProject-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Setting up a new RStudio project.
-</figcaption></figure>
-</div>
-<div id="fig-RStudioDirectoryStructure" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-RStudioDirectoryStructure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figs/RStudio_projectFiles.png" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-RStudioDirectoryStructure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: H2_DataScience directory structure.
 </figcaption></figure>
 </div>
 <p>The code in the practicals assumes this organization. If you choose to put your data files elsewhere, you will need to update the scripts accordingly. You’re now prepared and organized for a semester in R!</p>
@@ -299,17 +325,27 @@ Figure&nbsp;2: H2_DataScience directory structure.
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>I repeat: <strong>Open H2_DataScience.Rproj</strong> instead of the .R or .qmd file you plan to work on!</p>
+<p>I repeat: <strong>Open H2SMS.Rproj</strong> instead of the .R or .qmd file you plan to work on!</p>
+<p>Opening the .R or .qmd from Windows Explorer will <em>not</em> set your R working directory correctly!</p>
 </div>
 </div>
 </div>
 <p>This is the start-up process you should use for the practicals:</p>
 <ol type="1">
-<li>Open Windows Explorer (or Finder on Mac) and find your <strong>H2_DataScience</strong> folder.</li>
-<li>
-<u>Double click on <strong>H2_DataScience.Rproj</strong></u>. This opens your R project with the working directory set to that folder. The working directory is shown at the top of the Console pane, and you can check it with <code><a href="https://rdrr.io/r/base/getwd.html">getwd()</a></code>. This is where R is ‘situated’ when loading or saving files.</li>
-<li>In the <em>Files</em> panel, open the .qmd file for the week (or your .R file if you prefer).</li>
-</ol></section></section><section id="rstudio-settings" class="level2"><h2 class="anchored" data-anchor-id="rstudio-settings">RStudio Settings</h2>
+<li>Open Windows Explorer (or Finder on Mac) and find your <strong>H2SMS</strong> folder.</li>
+<li>Double click on <strong>H2SMS.Rproj</strong>. This opens your R project with the working directory set to that folder. The working directory is shown at the top of the Console pane, and you can check it with <code><a href="https://rdrr.io/r/base/getwd.html">getwd()</a></code>. This is where R is ‘situated’ when loading or saving files.</li>
+<li>Create a new .R file for that week’s practical.</li>
+</ol>
+<p>To create a new .R file, click <em>New Blank File</em> at the top of the <strong>Files</strong> panel and selecting <em>R Script</em>. Name it <em>Practical_1.R</em> or similar.</p>
+<div id="fig-RStudioDirectoryStructure" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-RStudioDirectoryStructure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/RStudio_projectFiles.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-RStudioDirectoryStructure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: H2SMS directory structure.
+</figcaption></figure>
+</div>
+</section></section><section id="rstudio-settings" class="level2"><h2 class="anchored" data-anchor-id="rstudio-settings">RStudio Settings</h2>
 <p>You can adjust many settings in RStudio via Tools &gt; Global options. In the Appearance tab in the popup box, you can set the theme (e.g., if you prefer a <strong>dark theme</strong>), font size, etc. The Code tab has many nice features as well (e.g., <strong>rainbow parentheses</strong> under Display).</p>
 </section><section id="sec-R_packages" class="level2"><h2 class="anchored" data-anchor-id="sec-R_packages">R packages and libraries</h2>
 <p>R packages are collections of functions, custom data structures, and datasets that are developed by the user base. A new installation of R includes many useful packages, visible on the ‘Packages’ tab in RStudio. There are many additional packages available from the official CRAN repository or less officially from GitHub. If you find yourself re-using custom functions across projects, you can even create your own personal package.</p>
@@ -322,11 +358,11 @@ Figure&nbsp;2: H2_DataScience directory structure.
 <p><a href="https://quarto.org/docs/get-started/hello/rstudio.html">Quarto documents</a> (.qmd) are also text files. However, RStudio interprets the text differently, allowing you to intersperse written prose, figures, references, R code, and output in a single document (similar to a jupyter notebook or a live script in Matlab). Code is marked as “chunks” and you can specify options for how the code and output are displayed. The text uses <a href="https://quarto.org/docs/authoring/markdown-basics.html">markdown formatting</a>, which allows all sorts of formatting (headers, bold, italic, equations, hyperlinks, tables, images…). RStudio can render a .qmd file into many other formats (e.g., pdf, docx, html, epub…).</p>
 <p>Code chunks can be added with the green button with a ‘(+)c’ on the top right of a .qmd document in RStudio. Code chunks look like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a code chunk</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>a</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3</code></pre>
 </div>
@@ -401,13 +437,14 @@ Figure&nbsp;2: H2_DataScience directory structure.
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -759,8 +796,8 @@ Figure&nbsp;2: H2_DataScience directory structure.
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./P1_R_recap.html" class="pagination-link" aria-label="R recap">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R recap</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./R_basics_KEY.html" class="pagination-link" aria-label="R Basics">
+        <span class="nav-page-text">R Basics</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

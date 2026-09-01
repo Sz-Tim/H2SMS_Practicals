@@ -1,0 +1,284 @@
+---
+title: "Extra R: CA1"
+subtitle: "H2 Statistics for Marine Science"
+author: "Name"
+date: today
+format:
+  html:
+    theme: lux
+    code-block-bg: true
+    code-link: true
+    toc: true
+    number-sections: true
+    callout-appearance: simple
+    embed-resources: true
+editor: visual
+---
+
+# Extra: CA1
+
+## Overview 
+
+Coverage: L01-L10, P1-P3
+
+This is a document to give you additional practice working in R. It will include working with data (manipulating, summarising, plotting) and analyzing the distributions we've covered.
+
+Please do not treat this as a comprehensive study guide for CA1!
+
+Note that there are often many possible paths to the correct solution.
+
+## Iris
+
+The `iris` dataset is available in R upon start-up.
+
+What are the dimensions of the object (rows, columns) and what data type is it?
+
+```{r}
+
+```
+
+
+Create a scatter plot of sepal area on the x-axis and petal area on the y-axis.
+
+```{r}
+
+```
+
+
+For each species, what is the mean and standard deviation of sepal area?
+
+```{r}
+
+```
+
+
+
+Create a plot with two panels, each with a boxplot with species on the x-axis. In the first panel, plot sepal area on the y-axis. In the second panel, plot petal area on the y-axis.
+
+```{r}
+
+```
+
+
+
+Extract the even numbered rows from `iris`, and the columns `Species`, `Sepal.Area`, and `Petal.Area` in that order.
+
+```{r}
+
+```
+
+
+
+## Air quality
+
+The `airquality` dataset is available in R upon start-up, and gives daily values of mean ozone, solar radiation, mean wind speed, and max temperature at LaGuardia Airport in New York City (`?airquality`).
+
+Make a histogram of wind speed.
+
+```{r}
+
+```
+
+
+Assume wind speed is normally distributed in this dataset with $\mu=9.99 mph$ and $\sigma = 3.51 mph$.
+
+What proportion of days would you expect to have a wind speed less than 5 mph?
+
+```{r}
+
+```
+
+
+You have a kite that can only be flown safely in winds between 14 mph and 20 mph. What proportion of days would be suitable?
+
+```{r}
+
+```
+
+
+How many days would be suitable in a 31-day month?
+
+```{r}
+
+```
+
+
+What proportion of days in the dataset were actually suitable?
+
+```{r}
+
+```
+
+
+What are the z-scores for 14 and 20 mph?
+
+```{r}
+
+```
+
+
+What are the quantiles for the middle 95%?
+
+```{r}
+
+```
+
+
+What is the quantile for the largest 5%?
+
+```{r}
+
+```
+
+
+Given the population parameters above, what is the z score of the sample mean in the dataset?
+
+```{r}
+
+```
+
+
+Given the population parameters above, what is the probability of observing a sample mean smaller than the one in this dataset?
+
+```{r}
+
+```
+
+
+Create a scatter plot with temperature on the x-axis and log-transformed ozone on the y-axis.
+
+```{r}
+
+```
+
+
+Create a boxplot with the solar radiation on the y-axis and the month on the x-axis.
+
+```{r}
+
+```
+
+
+## Coral predation
+
+You are studying predation of the Flamingo Tongue Snail on soft corals on South Water Caye in Belize. In a distinct patch of reef, you randomly select a sample of 14 corals and identify that 9 of these have feeding scars.
+
+What distribution would you expect this variable (i.e., the number of corals with feeding scars of those sampled) to follow?
+
+>
+
+What is your sample proportion and its standard error?
+
+```{r}
+
+```
+
+
+Create a bar graph of the binomial distribution corresponding to these parameters, with the x-axis spanning the full range of possible outcomes.
+
+```{r}
+
+```
+
+
+Based on this distribution, if you were to collect another random sample of the same size, what is the probability that all 14 would have feeding scars?
+
+```{r}
+
+```
+
+
+What is the probability you would find *fewer* with feeding scars than in the first sample?
+
+```{r}
+
+```
+
+
+What is the probability of finding *more* with feeding scars than in the first sample?
+
+```{r}
+
+```
+
+What is the probability of a sample with 4, 5, or 6 corals with feeding scars?
+
+```{r}
+
+```
+
+
+## Earthquakes
+
+The dataset `quakes` is available in R upon start-up, and gives magnitudes and locations for 1000 seismic events near Fiji since 1964.
+
+Plot the locations of the earthquakes (x-axis: longitude, y-axis: latitude).
+
+```{r}
+
+```
+
+
+Create a column called `mag_cat` with the magnitude truncated to integer (i.e., 4.0-4.99 become 4). Hint: `?trunc`
+
+```{r}
+
+```
+
+
+For each magnitude category (`mag_cat`), count the number of occurrences in the dataset.
+
+```{r}
+
+```
+
+
+Let's assume the dataset spans 60 years (1964-2023). What is the mean number of magnitude category 5 earthquakes per year?
+
+```{r}
+
+```
+
+
+What distribution is most suitable for the number of category 5 earthquakes per year?
+
+>
+
+
+Using the above value as $\lambda$, create a bar plot of the probability distribution of the number of category 5 earthquakes per year, ranging from 0 to 10 earthquakes.
+
+```{r}
+
+```
+
+
+What is the probability that next year has no category 5 earthquakes?
+
+```{r}
+
+```
+
+
+Of the next 10 years, how many would you expect to have:
+
+No category 5 earthquakes?
+
+```{r}
+
+```
+
+
+Fewer than 2 earthquakes?
+
+```{r}
+
+```
+
+
+At least 5?
+
+```{r}
+
+```
+
+

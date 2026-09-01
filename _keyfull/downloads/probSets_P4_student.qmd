@@ -1,0 +1,133 @@
+---
+title: "Problem Set 4"
+subtitle: "H2 Statistics for Marine Science"
+author: "Name"
+date: today
+format:
+  html:
+    theme: lux
+    code-block-bg: true
+    code-link: true
+    toc: true
+    number-sections: true
+    callout-appearance: simple
+    embed-resources: true
+editor: visual
+---
+
+# Problem Set 4
+
+::: callout-note
+Please render this file to .html and submit via Brightspace.
+:::
+
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: false
+
+library(tidyverse); theme_set(theme_classic())
+library(readxl)
+set.seed(2026)
+```
+
+## Sample mean vs. a reference value
+
+### Scenario 1
+
+A marine protected area (MPA) was established five years ago. Previous surveys from nearby fished reefs found a mean fish biomass of 12.2 kg 100m^-2^.
+
+Researchers survey 15 transects inside the MPA and want to test whether fish biomass is higher than the regional average of fished reefs.
+
+The data are available from the "MPA" sheet in "H2SMS_practicalData.xlsx". Load and check the data.
+
+```{r}
+
+```
+
+What is the response variable?
+
+What is the null hypothesis?
+
+What is the alternative hypothesis?
+
+Evaluate the null hypothesis using $\alpha = 0.05$. Perform an appropriate analysis (including assumption checks), and report the relevant results in written text.
+
+```{r}
+
+```
+
+In your own words, explain what the p-value represents.
+
+### Scenario 2
+
+In New Zealand, [Brewin et al. (2000)](https://doi.org/10.1007/s002270000366) studied fecundity and spawning of the sea urchin *Evechinus chloroticus*, finding a mean annual gamete output of 0.068 g g^-1^ yr^-1^ between 1990-1994 at Dieffenbach Point. On my holiday, I decided to repeat that aspect of their experiment (securing all necessary permits and approvals).
+
+The data are in the "UrchinGametes" sheet in "H2SMS_practicalData.xlsx", already summarised to grams of gamete per grams of urchin per year. Load the data and perform appropriate checks.
+
+```{r}
+
+```
+
+What is the response variable?
+
+What is the null hypothesis?
+
+What is the alternative hypothesis
+
+Evaluate the null hypothesis using $\alpha = 0.05$. Perform an appropriate analysis (including assumption checks), and report the relevant results in written text.
+
+```{r}
+
+```
+
+In your own words, interpret your results with regard to the null hypothesis and the p-value.
+
+## Confidence Intervals
+
+The sheet "Plastics" in "H2SMS_practicalData.xlsx" contains observations of the number of plastic pellets per kilogram. Load the data.
+
+```{r}
+
+```
+
+Consider this the entire *population* of interest.
+
+Write code to take a sample of 25 observations from this population and store it in a vector called `obs`.
+
+::: {.callout-tip collapse="TRUE"}
+## Hint
+
+`sample()`
+:::
+
+```{r}
+
+```
+
+How different is your sample mean from the true population mean?
+
+```{r}
+
+```
+
+What is the term that describes this difference?
+
+Calculate 95% confidence intervals for your sample mean using only your sample. Do they include the true value?
+
+```{r}
+
+```
+
+Assuming each student starts with a different `set.seed`, what proportion of students would answer 'yes' to the previous question?
+
+If you instead calculated 80% CIs, a) would you be more likely to capture the true mean or less? And, b) would the width of your confidence interval be larger or smaller?
+
+Calculate the 80% CI for your sample and compare.
+
+```{r}
+
+```
+
+If you were to run your code again (without resetting `set.seed`), what is the probability that you would collect a sample with a 90% CI that includes the true value?
+

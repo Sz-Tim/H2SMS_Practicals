@@ -2,10 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.30">
+<meta name="generator" content="quarto-1.9.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>2&nbsp; Binomial and Poisson Distributions – H2 Data Science Practicals</title>
+<title>2&nbsp; Binomial and Poisson distributions – H2SMS Practicals</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -61,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./P3_normal.html" rel="next">
-<link href="./P1_R_recap.html" rel="prev">
+<link href="./probSets_P2.html" rel="next">
+<link href="./probSets_P1.html" rel="prev">
 <link href="./figs/one_distribution.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -70,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c27fdc8e5b00b532d2d5a75ada188648.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-65953fb98a42cd6fe15a0b51d653d2b9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -106,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   --color2: #3F6F76;
 }
 </style>
-<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -117,7 +120,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -140,7 +143,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./P2_binomial_poisson.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binomial and Poisson Distributions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./P2_binomial_poisson.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binomial and Poisson distributions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -151,26 +154,10 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">H2 Data Science Practicals</a> 
+      <a href="./">H2SMS Practicals</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/Sz-Tim/H2DS_Practicals" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <div class="dropdown">
-      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
-      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-<li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./H2-Data-Science-Practicals.pdf">
-              <i class="bi bi-file-pdf pe-1"></i>
-            Download PDF
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./H2-Data-Science-Practicals.epub">
-              <i class="bi bi-journal pe-1"></i>
-            Download ePub
-            </a>
-          </li>
-      </ul>
-</div>
+    <a href="./H2SMS-Practicals.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -195,14 +182,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./R_basics_KEY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./P1_R_recap.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R recap</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probSets_P1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./P2_binomial_poisson.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binomial and Poisson Distributions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binomial and Poisson distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probSets_P2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -213,8 +218,26 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./probSets_P3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CA1_extra_R_KEY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: CA1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./P4_t_CIs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The t-distribution and confidence intervals</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probSets_P4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 4</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -225,8 +248,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./P6_machine_learning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></span></a>
+  <a href="./probSets_P5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P6_multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multivariate analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CA2_extra_R_KEY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: CA2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -248,8 +283,7 @@ window.Quarto = {
   <ul class="collapse">
 <li><a href="#bernoulli-trials" id="toc-bernoulli-trials" class="nav-link" data-scroll-target="#bernoulli-trials"><span class="header-section-number">2.1.1</span> Bernoulli trials</a></li>
   <li><a href="#the-binomial-distribution-1" id="toc-the-binomial-distribution-1" class="nav-link" data-scroll-target="#the-binomial-distribution-1"><span class="header-section-number">2.1.2</span> The binomial distribution</a></li>
-  <li><a href="#binomial-distributions-by-hand" id="toc-binomial-distributions-by-hand" class="nav-link" data-scroll-target="#binomial-distributions-by-hand"><span class="header-section-number">2.1.3</span> Binomial distributions by hand</a></li>
-  <li><a href="#binomial-distributions-in-r" id="toc-binomial-distributions-in-r" class="nav-link" data-scroll-target="#binomial-distributions-in-r"><span class="header-section-number">2.1.4</span> Binomial distributions in R</a></li>
+  <li><a href="#binomial-calculations" id="toc-binomial-calculations" class="nav-link" data-scroll-target="#binomial-calculations"><span class="header-section-number">2.1.3</span> Binomial calculations</a></li>
   </ul>
 </li>
   <li>
@@ -265,7 +299,7 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title"><span id="sec-P2" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binomial and Poisson Distributions</span></span></h1>
+<h1 class="title"><span id="sec-P2" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binomial and Poisson distributions</span></span></h1>
 </div>
 
 
@@ -279,7 +313,7 @@ window.Quarto = {
   
 
 
-</header><p>We often wish to determine the probability of events occurring given our current understanding of the processes that are involved. This requires a mathematical description of a theoretical relationship. We refer to this as a statistical model. Models are simplified representations of reality. As George Box said, ‘All models are wrong but some are useful’.</p>
+</header><p>We often wish to determine the probability of events occurring given our current understanding of the processes involved. This requires a mathematical description of a theoretical relationship: a statistical model. Models are simplified representations of reality. As George Box said, ‘All models are wrong but some are useful’.</p>
 <p>Two models, the binomial and Poisson distributions, often provide excellent approximations of real-world events. This means that they can be used to determine the likelihood of events or series of events given certain ‘reasonable’ assumptions. In terms of planning, e.g.&nbsp;in the insurance industry, this is extremely useful.</p>
 <p>For example, the binomial or Poisson distributions can be used to answer:</p>
 <ul>
@@ -290,7 +324,10 @@ window.Quarto = {
 </ul>
 <p>This practical gives you the opportunity to practice using these distributions.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>; <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_theme.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/cowplot/">cowplot</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2026</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
 <section id="the-binomial-distribution" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="the-binomial-distribution">
@@ -314,22 +351,25 @@ window.Quarto = {
 <p>A fair coin has been heads in 99 consecutive flips. What is the probability of heads on the next flip?</p>
 </div></details>
 </div>
-<p>This is different to asking whether (100 heads) or (99 heads + 1 tails) is more likely in a throw of 100 coins. This is different because each flip is independent.</p>
+<p>This is different to asking whether (100 heads) or (99 heads + 1 tails) is more likely in a throw of 100 coins. Each single flip is an independent event.</p>
 </section><section id="the-binomial-distribution-1" class="level3" data-number="2.1.2"><h3 data-number="2.1.2" class="anchored" data-anchor-id="the-binomial-distribution-1">
 <span class="header-section-number">2.1.2</span> The binomial distribution</h3>
 <p>The binomial distribution is a discrete probability distribution that applies to a series of Bernoulli trials.</p>
 <p>For example, if a chicken laid 4 eggs and they were all female, you might wonder how likely this was by chance. Here, the outcome can be female or male, and the number of trials is 4: each egg is a ‘trial’ or ‘event’ with a binary outcome. You may question the assumption that the ratio of female:male was 50:50 and favour an alternative hypothesis that females are more likely. The binomial distribution allows you to quantify the probability of getting <span class="math inline">\(x\)</span> females from <span class="math inline">\(n\)</span> eggs for any given probability <span class="math inline">\(p=P(female)\)</span>. That is, we are not restricted to 50:50.</p>
 <p>You need to know two things to use the binomial distribution. These are:</p>
 <ul>
-<li>The number of trials (<span class="math inline">\(n\)</span>, or sometimes <span class="math inline">\(k\)</span>)</li>
+<li>The number of trials (<span class="math inline">\(n\)</span>, sometimes called <span class="math inline">\(k\)</span>)</li>
 <li>The probability of success (<span class="math inline">\(p\)</span>)</li>
 </ul>
 <p>From <em>p</em>, we can calculate the probability of failure as <span class="math inline">\(q = (1-p)\)</span>, since the two probabilities must sum to 1.</p>
 <p>The distribution of a binomially distributed variable <span class="math inline">\(y\)</span> is specified as <span class="math inline">\(y \sim Binom(n,p)\)</span>. We denote <span class="math inline">\(P(x)\)</span> as the probability of getting <span class="math inline">\(x\)</span> successes where <span class="math inline">\(x\)</span> is an integer from <span class="math inline">\(0\)</span> to <span class="math inline">\(n\)</span>.</p>
 <p>The <strong>mean of a binomial distribution</strong> is <span class="math inline">\(n*p\)</span>. This gives you the <em>expected</em> outcome. For example, if <span class="math inline">\(P(female)=0.5\)</span> and <span class="math inline">\(n=4\)</span> eggs the expected number of females is <span class="math inline">\(4*0.5=2\)</span>.</p>
-</section><section id="binomial-distributions-by-hand" class="level3" data-number="2.1.3"><h3 data-number="2.1.3" class="anchored" data-anchor-id="binomial-distributions-by-hand">
-<span class="header-section-number">2.1.3</span> Binomial distributions by hand</h3>
-<p>Wongles always lay two eggs in a clutch but 50% of the eggs are infertile and don’t hatch. We are interested in the proportion that we expect to hatch from one clutch (two eggs).</p>
+</section><section id="binomial-calculations" class="level3" data-number="2.1.3"><h3 data-number="2.1.3" class="anchored" data-anchor-id="binomial-calculations">
+<span class="header-section-number">2.1.3</span> Binomial calculations</h3>
+<section id="sand-tiger-sharks" class="level4" data-number="2.1.3.1"><h4 data-number="2.1.3.1" class="anchored" data-anchor-id="sand-tiger-sharks">
+<span class="header-section-number">2.1.3.1</span> Sand tiger sharks</h4>
+<p>Sand tiger shark (<em>Carcharias taurus</em>) females have two uterine horns, each with as many as 50 embryos. However, they display ‘embryophagy’, where the largest embryo in each uterine horn eats all of the smaller embryos, so that females typically give birth to two pups.</p>
+<p>Assume that the average sex ratio of sand tiger shark pups is 50:50. We are interested in the proportion of pups we expect to be female from one clutch (two pups).</p>
 <div id="Q.-2.2" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.2</strong></summary><div>
 <p>What is the event?</p>
@@ -357,185 +397,142 @@ window.Quarto = {
 </div>
 <div id="Q.-2.7" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.7</strong></summary><div>
-<p>Calculate the expected proportions of clutches that contain (a) two fertile, (b) two infertile, and (c) one of each. Use a probability tree if needed.</p>
+<p>Calculate the expected proportions of clutches that contain (a) two female, (b) two male, and (c) one of each. Use a probability tree if needed.</p>
 </div></details>
 </div>
+</section><section id="great-white-sharks" class="level4" data-number="2.1.3.2"><h4 data-number="2.1.3.2" class="anchored" data-anchor-id="great-white-sharks">
+<span class="header-section-number">2.1.3.2</span> Great white sharks</h4>
+<p>Great white sharks (<em>Carcharodon carcharias</em>) typically give birth to 2-10 pups at a time. You’ve captured a female for tagging and found that she has 8 developing embryos.</p>
+<p>We are interested in the proportion of pups we expect to be female from this shark’s clutch (8 pups).</p>
 <div id="Q.-2.8" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.8</strong></summary><div>
-<p>Using the binomial probability mass function from <a href="P7_appendix.html" class="quarto-xref"><span>Chapter 7</span></a>, calculate the expected proportions for two eggs.</p>
+<p>What is the Bernoulli event?</p>
 </div></details>
 </div>
-<p>Unlike Wongles, Oozles always have broods of eight offspring and all of them hatch. We are interested in modelling the probabilities of the number of male and female offspring in these broods of eight eggs.</p>
 <div id="Q.-2.9" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.9</strong></summary><div>
-<p>What is the Bernoulli event?</p>
+<p>What are the theoretical limits to your outcomes (i.e, max numbers of each)?</p>
 </div></details>
 </div>
 <div id="Q.-2.10" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.10</strong></summary><div>
-<p>What are the theoretical limits to your outcomes (i.e, max numbers of each)?</p>
-</div></details>
-</div>
-<div id="Q.-2.11" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.11</strong></summary><div>
 <p>What are the possible outcomes? What is the number of possible outcomes?</p>
 </div></details>
 </div>
-<p>We will assume that the probability <span class="math inline">\(p\)</span> of any offspring being female is 0.5 and being male <span class="math inline">\(q\)</span> is 0.5. For the extreme cases where all offspring are one sex, we can use simple probability theory: the probability of getting <span class="math inline">\(n\)</span> females in a brood of size <span class="math inline">\(n\)</span> is equal to <span class="math inline">\(p^n\)</span>.</p>
+<p>Assume that the average sex ratio is even, such that the probability <span class="math inline">\(p\)</span> of any offspring being female is 0.5 and being male <span class="math inline">\(q\)</span> is 0.5. For the extreme cases where all offspring are one sex, we can use simple probability theory: the probability of getting <span class="math inline">\(n\)</span> females in a brood of size <span class="math inline">\(n\)</span> is equal to <span class="math inline">\(p^n\)</span>.</p>
+<div id="Q.-2.11" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.11</strong></summary><div>
+<p>Write down the model for the number of female pups for this shark’s brood: <span class="math inline">\(y \sim Binom(n,p)\)</span>.</p>
+</div></details>
+</div>
 <div id="Q.-2.12" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.12</strong></summary><div>
-<p>Write down the model for Oozle egg sex: <span class="math inline">\(y \sim Binom(n,p)\)</span>.</p>
+<p>Calculate the probability of obtaining eight male offspring.</p>
 </div></details>
 </div>
 <div id="Q.-2.13" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.13</strong></summary><div>
-<p>Calculate the probability of obtaining eight male offspring.</p>
+<p>What is the mean number of females you would expect in great white shark broods of 8 pups?</p>
 </div></details>
 </div>
+<p>It gets more complicated when you want to know the probability of getting, say, 1 male and 7 females from a brood of eight pups.</p>
 <div id="Q.-2.14" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.14</strong></summary><div>
-<p>What is the mean number of females you would expect in Oozle broods?</p>
+<p>Given that <span class="math inline">\(p=q\)</span>, what shape would expect the distribution to be?</p>
 </div></details>
 </div>
-<p>It gets more complicated when you want to know the probability of getting, say, 1 male and 7 females from your clutch of eight eggs.</p>
+<p>R can calculate probabilities for specific outcomes from a massive array of theoretical probability distributions, including the binomial distribution.</p>
+<p>For ease, we can save the binomial distribution parameters as objects:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">num_pups</span> <span class="op">&lt;-</span> <span class="fl">8</span></span>
+<span><span class="va">p_female</span> <span class="op">&lt;-</span> <span class="fl">0.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To calculate the probability of 4 females:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># for a single probability: y~Binom(n=8, p=0.5) determine P(y_i=4)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">num_pups</span>, <span class="va">p_female</span><span class="op">)</span> <span class="co"># dbinom(4, 8, 0.5)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The function <code><a href="https://rdrr.io/r/stats/Binomial.html">dbinom()</a></code> gives the probability of a single outcome.</p>
+<p>Often we want to know cumulative probabilities instead. This allows us to answer questions like <em>“What is the probability of obtaining &lt; 4 females in a brood of 8 pups?”</em> Here, &lt;4 equates to the cumulative probability P(0) + P(1) + P(2) + P(3).</p>
+<p>In this case, we can use either <code>pbinom(...)</code> or <code>sum(dbinom(...))</code> to give the cumulative probability.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">3</span>, <span class="va">num_pups</span>, <span class="va">p_female</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">3</span>, <span class="va">num_pups</span>, <span class="va">p_female</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.00390625 0.03125000 0.10937500 0.21875000
+[1] 0.3632813</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span><span class="fl">3</span>, <span class="va">num_pups</span>, <span class="va">p_female</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3632813</code></pre>
+</div>
+</div>
 <div id="Q.-2.15" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.15</strong></summary><div>
-<p>Given that <span class="math inline">\(p=q\)</span>, what shape would expect the distribution to be?</p>
+<p>Why do we parameterise <code><a href="https://rdrr.io/r/stats/Binomial.html">pbinom()</a></code> with <code>3</code> rather than <code>4</code>?</p>
 </div></details>
 </div>
 <div id="Q.-2.16" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.16</strong></summary><div>
-<p>Use the binomial expression to calculate the probability of obtaining 0, 1, 2, 3, 4, 5, 6, 7 and 8 male offspring (note that the distribution is symmetric).</p>
+<p>Update the code to calculate <span class="math inline">\(P( \leq 4)\)</span>?</p>
 </div></details>
-</div>
-<p>It is much easier, of course, to do this using R.</p>
-</section><section id="binomial-distributions-in-r" class="level3" data-number="2.1.4"><h3 data-number="2.1.4" class="anchored" data-anchor-id="binomial-distributions-in-r">
-<span class="header-section-number">2.1.4</span> Binomial distributions in R</h3>
-<p>R can calculate probabilities for specific outcomes from a massive array of theoretical probability distributions. The binomial is just one of them.</p>
-<div class="callout callout-style-simple callout-warning">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>CHANGE THIS FOR NEXT YEAR! Very confusing and instead should just demonstrate the best method. Obviously.</p>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">num_female</span> <span class="op">&lt;-</span> <span class="fl">4</span> <span class="co"># note that 4 is assigned to the variable called num_female</span></span>
-<span><span class="va">num_trials</span> <span class="op">&lt;-</span> <span class="fl">8</span></span>
-<span><span class="va">p_female</span> <span class="op">&lt;-</span> <span class="fl">0.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># for a single probability: y~Binom(n=8, p=0.5) determine P(y_i=4)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">num_female</span>, <span class="va">num_trials</span>, <span class="va">p_female</span><span class="op">)</span> <span class="co"># dbinom(4, 8, 0.5)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># formatted output just because:</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"P("</span>, <span class="va">num_female</span>, <span class="st">" female | "</span>, <span class="va">num_trials</span>, <span class="st">" eggs) = "</span>,</span>
-<span>       <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">num_female</span>, <span class="va">num_trials</span>, <span class="va">p_female</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "P(4 female | 8 eggs) = 0.2734375"</code></pre>
-</div>
-</div>
-<p>The function <code><a href="https://rdrr.io/r/stats/Binomial.html">dbinom()</a></code> gives the probability of a single outcome.</p>
-<p>Often we want to know cumulative probabilities instead. This allows us to answer questions like <em>“What is the probability of obtaining &lt; 4 females in a brood of 8 eggs?”</em> Here, &lt;4 equates to the cumulative probability P(0) + P(1) + P(2) + P(3).</p>
-<p>For these calculations, we can use <code>pbinom(...)</code> instead of <code>sum(dbinom(...))</code>.</p>
-<div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># pbinom gives the cumulative probability</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"The cumulative probability is"</span>, </span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="va">num_female</span> <span class="op">-</span> <span class="fl">1</span>, <span class="va">num_trials</span>, <span class="va">p_female</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "The cumulative probability is 0.36328125"</code></pre>
-</div>
 </div>
 <div id="Q.-2.17" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.17</strong></summary><div>
-<p>Why do we parameterise <code><a href="https://rdrr.io/r/stats/Binomial.html">pbinom()</a></code> with <code>num_female-1</code> rather than <code>num_female</code>?</p>
+<p>Calculate P(&lt; 4 females | 8 pups) using <code><a href="https://rdrr.io/r/stats/Binomial.html">dbinom()</a></code> instead of <code><a href="https://rdrr.io/r/stats/Binomial.html">pbinom()</a></code>.</p>
 </div></details>
 </div>
 <div id="Q.-2.18" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.18</strong></summary><div>
-<p>Would this change if the question was <span class="math inline">\(P( \leq 4)\)</span>?</p>
+<p>What is the probability of getting 3 females?</p>
 </div></details>
 </div>
 <div id="Q.-2.19" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.19</strong></summary><div>
-<p>Take <code>max</code> out of the above line and run again. You should see 5 cumulative probabilities. Why is the first cumulative probability zero?</p>
+<p>What is the probability of getting 8 females?</p>
 </div></details>
 </div>
-<p>Note that R has vectorized the calculation, returning the probability for each value in vector from <code>0:num_female - 1</code>.</p>
 <div id="Q.-2.20" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.20</strong></summary><div>
-<p>Calculate P(&lt; 4 females | 8 eggs) using <code><a href="https://rdrr.io/r/stats/Binomial.html">dbinom()</a></code> instead of <code><a href="https://rdrr.io/r/stats/Binomial.html">pbinom()</a></code>.</p>
+<p>What cumulative probabilities would you need to consider to answer the question <em>“What is the probability of getting fewer than three females?”</em></p>
 </div></details>
-</div>
-<p>The above code has a bug in it. You can check what R is doing by running parts of the code:</p>
-<div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">0</span><span class="op">:</span><span class="va">num_female</span> <span class="op">-</span> <span class="fl">1</span> <span class="co"># Oops! Is this what you expected?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -1  0  1  2  3</code></pre>
-</div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="va">num_female</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># this is actually what we want.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0 1 2 3</code></pre>
-</div>
 </div>
 <div id="Q.-2.21" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.21</strong></summary><div>
-<p>Correct the code above. Why did this bug have no effect?</p>
-</div></details>
+<p></p><details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.21</strong></summary><div>Review your model that describes this random process (number of females per eight pups) that you wrote above: <span class="math inline">\(y \sim Binom(n, p)\)</span>.
+</div></details><p></p>
 </div>
 <div id="Q.-2.22" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.22</strong></summary><div>
-<p>What is the probability of getting 3 females?</p>
+<p>What is the probability of getting &lt; 4 females?</p>
 </div></details>
 </div>
 <div id="Q.-2.23" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.23</strong></summary><div>
-<p>What is the probability of getting 8 females?</p>
+<p>What is the probability of getting <span class="math inline">\(\leq\)</span> 4 females?</p>
 </div></details>
 </div>
 <div id="Q.-2.24" class="Q.">
 <details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.24</strong></summary><div>
-<p>What cumulative probabilities would you need to consider to answer the question <em>“What is the probability of getting fewer than three females?”</em></p>
-</div></details>
-</div>
-<div id="Q.-2.25" class="Q.">
-<p></p><details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.25</strong></summary><div>Review your model that describes this random process (number of females per eight eggs) that you wrote above: <span class="math inline">\(y \sim Binom(n, p)\)</span>.
-</div></details><p></p>
-</div>
-<div id="Q.-2.26" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.26</strong></summary><div>
-<p>What is the probability of getting &lt; 4 females?</p>
-</div></details>
-</div>
-<div id="Q.-2.27" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.27</strong></summary><div>
-<p>What is the probability of getting <span class="math inline">\(\leq\)</span> 4 females?</p>
-</div></details>
-</div>
-<div id="Q.-2.28" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.28</strong></summary><div>
 <p>What is the probability of getting &gt; than 8 females?</p>
 </div></details>
 </div>
-<div id="Q.-2.29" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.29</strong></summary><div>
+<div id="Q.-2.25" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.25</strong></summary><div>
 <p>What is the probability of getting <span class="math inline">\(\geq\)</span> than 2 females?</p>
 </div></details>
 </div>
 <p>Let’s visualize these distributions in order to better understand them.</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Run this, then explore values of p_female</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Run this, then explore values of p_female</span></span>
 <span><span class="co"># Note: 'success' and 'failure' is arbitrary. Just make sure you're calculating</span></span>
 <span><span class="co"># what you think. How would you calculate the probabilities for males instead?</span></span>
 <span><span class="va">num_female</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">8</span> </span>
 <span><span class="va">p_female</span> <span class="op">&lt;-</span> <span class="fl">0.5</span> <span class="co"># what are the limits of p_female?</span></span>
 <span><span class="va">prFemale_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>num_female<span class="op">=</span><span class="va">num_female</span>, </span>
 <span>                          prob<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">num_female</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">num_female</span><span class="op">)</span>, <span class="va">p_female</span><span class="op">)</span><span class="op">)</span> </span>
-<span><span class="va">prFemale_df</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">prFemale_df</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  num_female       prob
 1          0 0.00390625
@@ -548,8 +545,10 @@ window.Quarto = {
 8          7 0.03125000
 9          8 0.00390625</code></pre>
 </div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="va">prFemale_df</span><span class="op">$</span><span class="va">prob</span>, names<span class="op">=</span><span class="va">prFemale_df</span><span class="op">$</span><span class="va">num_female</span>, </span>
-<span>        xlab<span class="op">=</span><span class="st">"Number of females"</span>, ylab<span class="op">=</span><span class="st">"Probability"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">prFemale_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">num_female</span>, <span class="va">prob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span>stat<span class="op">=</span><span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Number of females"</span>, </span>
+<span>       y<span class="op">=</span><span class="st">"Probability"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-binom_dist" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-binom_dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -562,9 +561,12 @@ Figure&nbsp;2.1: Binomial probability distribution
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prFemale_df</span><span class="op">$</span><span class="va">cumul_prob</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">prFemale_df</span><span class="op">$</span><span class="va">prob</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="va">prFemale_df</span><span class="op">$</span><span class="va">cumul_prob</span>, names<span class="op">=</span><span class="va">prFemale_df</span><span class="op">$</span><span class="va">num_female</span>, </span>
-<span>        xlab<span class="op">=</span><span class="st">"Enter the correct label!"</span>, ylab<span class="op">=</span><span class="st">"Enter the correct label!"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prFemale_df</span><span class="op">$</span><span class="va">cumul_prob</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">prFemale_df</span><span class="op">$</span><span class="va">prob</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">prFemale_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">num_female</span>, <span class="va">cumul_prob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span>stat<span class="op">=</span><span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Enter the correct label!"</span>, </span>
+<span>       y<span class="op">=</span><span class="st">"Enter the correct label!"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-binom_cum_dist" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-binom_cum_dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -576,46 +578,52 @@ Figure&nbsp;2.2: Cumulative binomial probability distribution
 </div>
 </div>
 </div>
-<p>Try re-plotting so that the two panels appear side by side (hint: <code>par(mfrow=c(...))</code>).</p>
-<p>Note <span class="math inline">\(P(y_i=x)\)</span> is read as ‘the probability that a random observation y sub i equals x’. Sometimes this includes conditions: <span class="math inline">\(P(y_i=x|n,p)\)</span>, which is read as the probability that <span class="math inline">\(y_i\)</span> equals <span class="math inline">\(x\)</span> given <span class="math inline">\(n\)</span> and <span class="math inline">\(p\)</span>. You may see <span class="math inline">\(P()\)</span>, <span class="math inline">\(Pr()\)</span>, <span class="math inline">\(p()\)</span>, or <span class="math inline">\(Prob()\)</span>, which all mean the same thing.</p>
-<p>The interpretation of <span class="math inline">\(P(y_i=8\ |\ n=8,\ p=0.5) = 0.00391\)</span> is that the probability of 8 female offspring in a clutch of 8 eggs where each egg has 50% probability of being female is 0.00391.</p>
-<p>In other words, if we have 500 broods, each with 8 eggs, we expect <span class="math inline">\(500 * 0.00391 = 1.95 \approx 2\)</span> broods to be all female. Is there something strange about our Oozle or is it just one of the 2/500 by chance?</p>
-<div id="Q.-2.30" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.30</strong></summary><div>
+<p>Try re-plotting so that the two panels appear side by side (hint: <code><a href="https://wilkelab.org/cowplot/">library(cowplot)</a></code>, then <code><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">?plot_grid</a></code>).</p>
+<p>Note <span class="math inline">\(P(y_i=x)\)</span> is read as ‘the probability that y sub i equals x’. Sometimes this includes conditions: <span class="math inline">\(P(y_i=x|n,p)\)</span>, which is read as the probability that <span class="math inline">\(y_i\)</span> equals <span class="math inline">\(x\)</span> given <span class="math inline">\(n\)</span> and <span class="math inline">\(p\)</span>. You may see <span class="math inline">\(P()\)</span>, <span class="math inline">\(Pr()\)</span>, <span class="math inline">\(p()\)</span>, or <span class="math inline">\(Prob()\)</span>, which all mean the same thing.</p>
+<p>The interpretation of <span class="math inline">\(P(y_i=8\ |\ n=8,\ p=0.5) = 0.00391\)</span> is that, in a brood of 8 pups where each pup has 50% probability of being female, the probability that all are 8 female is 0.00391.</p>
+<p>In other words, if we have 500 broods, each with 8 pups, we expect <span class="math inline">\(500 * 0.00391 = 1.95 \approx 2\)</span> broods to be all female. You wonderously manage to identify the sex of your shark’s pups, and find that all 8 are, in fact, female. Is there something strange about your shark or is it just one of the 2/500 by chance?</p>
+<div id="Q.-2.26" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.26</strong></summary><div>
 <p>Why is a bar graph the appropriate plot here?</p>
 </div></details>
 </div>
-<div id="Q.-2.31" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.31</strong></summary><div>
+<div id="Q.-2.27" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.27</strong></summary><div>
 <p>What do you notice about the shape of the distribution when <span class="math inline">\(p=q=0.5\)</span></p>
 </div></details>
 </div>
-<div id="Q.-2.32" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.32</strong></summary><div>
+<div id="Q.-2.28" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.28</strong></summary><div>
 <p>Re-run the analysis with the probability of female as 0.8 and plot the results. How has the shape of the distribution changed?</p>
 </div></details>
 </div>
-<hr></section></section><section id="the-poisson-distribution" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="the-poisson-distribution">
+<hr></section></section></section><section id="the-poisson-distribution" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="the-poisson-distribution">
 <span class="header-section-number">2.2</span> The Poisson distribution</h2>
 <p>The Poisson distribution is another probability distribution that describes discrete events that occur in space and/or time. The Poisson distribution is used to model (predict) the distribution of events that are rare, random, and independent. This can include events like earthquakes, storms, or the number of whales spotted on a cruise.</p>
 <p>The Poisson distribution takes a single parameter: the mean. If a variable is Poisson distributed, its variance will equal its mean. This is a diagnostic feature of the distribution. The Poisson distribution is a discrete probability distribution, but its parameter, the mean, is continuous (similar to continuous <span class="math inline">\(p\)</span> for the discrete binomial distribution).</p>
 <p>Find the formula for the Poisson distribution in <a href="P7_appendix.html" class="quarto-xref"><span>Chapter 7</span></a>.</p>
 <p>Here, <span class="math inline">\(\bar{y}\)</span> is the mean, <span class="math inline">\(x\)</span> is the outcome of interest, <span class="math inline">\(e\)</span> is Euler’s number, and <span class="math inline">\(!\)</span> is factorial. Note that here, we use <span class="math inline">\(\bar{y}\)</span> as our stand-in for the population parameter <span class="math inline">\(\lambda = \mu = \sigma\)</span> which defines the Poisson distribution.</p>
-<div id="Q.-2.33" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.33</strong></summary><div>
+<div id="Q.-2.29" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.29</strong></summary><div>
 <p>Translate the Poisson formula into an R function by completing the following code.</p>
-</div></details>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">calc_poisson_prob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y_bar</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Translate the formula here using x and y_bar</span></span>
+<span><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># hint: e^2 = exp(2)</span></span>
-<span><span class="co"># hint: 3! = factorial(3)</span></span>
-<span><span class="va">calc_poisson_prob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y_bar</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># Translate the formula here using x and y_bar</span></span>
-<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Hint 1</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># In R, e^2 = exp(2)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Hint 2</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># In R, 3! = factorial(3)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div></details>
 </div>
 <section id="poisson-distributions-by-hand" class="level3" data-number="2.2.1"><h3 data-number="2.2.1" class="anchored" data-anchor-id="poisson-distributions-by-hand">
 <span class="header-section-number">2.2.1</span> Poisson distributions by hand</h3>
-<p>The first step is to calculate the mean number of observations per unit. This is the Poisson parameter, and is referred to as the <em>rate</em> or as <em>lambda</em> (<span class="math inline">\(\lambda\)</span>). The unit could be spatial (e.g., per <span class="math inline">\(m^2\)</span>) or temporal (e.g., per hour).</p>
+<p>When using the Poisson distribution, the first step is to calculate the mean number of observations per unit. This is the Poisson parameter, and is referred to as the <em>rate</em> or as <em>lambda</em> (<span class="math inline">\(\lambda\)</span>). The unit could be spatial (e.g., per <span class="math inline">\(m^2\)</span>) or temporal (e.g., per hour).</p>
 <p>Last weekend, I randomly threw a 1<span class="math inline">\(m^2\)</span> quadrat repeatedly on a sandy beach covered in worm casts <a href="#fig-wormcasts" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>. In each quadrat, I counted the number of casts.</p>
 <div id="fig-wormcasts" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-wormcasts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -625,100 +633,86 @@ Figure&nbsp;2.2: Cumulative binomial probability distribution
 Figure&nbsp;2.3: Worm casts on a sandy beach with 1x1 m quadrats.
 </figcaption></figure>
 </div>
-<p>From these data you can calculate the mean number of observations per unit.</p>
-<p>The code below generates a dataframe from which you can determine that the mean number of worms per quadrat is 1.41. We wish to predict the proportion of quadrats that would contain 0, 1, 2, 3, 4, and 5 worms, assuming that the worms are independently distributed across space (i.e., random: one worm’s location has no effect on another worm’s location, and there is no relevant environmental variation).</p>
-<p>We will then compare our observations to the expectations from the theoretical Poisson distribution. To do this, we need to know the probability of observing each count, given the mean count per quadrat.</p>
+<p>My observations can be found in the “WormCasts” sheet in “H2SMS_practicalData.xlsx”. Read in the data and calculate the mean number of worm casts per quadrat as well as the range of observations.</p>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># num_worms is the number of worms per quadrat</span></span>
-<span><span class="co"># num_quadrats is number of quadrats that contained each number of worms</span></span>
-<span><span class="co"># This dataset is summarised. Raw data might have columns: quadrat_id, num_worms</span></span>
-<span><span class="va">worm_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>num_worms<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span>,</span>
-<span>                      num_quadrats<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">28</span>, <span class="fl">15</span>, <span class="fl">10</span>, <span class="fl">7</span>, <span class="fl">5</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">worm_df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">worm_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/H2SMS_practicalData.xlsx"</span>, sheet<span class="op">=</span><span class="st">"WormCasts"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">worm_df</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  num_worms num_quadrats
-1         0           35
-2         1           28
-3         2           15
-4         3           10
-5         4            7
-6         5            5
-7         6            0</code></pre>
+<pre><code># A tibble: 6 × 2
+  quadrat casts
+    &lt;dbl&gt; &lt;dbl&gt;
+1       1     0
+2       2     0
+3       3     1
+4       4     1
+5       5     0
+6       6     1</code></pre>
 </div>
 </div>
+<p>You should find a mean of 1.17, with values ranging between 0-5.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mean_casts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">worm_df</span><span class="op">$</span><span class="va">casts</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We wish to predict the proportion of quadrats that would contain 0, 1, 2, 3, 4, and 5 worms, assuming that the worms are independently distributed across space (i.e., random: one worm’s location has no effect on another worm’s location, and there is no relevant environmental variation).</p>
+<p>We will then compare our observations to the expectations from the theoretical Poisson distribution. To do this, we need to know the probability of observing each count, given the mean count per quadrat.</p>
 <p>As the number of worms per quadrat is relatively small, the occurrences are rare enough to be reasonably described by a Poisson distribution if worms occur independently.</p>
 <p>From the mean, we can calculate the expected frequency of observing different numbers of worms in any quadrat (assuming the model assumptions are met: What are the assumptions?). The number of worms per quadrat (<span class="math inline">\(y\)</span>) is discrete; it can only take integers greater or equal to zero.</p>
 <p>We are often interested in probabilities such as <span class="math inline">\(P(y_i \leq a)\)</span>. That is, the probability that an observation <span class="math inline">\(i\)</span> of the random variable <span class="math inline">\(y\)</span> is less than or equal to <span class="math inline">\(a\)</span>. For example, you may need to calculate <span class="math inline">\(P(y_i \leq 1)\)</span>, which is the probability that a random quadrat (<span class="math inline">\(y_i\)</span>) contains 1 or fewer worm casts (<span class="math inline">\(a\)</span>, an integer value). To be fully complete, we might even write <span class="math inline">\(P(y_i \leq 1 | \bar{y})\)</span>, which acknowledges that we know the (sample) mean.</p>
 <p>So, to calculate the probability of obtaining 1 or fewer worms per quadrat, you could start by writing <span class="math inline">\(P(y_i = 0) + P(y_i=1) = \dots\)</span>.</p>
-<div id="Q.-2.34" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.34</strong></summary><div>
+<div id="Q.-2.30" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.30</strong></summary><div>
 <p>Use your <code>calc_poisson_prob()</code> function to calculate the expected frequency of 0, 1 &amp; 2 worms per quadrat.</p>
 </div></details>
 </div>
-<div id="Q.-2.35" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.35</strong></summary><div>
+<div id="Q.-2.31" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.31</strong></summary><div>
 <p>What calculation would you need to conduct to determine <span class="math inline">\(P(y_i \geq 1)\)</span>? What is the theoretical upper limit of the Poisson distribution?</p>
 </div></details>
 </div>
 <p>R has built-in functions for calculating these, but it is important to know what you are asking them to calculate.</p>
 </section><section id="poisson-distributions-using-pois-functions" class="level3" data-number="2.2.2"><h3 data-number="2.2.2" class="anchored" data-anchor-id="poisson-distributions-using-pois-functions">
 <span class="header-section-number">2.2.2</span> Poisson distributions using *pois() functions</h3>
-<p>You can determine the expected probabilities for each worm count per quadrat once you have determined the mean count of worms per quadrat. Since we have a summarised dataset (i.e., the number of observations <code>num_quadrats</code> for each number of worms <code>num_worms</code>, rather than the raw data with a row for each quadrat), we need to do some calculations. The mean number of worms per quadrat = (total number of worms) / (total number of quadrats).</p>
-<div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">worm_df</span><span class="op">$</span><span class="va">num_quadrats</span><span class="op">)</span> <span class="co"># total number of quadrats</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 100</code></pre>
-</div>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">worm_df</span><span class="op">$</span><span class="va">num_quadrats</span> <span class="op">*</span> <span class="va">worm_df</span><span class="op">$</span><span class="va">num_worms</span><span class="op">)</span> <span class="co"># total number of worms</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 141</code></pre>
-</div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lambda_worms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">worm_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">num_worms</span> <span class="op">*</span> <span class="va">num_quadrats</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">num_quadrats</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">lambda_worms</span> <span class="co"># the mean number of worms per quadrat</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.41</code></pre>
-</div>
-</div>
-<p>Given this, we can find <span class="math inline">\(P(y_i \leq 5)\)</span>: the probability of a random quadrat containing five or fewer worms. With a mean of 1.41 worms per quadrat, <span class="math inline">\(P(y_i \leq 5) = 0.997\)</span> (3 sf). This means that if your data are Poisson distributed with <span class="math inline">\(\lambda = 1.41\)</span>, it is highly unlikely to find more than five worms in a quadrat.</p>
-<div id="Q.-2.36" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.36</strong></summary><div>
+<p>You can determine the expected probabilities for each worm count per quadrat using the mean count of worms per quadrat.</p>
+<p>Given this, we can find <span class="math inline">\(P(y_i \leq 5)\)</span>: the probability of a random quadrat containing five or fewer worms. With a mean of 1.17 worms per quadrat, <span class="math inline">\(P(y_i \leq 5) = 0.999\)</span> (3 sf). This means that if your data are Poisson distributed with <span class="math inline">\(\lambda = 1.17\)</span>, it is highly unlikely to find more than five worms in a quadrat.</p>
+<div id="Q.-2.32" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.32</strong></summary><div>
 <p>If the mean number of worms was 3 per quadrat, would you be more or less likely to get five worms in your quadrat?</p>
 </div></details>
 </div>
 <p>To do these calculation in R, we can use <code><a href="https://rdrr.io/r/stats/Poisson.html">dpois()</a></code> and <code><a href="https://rdrr.io/r/stats/Poisson.html">ppois()</a></code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ?dpois </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ?dpois </span></span>
 <span><span class="co"># for questions like 'determine P(y_i=a | lambda)'</span></span>
 <span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">5</span> </span>
-<span><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="fl">1.41</span> </span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">dpois</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">lambda</span><span class="op">)</span> <span class="co"># probability of observing 'a' worms per quadrat: dpois()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="fl">1.17</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">dpois</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">lambda</span><span class="op">)</span> <span class="co"># probability of observing 'a' worms per quadrat: dpois()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.01133859</code></pre>
+<pre><code>[1] 0.005670528</code></pre>
 </div>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ?ppois</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ?ppois</span></span>
 <span><span class="co"># for questions like 'determine P(y_i &gt;= a | lambda)</span></span>
-<span><span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">ppois</a></span><span class="op">(</span><span class="va">a</span><span class="op">-</span><span class="fl">1</span>, <span class="va">lambda</span><span class="op">)</span> <span class="co"># probability of observing &gt;= 'a' worms: ppois()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">ppois</a></span><span class="op">(</span><span class="va">a</span><span class="op">-</span><span class="fl">1</span>, <span class="va">lambda</span><span class="op">)</span> <span class="co"># probability of observing &gt;= 'a' worms: ppois()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.01465169</code></pre>
+<pre><code>[1] 0.006992103</code></pre>
 </div>
 </div>
-<div id="Q.-2.37" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.37</strong></summary><div>
+<div id="Q.-2.33" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.33</strong></summary><div>
 <p>Why is <code>a-1</code> used in the <code><a href="https://rdrr.io/r/stats/Poisson.html">ppois()</a></code> function above? When would you use <code>a</code> instead?</p>
 </div></details>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">ppois</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="va">a</span>, <span class="va">lambda</span><span class="op">)</span> <span class="co"># what does 0:a mean? What's another way to make this vector? </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">ppois</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="va">a</span>, <span class="va">mean_casts</span><span class="op">)</span> <span class="co"># what does 0:a mean? What's another way to make this vector? </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2441433 0.5883853 0.8310759 0.9451405 0.9853483 0.9966869</code></pre>
+<pre><code>[1] 0.3103669 0.6734963 0.8859269 0.9687749 0.9930079 0.9986784</code></pre>
 </div>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">ppois</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="va">a</span>, <span class="va">lambda</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span> <span class="co"># round with ?signif</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">ppois</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="va">a</span>, <span class="va">mean_casts</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span> <span class="co"># round with ?signif</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.244 0.588 0.831 0.945 0.985 0.997</code></pre>
+<pre><code>[1] 0.310 0.673 0.886 0.969 0.993 0.999</code></pre>
 </div>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">dpois</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="va">a</span>, <span class="va">lambda</span><span class="op">)</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">dpois</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="va">a</span>, <span class="va">mean_casts</span><span class="op">)</span>,</span>
 <span>        ylab <span class="op">=</span> <span class="st">"Probability"</span>, xlab <span class="op">=</span> <span class="st">"Number of worms"</span>,</span>
-<span>        space <span class="op">=</span> <span class="fl">0.2</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span>, names.arg <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="va">a</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>        space <span class="op">=</span> <span class="fl">0.2</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span>, names.arg <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="va">a</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-worm_poisson" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-worm_poisson-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -730,73 +724,69 @@ Figure&nbsp;2.4: Poisson probability distribution.
 </div>
 </div>
 </div>
-<div id="Q.-2.38" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.38</strong></summary><div>
+<div id="Q.-2.34" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.34</strong></summary><div>
 <p>Change the code to plot the cumulative probabilities. You will need to use <code><a href="https://rdrr.io/r/stats/Poisson.html">ppois()</a></code> instead of <code><a href="https://rdrr.io/r/stats/Poisson.html">dpois()</a></code> and adjust the y-axis limits (<code>ylim</code>).</p>
 </div></details>
 </div>
+<p>To compare my observations with these theoretical Poisson expectations, we need to tally the number of 0, 1, etc worms. The easiest way is with <code><a href="https://dplyr.tidyverse.org/reference/count.html">count()</a></code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create new columns in worm_df for the probabilities</span></span>
-<span><span class="va">worm_df</span><span class="op">$</span><span class="va">prob</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">dpois</a></span><span class="op">(</span><span class="va">worm_df</span><span class="op">$</span><span class="va">num_worms</span>, <span class="va">lambda</span><span class="op">)</span></span>
-<span><span class="va">worm_df</span><span class="op">$</span><span class="va">cumul_prob</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">worm_df</span><span class="op">$</span><span class="va">prob</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">worm_summary</span> <span class="op">&lt;-</span> <span class="va">worm_df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">casts</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>prob<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">dpois</a></span><span class="op">(</span><span class="va">casts</span>, <span class="va">mean_casts</span><span class="op">)</span>,</span>
+<span>         cumul_prob<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">prob</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Make Table 2.1. Use packageName::function() instead of loading with library()</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">worm_df</span>, digits<span class="op">=</span><span class="fl">5</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Make Table 2.1. Use packageName::function() instead of loading with library()</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">worm_summary</span>, digits<span class="op">=</span><span class="fl">5</span><span class="op">)</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="tbl-worm_table" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-worm_table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2.1: Worm cast observations and expected probabilities.
 </figcaption><div aria-describedby="tbl-worm_table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<table class="cell caption-top table table-sm table-striped small">
 <thead><tr class="header">
-<th style="text-align: right;">num_worms</th>
-<th style="text-align: right;">num_quadrats</th>
+<th style="text-align: right;">casts</th>
+<th style="text-align: right;">n</th>
 <th style="text-align: right;">prob</th>
 <th style="text-align: right;">cumul_prob</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">0.24414</td>
-<td style="text-align: right;">0.24414</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.31037</td>
+<td style="text-align: right;">0.31037</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">28</td>
-<td style="text-align: right;">0.34424</td>
-<td style="text-align: right;">0.58839</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">0.36313</td>
+<td style="text-align: right;">0.67350</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">0.24269</td>
-<td style="text-align: right;">0.83108</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">0.21243</td>
+<td style="text-align: right;">0.88593</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">0.11406</td>
-<td style="text-align: right;">0.94514</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.08285</td>
+<td style="text-align: right;">0.96877</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0.04021</td>
-<td style="text-align: right;">0.98535</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.02423</td>
+<td style="text-align: right;">0.99301</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">0.01134</td>
-<td style="text-align: right;">0.99669</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0.00266</td>
-<td style="text-align: right;">0.99935</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.00567</td>
+<td style="text-align: right;">0.99868</td>
 </tr>
 </tbody>
 </table>
@@ -805,34 +795,67 @@ Table&nbsp;2.1: Worm cast observations and expected probabilities.
 </figure>
 </div>
 </div>
-<div id="Q.-2.39" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.39</strong></summary><div>
+<div id="Q.-2.35" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.35</strong></summary><div>
 <p>Format the probabilities in <a href="#tbl-worm_table" class="quarto-xref">Table&nbsp;<span>2.1</span></a> to 3 decimal places.</p>
 </div></details>
 </div>
 <p>If individual probability values (not cumulative probability) are multiplied by the total number of quadrats thrown (n=100), we generate the expected frequency distribution for comparison with the observed results above.</p>
-<div id="Q.-2.40" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.40</strong></summary><div>
-<p>Write the appropriate code to add a column (called <code>num_quadrats_expected</code>) to <code>worm_df</code> that is the expected number of quadrats (given 100 quadrats total).</p>
+<div id="Q.-2.36" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.36</strong></summary><div>
+<p>Write the appropriate code to add a column (called <code>n_expected</code>) to <code>worm_summary</code> that is the expected number of quadrats (given 100 quadrats total).</p>
 </div></details>
 </div>
-<p>This is the number of quadrats that you would expect to contain 0, 1, …, 5 worms, given that the mean density of worms is 1.41 per m<span class="math inline">\(^2\)</span>. Note that the number of worms per quadrat is a discrete variable, but you can have non-integer ‘expectations’ (i.e.&nbsp;means).</p>
-<div id="Q.-2.41" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.41</strong></summary><div>
-<p>Add another column that is the difference in the observed number of quadrats and <code>num_quadrats_expected</code>.</p>
+<p>This is the number of quadrats that you would expect to contain 0, 1, …, 5 worms, given that the mean density of worms is 1.17 per m<span class="math inline">\(^2\)</span>. Note that the number of worms per quadrat is a discrete variable, but you can have non-integer ‘expectations’ (i.e.&nbsp;means).</p>
+<div id="Q.-2.37" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.37</strong></summary><div>
+<p>Add another column that is the difference in the observed number of quadrats and <code>n_expected</code>.</p>
 </div></details>
 </div>
-<div id="Q.-2.42" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.42</strong></summary><div>
+<div id="Q.-2.38" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.38</strong></summary><div>
 <p>Produce a bar graph of this difference.</p>
 </div></details>
+</div>
+<div id="Q.-2.39" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.39</strong></summary><div>
+<p>Calculate the observed variance. Do these observations tend to be overdispersed or underdispersed (= clumped)?</p>
+</div></details>
+</div>
+<p>Here is a figure showing the distributions side-by-side:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code (bonus)</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">worm_summary</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">casts</span>, <span class="va">n</span>, <span class="va">n_expected</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">casts</span>, <span class="va">value</span>, fill<span class="op">=</span><span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span>stat<span class="op">=</span><span class="st">"identity"</span>, position<span class="op">=</span><span class="st">"dodge"</span>, colour<span class="op">=</span><span class="st">"grey30"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span><span class="st">"Distribution"</span>, </span>
+<span>                    values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cornsilk2"</span>, <span class="st">"cornsilk4"</span><span class="op">)</span>, </span>
+<span>                    labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Observed"</span>, <span class="st">"Expected"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Number of worms per quadrat"</span>, </span>
+<span>       y<span class="op">=</span><span class="st">"Number of quadrats"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"inside"</span>,</span>
+<span>        legend.position.inside<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div id="tbl-worm_dist" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-worm_dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.2: Worm cast observations and expected count from the Poisson distribution.
+</figcaption><div aria-describedby="tbl-worm_dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="P2_binomial_poisson_files/figure-html/tbl-worm_dist-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</figure>
+</div>
 </div>
 <hr></section></section><section id="the-poisson-approximation-of-the-binomial-model" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="the-poisson-approximation-of-the-binomial-model">
 <span class="header-section-number">2.3</span> The Poisson approximation of the binomial model</h2>
 <p>When the number of trials <span class="math inline">\(n\)</span> is large and the probability of success <span class="math inline">\(p\)</span> is small, the Poisson distribution can be used as an approximation of the binomial distribution. Under these circumstances you can calculate the mean of a variable that has a binomial distribution (<span class="math inline">\(n*p\)</span>) and use that to approximate <span class="math inline">\(y \sim Pois(\lambda = np)\)</span>. Using the Poisson distribution is computationally more efficient in these cases. There is no settled threshold, but as <span class="math inline">\(n\)</span> increases and <span class="math inline">\(p\)</span> decreases, the approximation gets better.</p>
 <p>If we set the mean <span class="math inline">\(\lambda = np = 5\)</span>, we can visualize the distributions with different combinations of <span class="math inline">\(n\)</span> and <span class="math inline">\(p\)</span> (e.g., <span class="math inline">\(p=0.5, n=10\)</span>; <span class="math inline">\(p=0.05, n=100\)</span>, etc). We can use this to illustrate how the binomial distribution converges to the Poisson distribution as <span class="math inline">\(n\)</span> gets larger.</p>
 <div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># generate dataframe with probability for 0:16 'successes' from different </span></span>
+<details class="code-fold"><summary>Code (bonus)</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># generate dataframe with probability for 0:16 'successes' from different </span></span>
 <span><span class="co"># distributions but where mean is 5.</span></span>
 <span><span class="co"># note that in y ~ Binom(10,0.5), probability of &gt;10 successes is zero.</span></span>
 <span><span class="va">y_seq</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">13</span></span>
@@ -849,17 +872,17 @@ Table&nbsp;2.1: Worm cast observations and expected probabilities.
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>prob<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">dpois</a></span><span class="op">(</span><span class="va">y_seq</span>, <span class="va">mean</span><span class="op">)</span>,</span>
 <span>           label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"y ~ Pois("</span>, <span class="va">mean</span>, <span class="st">")"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">distr_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="va">binom_df</span>, <span class="va">pois_df</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">label</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">label</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">label</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">label</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
-<details class="code-fold"><summary>Code (bonus)</summary><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">distr_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">prob</span>, fill<span class="op">=</span><span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># ggplot(data, aes(xVar, yVar))</span></span>
+<details class="code-fold"><summary>Code (bonus)</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">distr_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">prob</span>, fill<span class="op">=</span><span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># ggplot(data, aes(xVar, yVar))</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span>stat<span class="op">=</span><span class="st">"identity"</span>, position<span class="op">=</span><span class="st">"dodge"</span>, colour<span class="op">=</span><span class="st">"grey30"</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># ?geom_bar</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_brewer</a></span><span class="op">(</span><span class="st">"Distribution"</span>, palette<span class="op">=</span><span class="st">"PuBu"</span><span class="op">)</span> <span class="op">+</span> <span class="co"># from colorbrewer2.org</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Number of successes with mean = 5"</span>, y<span class="op">=</span><span class="st">"Probability"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>breaks<span class="op">=</span><span class="va">y_seq</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.85</span>, <span class="fl">0.85</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.85</span>, <span class="fl">0.85</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div id="fig-binom_pois_approx" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-binom_pois_approx-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -871,31 +894,31 @@ Figure&nbsp;2.5: Binomial and Poisson distributions converge with larger numbers
 </div>
 </div>
 </div>
-<div id="Q.-2.43" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.43</strong></summary><div>
+<div id="Q.-2.40" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.40</strong></summary><div>
 <p>What is the modal value in each of these distributions?</p>
 </div></details>
 </div>
-<div id="Q.-2.44" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.44</strong></summary><div>
+<div id="Q.-2.41" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.41</strong></summary><div>
 <p>Generate some random numbers from the distributions in <a href="#fig-binom_pois_approx" class="quarto-xref">Figure&nbsp;<span>2.5</span></a> and calculate their mean and variance.</p>
 </div></details>
 </div>
 <p>Here is <span class="math inline">\(y \sim Pois(\lambda=5)\)</span>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Mean: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">", variance: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Mean: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">", variance: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Mean: 5, variance: 5.04"</code></pre>
+<pre><code>[1] "Mean: 5, variance: 5.19"</code></pre>
 </div>
 </div>
-<div id="Q.-2.45" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.45</strong></summary><div>
+<div id="Q.-2.42" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.42</strong></summary><div>
 <p>What do you notice about the mean and variance in the Poisson model?</p>
 </div></details>
 </div>
-<div id="Q.-2.46" class="Q.">
-<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.46</strong></summary><div>
+<div id="Q.-2.43" class="Q.">
+<details class="Q. fbx-simplebox fbx-default" open=""><summary><strong>Q. 2.43</strong></summary><div>
 <p>What do you notice about the mean and variance in the binomial models as <span class="math inline">\(n\)</span> increases and <span class="math inline">\(p\)</span> decreases? When is it more similar to the Poisson? Is this what you expected?</p>
 </div></details>
 </div>
@@ -956,13 +979,14 @@ Figure&nbsp;2.5: Binomial and Poisson distributions converge with larger numbers
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1309,13 +1333,13 @@ Figure&nbsp;2.5: Binomial and Poisson distributions converge with larger numbers
     }
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./P1_R_recap.html" class="pagination-link" aria-label="R recap">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R recap</span></span>
+      <a href="./probSets_P1.html" class="pagination-link" aria-label="Problem Set 1">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Problem Set 1</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./P3_normal.html" class="pagination-link" aria-label="Normal distribution">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normal distribution</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./probSets_P2.html" class="pagination-link" aria-label="Problem Set 2">
+        <span class="nav-page-text">Problem Set 2</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

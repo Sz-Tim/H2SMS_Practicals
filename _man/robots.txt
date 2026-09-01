@@ -1,1 +1,1 @@
-Sitemap: https://sz-tim.quarto.pub/h2ds-practicals/sitemap.xml
+Sitemap: https://sz-tim-h2sms.share.connect.posit.cloud/sitemap.xml
