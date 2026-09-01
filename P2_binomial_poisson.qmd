@@ -45,7 +45,7 @@ By definition, each Bernoulli trial is independent of all previous trials.
 ::: Q.
 A fair coin has been heads in 99 consecutive flips. What is the probability of heads on the next flip?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -91,7 +91,7 @@ Assume that the average sex ratio of sand tiger shark pups is 50:50. We are inte
 ::: Q.
 What is the event?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -107,7 +107,7 @@ Each pup -- whether or not it is female.
 
 What is $p$?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -123,7 +123,7 @@ What is $p$?
 
 What is the number of trials?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -138,7 +138,7 @@ What is the number of trials?
 ::: Q.
 How many possible outcomes are there for a clutch? What are they?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -158,7 +158,7 @@ Three:
 
 Write down the model specification with parameters (i.e., $y \sim Binom(...)$).
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -175,7 +175,7 @@ $y \sim Binomial(n=k=2, p=0.5)$
 
 Calculate the expected proportions of clutches that contain (a) two female, (b) two male, and (c) one of each. Use a probability tree if needed.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -200,7 +200,7 @@ We are interested in the proportion of pups we expect to be female from this sha
 
 What is the Bernoulli event?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -216,7 +216,7 @@ Each offspring: Is it male or female?
 
 What are the theoretical limits to your outcomes (i.e, max numbers of each)?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -232,7 +232,7 @@ What are the theoretical limits to your outcomes (i.e, max numbers of each)?
 
 What are the possible outcomes? What is the number of possible outcomes?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -250,7 +250,7 @@ Assume that the average sex ratio is even, such that the probability $p$ of any 
 
 Write down the model for the number of female pups for this shark's brood: $y \sim Binom(n,p)$.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -265,7 +265,7 @@ $y \sim Binom(8, 0.5)$
 ::: Q.
 Calculate the probability of obtaining eight male offspring.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -285,7 +285,7 @@ Could use the binomial formula, but the coefficient reduces to 1 since there is 
 
 What is the mean number of females you would expect in great white shark broods of 8 pups?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -303,7 +303,7 @@ It gets more complicated when you want to know the probability of getting, say, 
 
 Given that $p=q$, what shape would expect the distribution to be?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -354,7 +354,7 @@ pbinom(3, num_pups, p_female)
 
 Why do we parameterise `pbinom()` with `3` rather than `4`?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -370,7 +370,7 @@ Why do we parameterise `pbinom()` with `3` rather than `4`?
 
 Update the code to calculate $P( \leq 4)$?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -391,7 +391,7 @@ pbinom(4, num_pups, p_female)
 
 Calculate P(\< 4 females \| 8 pups) using `dbinom()` instead of `pbinom()`.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -410,7 +410,7 @@ sum(dbinom(0:3, num_pups, p_female))
 
 What is the probability of getting 3 females?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -428,7 +428,7 @@ dbinom(3, num_pups, p_female)
 
 What is the probability of getting 8 females?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -446,7 +446,7 @@ dbinom(8, num_pups, p_female)
 
 What cumulative probabilities would you need to consider to answer the question *"What is the probability of getting fewer than three females?"*
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -466,7 +466,7 @@ Review your model that describes this random process (number of females per eigh
 
 What is the probability of getting \< 4 females?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -484,7 +484,7 @@ pbinom(3, num_pups, p_female)
 
 What is the probability of getting $\leq$ 4 females?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -501,7 +501,7 @@ pbinom(4, num_pups, p_female)
 
 What is the probability of getting \> than 8 females?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -517,7 +517,7 @@ What is the probability of getting \> than 8 females?
 
 What is the probability of getting $\geq$ than 2 females?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -580,7 +580,7 @@ In other words, if we have 500 broods, each with 8 pups, we expect $500 * 0.0039
 
 Why is a bar graph the appropriate plot here?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -596,7 +596,7 @@ The outcome is a discrete variable: integers.
 
 What do you notice about the shape of the distribution when $p=q=0.5$
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -612,7 +612,7 @@ It is symmetric.
 
 Re-run the analysis with the probability of female as 0.8 and plot the results. How has the shape of the distribution changed?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -683,7 +683,7 @@ calc_poisson_prob <- function(x, y_bar) {
 # In R, 3! = factorial(3)
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -744,7 +744,7 @@ So, to calculate the probability of obtaining 1 or fewer worms per quadrat, you 
 
 Use your `calc_poisson_prob()` function to calculate the expected frequency of 0, 1 & 2 worms per quadrat.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -762,7 +762,7 @@ calc_poisson_prob(x=0:2, y_bar=mean_casts)
 
 What calculation would you need to conduct to determine $P(y_i \geq 1)$? What is the theoretical upper limit of the Poisson distribution?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -786,7 +786,7 @@ Given this, we can find $P(y_i \leq 5)$: the probability of a random quadrat con
 
 If the mean number of worms was 3 per quadrat, would you be more or less likely to get five worms in your quadrat?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -821,7 +821,7 @@ dpois(a, lambda) # probability of observing 'a' worms per quadrat: dpois()
 
 Why is `a-1` used in the `ppois()` function above? When would you use `a` instead?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -850,7 +850,7 @@ barplot(dpois(0:a, mean_casts),
 
 Change the code to plot the cumulative probabilities. You will need to use `ppois()` instead of `dpois()` and adjust the y-axis limits (`ylim`).
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -889,7 +889,7 @@ knitr::kable(worm_summary, digits=5)
 
 Format the probabilities in @tbl-worm_table to 3 decimal places.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -909,7 +909,7 @@ If individual probability values (not cumulative probability) are multiplied by 
 
 Write the appropriate code to add a column (called `n_expected`) to `worm_summary` that is the expected number of quadrats (given 100 quadrats total).
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -929,7 +929,7 @@ This is the number of quadrats that you would expect to contain 0, 1, ..., 5 wor
 
 Add another column that is the difference in the observed number of quadrats and `n_expected`.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -947,7 +947,7 @@ worm_summary$diff <- worm_summary$n - worm_summary$n_expected
 
 Produce a bar graph of this difference.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -968,7 +968,7 @@ ggplot(worm_summary, aes(casts, diff)) +
 
 Calculate the observed variance. Do these observations tend to be overdispersed or underdispersed (= clumped)?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -1066,7 +1066,7 @@ ggplot(distr_df, aes(y, prob, fill=label)) +  # ggplot(data, aes(xVar, yVar))
 
 What is the modal value in each of these distributions?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -1082,7 +1082,7 @@ What is the modal value in each of these distributions?
 
 Generate some random numbers from the distributions in @fig-binom_pois_approx and calculate their mean and variance.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -1117,7 +1117,7 @@ paste0("Mean: ", signif(mean(y), 3), ", variance: ", signif(var(y), 3))
 
 What do you notice about the mean and variance in the Poisson model?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -1133,7 +1133,7 @@ They are very similar, but not identical since this is a sample.
 
 What do you notice about the mean and variance in the binomial models as $n$ increases and $p$ decreases? When is it more similar to the Poisson? Is this what you expected?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 

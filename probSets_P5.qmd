@@ -35,7 +35,7 @@ Identify the response and predictor variables, as well as what type of variable 
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 CT~max~ is the response; it is continuous.
@@ -51,7 +51,7 @@ Next, load the data from the "MHW" sheet in "H2SMS_practicalData.xlsx" and perfo
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -70,7 +70,7 @@ Which analysis is most appropriate?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 ANOVA
@@ -83,7 +83,7 @@ What is the null hypothesis?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 $\mu_{Control} = \mu_{Moderate} = \mu_{Extreme}$
@@ -98,7 +98,7 @@ Perform the analysis, including assumption checks. Calculate appropriate confide
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 ```{r}
@@ -183,7 +183,7 @@ Identify the response and predictor variables, as well as what type of variable 
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 Alexandrium density is the response; it is continuous.
@@ -199,7 +199,7 @@ Next, load the data from the "Alexandrium" sheet in "H2SMS_practicalData.xlsx" a
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -217,7 +217,7 @@ Which analysis is most appropriate?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 One-sample t-test
@@ -227,7 +227,7 @@ One-sample t-test
 
 What is the null hypothesis?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 $\mu_{Alex} \leq 40$
@@ -241,7 +241,7 @@ Perform the analysis, including assumption checks. Calculate appropriate confide
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 ```{r}
@@ -281,7 +281,7 @@ Identify the response and predictor variables, as well as what type of variable 
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 Seagrass shoot density is the response; it is continuous.
@@ -297,7 +297,7 @@ Next, load the data from the "Seagrass" sheet in "H2SMS_practicalData.xlsx" and 
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -316,7 +316,7 @@ Which analysis is most appropriate?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 ANOVA
@@ -329,7 +329,7 @@ What is the null hypothesis?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 $\mu_{Ailort} = \mu_{Duich} = \mu_{Hourn}$
@@ -344,7 +344,7 @@ Perform the analysis, including assumption checks. Calculate appropriate confide
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 ```{r}
@@ -492,7 +492,7 @@ Identify the response and predictor variables, as well as what type of variable 
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 Hatching success rate is the response; it is continuous and constrained 0-100.
@@ -508,7 +508,7 @@ Next, load the data from the "HatchTemp" sheet in "H2SMS_practicalData.xlsx" and
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -526,7 +526,7 @@ Which analysis is most appropriate?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 Linear regression
@@ -539,7 +539,7 @@ What is the null hypothesis?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 $\beta = 0$
@@ -554,7 +554,7 @@ Perform the analysis, including assumption checks. Calculate appropriate confide
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 ```{r}

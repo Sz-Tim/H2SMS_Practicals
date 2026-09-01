@@ -31,7 +31,7 @@ What is $k=n$?
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -51,7 +51,7 @@ What is their best estimate for the probability that a given tulip bulb will flo
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -71,7 +71,7 @@ What is the standard error on this sample proportion?
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -95,7 +95,7 @@ Using these values, what is the mean expected number of dislodged plants in her 
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -118,7 +118,7 @@ Make a barplot showing the probability of each possible number dislodged individ
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -143,7 +143,7 @@ What is the probability that 9 individuals are dislodged?
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -164,7 +164,7 @@ What is the probability that 5 or fewer dislodge ($\le 5$)?
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -185,7 +185,7 @@ How many out of every 10 years would you expect more than half of this populatio
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -211,7 +211,7 @@ The *Dogwhelks* sheet from H2SMS_practicalData.xlsx contains the number of dog w
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -242,7 +242,7 @@ What is the proportion of quadrats with 0, 1, and 2 dogwhelks?
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -282,7 +282,7 @@ Using the sample mean as $\lambda$, what is the probability of observing more th
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -304,7 +304,7 @@ If you were to repeat the sampling ($n=40$ quadrats), in how many would you expe
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -331,7 +331,7 @@ What is the probability that there are 7 or fewer days with reported sightings n
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -353,7 +353,7 @@ What is the probability of having 14 days with sightings?
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -374,7 +374,7 @@ What is the probability of having 14 or more days with sightings?
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -395,7 +395,7 @@ What is the maximum possible number of days with sightings?
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -412,7 +412,7 @@ What is the maximum possible number of days with sightings?
 
 According to the Poisson distribution, what is more likely: a July with 0 days with reported sightings or a July with more than 31 days of reported sightings?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 

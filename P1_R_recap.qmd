@@ -482,7 +482,7 @@ ggplot(lynx_df, aes(Trappings)) + # specify x-axis, bun not y-axis
 ::::: Q.
 What conclusions do you draw from this plot? Which range of values was most common across years?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 Low values (\< 1000) are most common, with a second mode between 2000-3000.
 :::
@@ -645,7 +645,7 @@ You will often need to summarise your data before you present it. Data summaries
 ::::: Q.
 What are the three main measures of central tendency?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 Mean, median, and mode
 :::
@@ -655,7 +655,7 @@ Mean, median, and mode
 ::::: Q.
 What are three measures of variability?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 Range, interquartile range (IQR), and variance / standard deviation
 :::
@@ -720,7 +720,7 @@ names(scallop_df) <- "fat_pct"
 ::::: Q.
 Check the data using the methods above. Does it look OK to you?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 There is an outlier with value 99.00
 :::
@@ -730,7 +730,7 @@ There is an outlier with value 99.00
 ::::: Q.
 Are these data likely to be continuous or discontinuous?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 Continuous
 :::
@@ -740,7 +740,7 @@ Continuous
 ::::: Q.
 Create a plot to visualize the distribution of these data.
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 ggplot(scallop_df, aes(fat_pct)) +
@@ -753,7 +753,7 @@ ggplot(scallop_df, aes(fat_pct)) +
 ::::: Q.
 Do you spot any issues?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 As noted above, there is a clear outlier.
 :::
@@ -799,7 +799,7 @@ Now summarise `scallop_df` using some of the methods above.
 ::::: Q.
 Create a histogram for the corrected column. How does it differ from the original column with the error?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 The outlier is gone.
 
@@ -814,7 +814,7 @@ ggplot(scallop_df, aes(fat_pct_corr)) +
 ::::: Q.
 Calculate mean, variance, median, interquartile range, minimum, maximum and range for both `fat_pct_orig` and `fat_pct_corr`.
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 Could do this line by line, or modify the code above:
 
@@ -844,7 +844,7 @@ scallop_df |>
 ::::: Q.
 Suppose the outlier was even bigger (i.e. your typo was even worse). Adjust your data, multiplying the erroneous data item by 10; copy the `fat_pct_orig` column and change row 36 to 999.
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 scallop_df$fat_pct_badTypo <- scallop_df$fat_pct_orig
@@ -857,7 +857,7 @@ scallop_df$fat_pct_badTypo[36] <- 999
 ::::: Q.
 Calculate the same summary statistics.
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 scallop_df |>
@@ -876,7 +876,7 @@ scallop_df |>
 ::::: Q.
 Which measures of central tendency and variability are most 'robust' against this outlier?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 Median and IQR, since they are based on ranks.
 :::
@@ -912,7 +912,7 @@ scallop_df |>
 ::::: Q.
 How would the patterns seen in @tbl-scallop influence your choice if you were required to summarise data that you thought might contain values that could be erroneous? Consider how each metric is influenced by the data distribution and by outliers.
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 Median and IQR are most robust to entry-related errors.
 :::
@@ -929,7 +929,7 @@ str(hake_df) # once again, column names made for excel rather than R
 ::::: Q.
 What type of variable is `length`?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 Numeric, continuous
 :::
@@ -943,17 +943,21 @@ Select an appropriate graphical method and display these data.
 Hint: `ggplot(..., aes(..., group=Year)) + geom_boxplot()`
 :::
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
-#| fig-width: 9
+#| fig-width: 12
 #| fig-height: 4
 
 pA <- ggplot(hake_df, aes(Year, `Hake length (mm)`)) + 
-  geom_point(alpha=0.25, shape=1) # alpha sets the opacity
+  geom_jitter(alpha=0.25, shape=1, width=0.1, height=0) + # alpha sets the opacity
+  scale_x_continuous(breaks=1:3)
 pB <- ggplot(hake_df, aes(Year, `Hake length (mm)`, group=Year)) + 
   geom_boxplot()
-plot_grid(pA, pB, nrow=1)
+pC <- ggplot(hake_df, aes(`Hake length (mm)`)) + 
+  geom_histogram(bins=20, colour="grey30") +
+  facet_grid(Year~.)
+plot_grid(pA, pB, pC, nrow=1)
 ```
 :::
 ::::
@@ -962,7 +966,7 @@ plot_grid(pA, pB, nrow=1)
 ::::: Q.
 In your own time, summarise the hake data by year using the *tidyverse* functions you used above with the `InsectSprays` data.
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 hake_df |>
@@ -1005,7 +1009,7 @@ str(fishPoo_df)
 ::::: Q.
 Produce a histogram of the settling velocity. Is it left or right skewed?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 It is right skewed.
 
@@ -1019,7 +1023,7 @@ ggplot(fishPoo_df, aes(`Settling velocity (mm s-1)`)) + geom_histogram()
 ::::: Q.
 Which measures of central tendency and variability are most appropriate?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 Median and IQR, most likely.
 :::
@@ -1029,7 +1033,7 @@ Median and IQR, most likely.
 ::::: Q.
 Considering the distribution, is the mean or median larger?
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 The mean is larger.
 :::
@@ -1039,7 +1043,7 @@ The mean is larger.
 ::::: Q.
 Generate a new column of the log-transformed settling velocity data and plot these data.
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 ggplot(fishPoo_df, aes(`Settling velocity (mm s-1)`)) + 
@@ -1054,7 +1058,7 @@ ggplot(fishPoo_df, aes(`Settling velocity (mm s-1)`)) +
 ::::: Q.
 What measures of central tendency and variability could be applied to the log-transformed data? Selecting the preferable metrics for a dataset is not necessarily straightforward.
 
-:::: {.content-visible when-profile="key"}
+:::: {.content-hidden when-profile="man"}
 ::: callout-important
 Any, but mean and variance / standard deviation would be best.
 :::

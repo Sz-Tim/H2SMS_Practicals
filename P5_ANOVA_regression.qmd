@@ -120,7 +120,7 @@ Check these data as usual.
 ::: Q.
 What is your objective in this type of experiment? What are you interested in estimating?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -135,7 +135,7 @@ We want to estimate the population means, differences between pairs of means, an
 ::: Q.
 What assumptions should be met prior to undertaking parametric ANOVA?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -150,7 +150,7 @@ The residual error should be approximately normally distributed, the variance wi
 ::: Q.
 Under which circumstances could you begin to relax the assumption that the data are normally distributed (think central limit theorem)?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -165,7 +165,7 @@ With large enough sample sizes (at least 30 or so) this assumption becomes less 
 ::: Q.
 What is the sample size in this case? Can we assume sample means will be normally distributed?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -183,7 +183,7 @@ No, under the CLT, with n = 5, we cannot assume sample means will be normally di
 ::: Q.
 Are the data normally distributed? Be careful how you word your answer to this question.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -198,7 +198,7 @@ No, it's a bit pedantic, but data are never 'truly' normally distributed.
 ::: Q.
 Is it reasonable to assume that these data are drawn from a population that is normally distributed?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -288,7 +288,7 @@ The residual plots allow you to investigate different aspects of the data and th
 ::: Q.
 What are the ‘fitted values’ for an ANOVA?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -303,7 +303,7 @@ The fitted values are the sample means. They are the best prediction for any new
 ::: Q.
 Are your effects fixed or random?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -345,7 +345,7 @@ The mean yield under high light is significantly higher than under both low ligh
 ::: Q.
 In the output from `TukeyHSD()`, why is the first value in `diff` negative?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -406,7 +406,7 @@ As usual, null hypothesis significance testing is often applied to regression st
 ::: Q.
 What does the plot look like when there is no relationship between the predictor and the response?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -423,7 +423,7 @@ Let us now consider an example in which cause and effect does exist. The data in
 ::: Q.
 In this case, what is your response variable (what are you measuring) and your predictor (i.e. what is it that you are manipulating to determine the extent of the response)?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -438,7 +438,7 @@ The response variable is "weight loss" and the predictor is "relative humidity".
 ::: Q.
 Plot the data in R and check your prediction. In this case, the predictor must be displayed on the x-axis and the response must be on the y-axis.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -500,7 +500,7 @@ The small sample size here ($n=9$) makes a proper analysis of the residuals diff
 ::: Q.
 Which point has the largest Cook’s distance?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -527,7 +527,7 @@ Common-sense check: the coefficient is negative. As the humidity increases, the 
 ::: Q.
 What is the effect on weight loss of increasing the relative humidity by 10%?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -542,7 +542,7 @@ An increase of relative humidity of 10% would decrease the weight loss by 0.5322
 ::: Q.
 What is the weight loss, predicted by the model, when relative humidity is 0%?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -557,7 +557,7 @@ What is the weight loss, predicted by the model, when relative humidity is 0%?
 ::: Q.
 What does the model suggest the weight loss will be when relative humidity is -50% and +150%? Are these values sensible? What does this tell you about extrapolating beyond the data range in using regression analysis in predictions?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -581,7 +581,7 @@ The P values allow us to assess if the slope and the intercept are likely differ
 ::: Q.
 Given the very high *R^2^* (and looking at your plot) would you expect the regression model to be significantly better than the null model in explaining the variance in weight loss?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -596,7 +596,7 @@ Yes.
 ::: Q.
 With $\alpha = 0.05$, do you reject or accept the null hypothesis? What would you wish to report in relation to the slope coefficient if you were reporting the results from this analysis?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -641,7 +641,7 @@ Try generating 90% confidence intervals and add them to the plot.
 ::: Q.
 Which will have the wider interval, a 99.99% interval or a 50% interval and why?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -656,7 +656,7 @@ The 99.99% interval will be wider. For a 50% interval, only 50% of samples would
 ::: Q.
 Do the confidence intervals in @fig-beetle_regline run parallel to the regression line?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -671,7 +671,7 @@ No, they are narrowest in the centre and wider at either end.
 ::: Q.
 If not, what does this suggest about the degree of confidence you have in values predicted at various points along the line?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -686,7 +686,7 @@ We are more confident about the values near the centre.
 ::: Q.
 At what value of relative humidity are your predictions of weight loss likely most accurate?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -894,7 +894,7 @@ You should get:
 predict(phos.mod, newdata=data.frame(Concentration = 0.75), interval = "predict")
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 

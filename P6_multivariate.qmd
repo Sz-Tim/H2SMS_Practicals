@@ -64,7 +64,7 @@ vegdist(worm_df_log, method = "altGower")
 ::: Q.
 Based on the dissimilarity matrices, which sites are more similar (smaller numbers) and which are more dissimilar (bigger numbers)? Does this align with an ‘eyeballing’ of the data? How has the data transformation changed the resultant dissimilarity matrix?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -108,7 +108,7 @@ ord_4rt <- metaMDS(worm_df_4rt, distance = "bray", k = 2,
 ::: Q.
 Plot `ord_4rt`. How has the 4th root changed your data interpretation?\*
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -128,7 +128,7 @@ Ref1 and Ref2 seem more similar under the 4th root transformation and CE1 is shi
 ::: Q.
 Interpret the ordinations, cross referencing to the raw and transformed data. Are the patterns that you see in the data apparent on the ordination?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -156,7 +156,7 @@ ordiplot(ord_4rt, choices = c(1, 2), display = c("sites", "species"),
 ::: Q.
 Re-plot the untransformed data, but this time include the species. How has the transformation changed your interpretation of the data?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -193,7 +193,7 @@ ordiplot(ord_comm, choices = c(1, 2),
 ::: Q.
 Have a look at these raw data. What are the main trends? Which sites are more similar?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -233,7 +233,7 @@ ordiplot(ord_comm_4rt, choices = c(1, 2),
 ::: Q.
 What has the transformation done to your interpretation of differences between the Sites and Site x Species associations?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -258,7 +258,7 @@ We can use the `comm_df` dataset we invented to explore some diversity concepts.
 ::: Q.
 Looking at the `comm_df` data (by eye) and given the description above, which of the sites is associated with the lowest and highest diversity?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -284,7 +284,7 @@ Try plotting `richness`.
 ::: Q.
 Do the plots correspond to what you expected?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -299,7 +299,7 @@ Yes, but many of the H2 Statistics for Marine Science students do not have a bac
 ::: Q.
 What does `specnumber()` do?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -314,7 +314,7 @@ Use `?specnumber`. It counts the number of species (a.k.a., the species richness
 ::: Q.
 How could you ‘counter’ any extremes (as in superabundant taxa) in the raw count data that you’ve generated? Try your idea.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -337,7 +337,7 @@ barplot(shannon_H, main = NULL, ylab = "Shannon's H (4th root)")
 ::: Q.
 Which description (diversity or richness) is ‘best’ for describing your multivariate data? How does this compare to NMDS?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -423,7 +423,7 @@ sherkin_df |>
 ::: Q.
 What patterns can you observe in the community data? Remember to consider the stress.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -479,7 +479,7 @@ mean(leach_df$Concentration == 0) # recall that R treats T/F as 1/0
 ::: Q.
 Do some exploratory analysis of this dataset. How are the concentrations distributed? Do similar treatments show qualitatively similar distributions? Elements?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -576,7 +576,7 @@ The ordination plots the relative positions (in terms of similarity) of the samp
 ::: Q.
 Which elements are positively associated with granite and concrete, particularly after longer periods of leaching?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -609,7 +609,7 @@ biplot(PCA_trts, xlabs = leach_df_trts$Treat_day)
 ::: Q.
 Repeat the analysis, but set `scale = FALSE`. Which element now seems to dominate the analysis? Explain what you see.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 

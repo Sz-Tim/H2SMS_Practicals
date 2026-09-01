@@ -32,7 +32,7 @@ The `airquality` dataset is available in R upon start-up, and gives daily values
 
 Assume we do not know the population parameters, but wish to estimate the probability of observing our sample mean under the hypothesis that $\mu = 11 mph$. What is the T statistic?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -50,7 +50,7 @@ T_mu11
 
 Under this hypothesized $\mu$, what is the probability of collecting a sample with a mean further from $\mu$ than in this dataset?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -73,7 +73,7 @@ The `iris` dataset is available in R upon start-up.
 
 What type of variables are the response and predictor variables?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -88,7 +88,7 @@ What type of variables are the response and predictor variables?
 
 What analysis is appropriate for this question?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -101,7 +101,7 @@ What analysis is appropriate for this question?
 
 For this question, is `Species` a fixed effect or a random effect?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -116,7 +116,7 @@ For this question, is `Species` a fixed effect or a random effect?
 
 Create a new column in the data.frame `iris` called `Sepal.Area`.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -136,7 +136,7 @@ Create a histogram of Sepal.Area, showing the distribution for each species usin
 
 Option 1. ggplot:
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -161,7 +161,7 @@ ggplot(iris, aes(Sepal.Area)) +
 
 Option 2. Base R:
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -190,7 +190,7 @@ hist(iris$Sepal.Area[iris$Species=="virginica"],
 
 Perform the analysis and assess the assumptions.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -205,7 +205,7 @@ SepalArea_aov <- aov(Sepal.Area ~ Species, data=iris)
 
 :::
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -225,7 +225,7 @@ plot(SepalArea_aov)
 
 What assumptions of this ANOVA can you evaluate with these plots? Do they appear reasonable?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -242,7 +242,7 @@ What assumptions of this ANOVA can you evaluate with these plots? Do they appear
 
 What is the null hypothesis?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -255,7 +255,7 @@ What is the null hypothesis?
 
 What is the probability of the observed difference in group means if the null hypothesis were true?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -277,7 +277,7 @@ summary(SepalArea_aov)
 
 What are the means and 95% confidence intervals for each species?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -295,7 +295,7 @@ emmeans(SepalArea_aov, "Species")
 
 What is the best interpretation of these 95% confidence intervals?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -308,7 +308,7 @@ What is the best interpretation of these 95% confidence intervals?
 
 What are the effect sizes and 95% confidence intervals? That is, which species are meaningfully different from one another and how confident are we in those differences?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -336,7 +336,7 @@ TukeyHSD(SepalArea_aov)
 
 What type of variables are the response and predictor variables?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -351,7 +351,7 @@ What type of variables are the response and predictor variables?
 
 What analysis is appropriate for this question?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -366,7 +366,7 @@ What analysis is appropriate for this question?
 
 Create a new dataframe containing all columns in `iris`, but only rows where the species is `virginica`.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -385,7 +385,7 @@ Create a scatterplot of the relationship, with the predictor variable on the x-a
 
 Option 1. ggplot:
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -405,7 +405,7 @@ ggplot(virginica_df, aes(Sepal.Width, Petal.Width)) +
 
 Option 2. Base R:
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -427,7 +427,7 @@ plot(Petal.Width ~ Sepal.Width, data=virginica_df)
 
 Perform the analysis and check the assumptions.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -454,7 +454,7 @@ plot(width_lm)
 
 What assumptions of this linear regression can you evaluate with these plots? Do they appear reasonable?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -471,7 +471,7 @@ What assumptions of this linear regression can you evaluate with these plots? Do
 
 What is the null hypothesis?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -484,7 +484,7 @@ What is the null hypothesis?
 
 What would the null hypothesis look like on the scatter plot above?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -507,7 +507,7 @@ abline(h=mean(virginica_df$Petal.Width))
 
 What is the probability of the observed change in petal width per unit increase in sepal width if the null hypothesis were true?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -529,7 +529,7 @@ summary(width_lm)
 
 To three significant figures, what is the best estimate of the change in petal width per unit increase in sepal width, and what are the 95% confidence intervals?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -549,7 +549,7 @@ signif(confint(width_lm)[2,], 3)
 
 Create a scatter plot of the relationship and add the best fit line from the linear regression with 95% confidence intervals.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 

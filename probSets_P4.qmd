@@ -30,7 +30,7 @@ The data are available from the "MPA" sheet in "H2SMS_practicalData.xlsx". Load 
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -48,7 +48,7 @@ What is the response variable?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 > Fish biomass (kg 100m^-2^)
 
@@ -59,7 +59,7 @@ What is the null hypothesis?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 $\mu_{MPA} \leq 12.2 kg \cdot 100m^{-2}$
 
@@ -74,7 +74,7 @@ What is the alternative hypothesis?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 $\mu_{MPA} > 12.2 kg \cdot 100m^{-2}$
 
@@ -91,7 +91,7 @@ Evaluate the null hypothesis using $\alpha = 0.05$. Perform an appropriate analy
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -128,7 +128,7 @@ In your own words, explain what the p-value represents.
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 > The p-value gives the probability of these observations if the null hypothesis were true. That is, it is the likelihood of these observed values if the MPA mean were equal to 12.2 kg 100^-2^.
 
@@ -146,7 +146,7 @@ The data are in the "UrchinGametes" sheet in "H2SMS_practicalData.xlsx", already
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -164,7 +164,7 @@ What is the response variable?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 > Annual gamete output (g gamete per gram of urchin per year)
 
@@ -175,7 +175,7 @@ What is the null hypothesis?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 $\mu_{new} = 0.068 g \cdot g^{-1} \cdot yr^{-1}$
 
@@ -190,7 +190,7 @@ What is the alternative hypothesis?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 $\mu_{new} \neq 0.068 g \cdot g^{-1} \cdot yr^{-1}$
 
@@ -207,7 +207,7 @@ Evaluate the null hypothesis using $\alpha = 0.05$. Perform an appropriate analy
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -244,7 +244,7 @@ In your own words, interpret your results with regard to the null hypothesis and
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 > The observed gamete output was entirely plausible under the null hypothesis that the population mean was the same as in 1990-1994.
 
@@ -262,7 +262,7 @@ The sheet "Plastics" in "H2SMS_practicalData.xlsx" contains observations of the 
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -289,7 +289,7 @@ Write code to take a sample of 25 observations from this population and store it
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -308,7 +308,7 @@ How different is your sample mean from the true population mean?
 ```
 
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -326,7 +326,7 @@ What is the term that describes this difference?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 Sampling error: The difference between a sample statistic and the population parameter.
@@ -340,7 +340,7 @@ Calculate 95% confidence intervals for your sample mean using only your sample. 
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 ```{r}
 #| code-fold: true
@@ -365,7 +365,7 @@ Assuming each student starts with a different `set.seed`, what proportion of stu
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 0.95 = 95%
@@ -378,7 +378,7 @@ If you instead calculated 80% CIs, a) would you be more likely to capture the tr
 >
 
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 a) Less likely and b) smaller. An 80% CI will only include the true value in 80% of samples (under ideal conditions!), while a 95% CI will include the true value in 95% of samples. 
@@ -392,7 +392,7 @@ Calculate the 80% CI for your sample and compare.
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 ```{r}
@@ -431,7 +431,7 @@ If you were to run your code again (without resetting `set.seed`), what is the p
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 ::: callout-important
 
 90% - each (future) sample will have a 90% chance of having 90% CIs that include the true value.

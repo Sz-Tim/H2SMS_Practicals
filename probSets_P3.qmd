@@ -31,7 +31,7 @@ What proportion of the population would you expect to have a C:N ratio greater t
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -53,7 +53,7 @@ What is the probability of sampling an individual with a ratio between 23 and 24
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -72,7 +72,7 @@ What ratio would delineate the lowest 30% of the population?
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -91,7 +91,7 @@ Generate a random sample of 12 individuals from this population. Calculate the s
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -121,7 +121,7 @@ What is the difference between your sample mean and the true population mean cal
 
 > 
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -194,7 +194,7 @@ Repeat your random sampling 1000 times, calculate a sample mean for each of the 
 :::
 
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -228,7 +228,7 @@ How does this mean (and the histogram) compare to the population mean?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -268,7 +268,7 @@ The values are given as percentages ranging from 0-100. Make a histogram for the
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -289,7 +289,7 @@ What transformation would be most appropriate for these kinds of data?
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -312,7 +312,7 @@ Apply this transformation and make a histogram of the transformed values.
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -332,7 +332,7 @@ What do you notice about the shape of the original and transformed distributions
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -353,7 +353,7 @@ For the seaweed population in Scenario 1, we simulated a sample of 12 individual
 
 Using the true population standard deviation $\sigma=2.5$, calculate the standard error of the mean. 
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -374,7 +374,7 @@ In your own words, describe what the standard error of the mean is.
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -395,7 +395,7 @@ The distribution of sample means can be simulated in R. Write code to 1) simulat
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -421,7 +421,7 @@ Make a plot to show the distribution of these sample means, and indicate the tru
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -442,7 +442,7 @@ Calculate the standard deviation of the 100 sample means.
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -460,7 +460,7 @@ How does it compare to the standard error of the mean you calculated above? Try 
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -482,7 +482,7 @@ Lastly, repeat the process, this time with $n=120$ for each sample. Calculate th
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -510,7 +510,7 @@ Why does the standard error decrease? What does this tell us about our level of 
 
 >
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}

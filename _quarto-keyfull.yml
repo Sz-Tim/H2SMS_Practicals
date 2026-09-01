@@ -1,14 +1,27 @@
 project:
-  output-dir: _key
+  output-dir: _keyfull
 
 book:
-  title: "H2SMS Practicals Key"
+  title: "H2SMS Practicals Key (Full)"
   chapters:
     - index.qmd
     - P0_R_setup.qmd
     - R_basics_KEY.qmd
+    - P1_R_recap.qmd
+    - probSets_P1.qmd
+    - P2_binomial_poisson.qmd
+    - probSets_P2.qmd
+    - P3_normal.qmd
+    - probSets_P3.qmd
+    - CA1_extra_R_KEY.qmd
+    - P4_t_CIs.qmd
+    - probSets_P4.qmd
+    - P5_ANOVA_regression.qmd
+    - probSets_P5.qmd
+    - P6_multivariate.qmd
+    - CA2_extra_R_KEY.qmd
     - P7_appendix.qmd
-  site-url: https://sz-tim-h2sms-key.share.connect.posit.cloud
+  site-url: https://sz-tim-h2sms-keyfull.share.connect.posit.cloud
   downloads: [pdf]
 
 format:

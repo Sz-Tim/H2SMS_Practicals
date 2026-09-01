@@ -51,4 +51,4 @@ execute:
 
 profile:
   group:
-    - [man, key]
+    - [man, key, keyfull]

@@ -29,7 +29,7 @@ Create a vector called `site_num` with the values 1 through 10.
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -52,7 +52,7 @@ The *SmoltWeights* sheet from H2SMS_practicalData.xlsx contains the weight in gr
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -97,7 +97,7 @@ Create a new column called `weight_lb` that gives the weights in pounds, where 1
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -116,7 +116,7 @@ What proportion of fish weigh less than 0.2 lb? How many fish is this?
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -142,7 +142,7 @@ Create a new data.frame called `large_df` that contains only the fish as large o
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -178,7 +178,7 @@ Create a new data.frame called `extreme_df` that contains only fish more than 1.
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -234,7 +234,7 @@ Note that you *cannot* re-use the same `label`.
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 Here is some text referencing @fig-smoltHist by using the label I've used in the code chunk (`@fig-smoltHist`).
@@ -285,7 +285,7 @@ plot(obs_id ~ Temp,
      ylab="Body temperature (C)")
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -329,7 +329,7 @@ The dataset `ToothGrowth` is available in R, giving the length (`len`) of tooth-
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -361,7 +361,7 @@ Remember to check the column types first!
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 ```{r}
@@ -423,7 +423,7 @@ Using the same `ToothGrowth` dataset, produce a scatter plot of odontoblast leng
 
 ```
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 Since `supp` is a factor, the *levels* can be coded into colours automatically in `plot()`.

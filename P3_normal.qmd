@@ -8,7 +8,7 @@ In order to infer from samples to populations we need to understand how the stat
 
 Which two theoretical distributions have we already covered?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -43,7 +43,7 @@ The length of a catch of herring was measured. Five hundred individuals were stu
 
 What are the theoretical limits of the normal distribution?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -59,7 +59,7 @@ What are the theoretical limits of the normal distribution?
 
 Do you think normality a fair assumption for these data?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -75,7 +75,7 @@ Yes, because the impossible values (e.g. < 0) are so low probability that we can
 
 Assume herring length is approximately normally distributed and write down the model which describes the fish length distribution: $y_i \sim Norm(\mu, \sigma)$.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -120,7 +120,7 @@ To solve this problem using R we use the cumulative probability. Observations at
 
 What shape is the cumulative probability curve of a normally distributed variable?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -195,7 +195,7 @@ pnorm(q = 38, mean = 37.6, sd = 1.2)
 
 What is the probability of a randomly selected fish from this population being less than 35 cm?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -213,7 +213,7 @@ pnorm(35, 37.6, 1.2)
 
 What proportion of individuals are greater than 39 cm?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -248,7 +248,7 @@ In a population of long-eared wrasse, we calculate $\mu$ and $\sigma$ and find $
 
 What is the mean length and standard deviation of long-eared wrasse?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -264,7 +264,7 @@ The mean is 15.2 cm and the standard deviation is 25.1 cm.
 
 Calculate the proportion of fish that are expected to be less than zero cm in length.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -282,7 +282,7 @@ pnorm(0, 15.2, 25.1)
 
 What do your results indicate about the adequacy of the normal model to describe the length distribution of long-eared wrasse?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -298,7 +298,7 @@ It is not reasonable to assume that this population is normally distributed.
 
 Would your conclusions change if $\sigma$ were smaller? For example: $y \sim Norm(15.2, 2.51)$.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -345,7 +345,7 @@ Remember to use to same degree of precision (significant figures) for confidence
 
 Find the values that capture the middle 90% of the herring data, where $y \sim Norm(37.6, 1.2)$.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -368,7 +368,7 @@ qnorm(c(0.05, 0.95), 37.6, 1.2)
 
 What value would you expect to correspond to `p=0.5`?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -384,7 +384,7 @@ What value would you expect to correspond to `p=0.5`?
 
 Check your answer above using `qnorm()`.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -433,7 +433,7 @@ ggplot(norm_df, aes(x, densNorm)) +
 
 Change the parameters in code the above to check that the values you generated for the 95% interval correspond when plugged into `lb` and `ub` in the code.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -449,7 +449,7 @@ Should change `lb <- qnorm(0.025, 37.6, 1.2) # ~35.25` and `ub <- qnorm(0.975, 3
 
 What is the difference between $< x$ and $\leq x$ when applied to continuous data?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -464,7 +464,7 @@ Nothing. Probability is always calculated as an integral (area under the curve) 
 ::: Q.
 Does this also apply to discontinuous data?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -482,7 +482,7 @@ How would you expect these intervals to change when the population standard devi
 
 With everything else equal, try doubling, quadrupling, and halving the standard deviation on the herring data then re-running the same code.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -505,7 +505,7 @@ qnorm(c(0.025, 0.975), 37.6, 1.44/2)
 
 Does the change in the 95% interval match your expectations?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -523,7 +523,7 @@ A z score gives the number of standard deviations away from the mean for any val
 
 With $y \sim Norm(37.6, 1.2)$, what is the z score for an individual of length 34?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -573,7 +573,7 @@ As sample size decreases, it becomes increasingly difficult to see if your data 
 
 Make histograms of both `Shrimp1` and `Shrimp2`. Comment on their apparent distributions.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -651,7 +651,7 @@ tibble(x_norm=rnorm(0.5e3, 2, 0.5)) |>
 
 Using the Radon concentration worksheet, plot the data. Do they look normally distributed?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -679,7 +679,7 @@ readxl::excel_sheets("data/H2SMS_practicalData.xlsx")
 
 In your own time, use R to determine the log, square root, and reciprocals (and combinations of all of them: at least one converts the data to approximate normality).
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -778,7 +778,7 @@ qqline(sample_means)
 
 What do you notice about the location of the mean as a function of `sample_size` ($n$)?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -794,7 +794,7 @@ The mean of the sample means is located at the population mean regardless of sam
 
 What do you notice about the spread around the mean of sample means as a function of `sample_size`? Why did the pattern you have observed occur?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -891,7 +891,7 @@ sample_mean_df |>
 
 Given what you know about the CLT, how does this change with non-normally distributed data? Try creating `sim_obs` using `rpois()`.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -907,7 +907,7 @@ The CLT should hold ($\bar{y} \sim Normal(\mu, SEM)$) for N > 30 or so. With N <
 
 Change `sigma` and `sample_size` and check that the standard error estimates are in line with their true values (i.e., as determined by using the standard error formula).
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -939,7 +939,7 @@ Recall that the Poisson model takes only one parameter, $\lambda$ = mean = varia
 
 For $y \sim Pois(10)$ write the equivalent normal distribution: $y \sim Norm(...)$.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -959,7 +959,7 @@ However, when feasible, it is generally preferable to use the natural distributi
 
 Calculate $P(y_i \leq 35)$ from $y \sim Pois(\lambda = 40)$ and compare it to the same probability under the normal approximation of this distribution.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -979,7 +979,7 @@ pnorm(35, 40, sqrt(40))
 
 Evaluate $P(y_i<3\ |\ \lambda=2)$ using the Poisson model and its normal approximation.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -1006,7 +1006,7 @@ We might be interested in predicting the number of male and female offspring in 
 
 We've observed several clutches of eggs on a particular island with only 10 males. What is the probability of observing 10 or fewer males in this scenario?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -1024,7 +1024,7 @@ pbinom(10, 40, 0.4)
 
 Plot the probability from 0 to 40 males as a bar graph and comment on its shape.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -1043,7 +1043,7 @@ barplot(dbinom(0:40, size=40, p=0.4), names.arg=0:40)
 
 Calculate the mean and variance of this population.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -1063,7 +1063,7 @@ Mean = $np$ and variance = $npq$, so:
 
 Are $np$ and $nq$ both \> 5?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -1083,7 +1083,7 @@ Yes.
 
 Specify the normal distribution that approximates this binomial distribution.
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
@@ -1099,7 +1099,7 @@ $y \sim Normal(\mu=16, \sigma=\sqrt{9.6})$
 
 What is $P(y_i \leq 10)$ for the normal approximation?
 
-::: {.content-visible when-profile="key"}
+::: {.content-hidden when-profile="man"}
 
 ::: callout-important
 
