@@ -1,0 +1,17 @@
+{
+  "hash": "c5687b04921701246f223b8d6a03e709",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Problem Set 6 {#sec-P6_probSet .unnumbered}\n\n::: callout-note\n<a href=\"downloads/probSets_P6_student.qmd\" download=\"probSets_P6_student.qmd\">\n  <i class=\"bi bi-download\"></i>Download file\n</a> \n\nPlease render this file to .html and submit via Brightspace.\n:::\n\n\n::: {.cell}\n\n```{.r .cell-code  code-fold=\"false\"}\nlibrary(tidyverse)\nlibrary(readxl)\nset.seed(1)\n```\n:::\n\n\n## Normal distribution\n\n### Scenario 1: Using `*norm()`\n\n\n\n\n::: {.cell}\n\n:::\n\n\n::: callout-important\n\n::: {.cell}\n\n:::\n\n:::\n\n\n### Scenario 2: Transformations\n\n\n\n## Standard error of the mean\n\nCalculations with populations vs. samples.\n\n\n\n",
+    "supporting": [
+      "probSets_P6_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
